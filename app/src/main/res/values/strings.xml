@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">StunThink</string>
+    <string name="sign_in">Masuk</string>
+    <string name="sign_up">Daftar</string>
+    <string name="welcome_title">Selamat Datang di Stunthink</string>
+    <string name="welcome_message">Ayo, daftar sekarang untuk monitor gizi \n dan bantu cegah anak anda dari stunting.</string>
+    <string name="sign_in_page_title">Masukkan Akun</string>
+    <string name="sign_in_title">Selamat Datang Kembali</string>
+    <string name="sign_in_message">Kami senang bisa melihat anda lagi!</string>
+    <string name="sign_up_page_title">Buat Akun</string>
+    <string name="sign_up_title">Buat Akun Baru</string>
+    <string name="sign_up_message">Segera buat akun untuk monitoring gizi!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirmation_password">Konfirmasi Password</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="input_email">Masukkan email</string>
+    <string name="input_password">Masukkan password</string>
+    <string name="input_confirmation_password">Masukkan konfirmasi password</string>
+    <string name="input_full_name">Masukkan nama lengkap</string>
+
+</resources>
