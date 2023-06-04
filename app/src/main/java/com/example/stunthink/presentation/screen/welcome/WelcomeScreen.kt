@@ -42,17 +42,17 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.padding(24.dp))
 
             Button(
-                onClick = { navController.navigate(ScreenRoute.SignIn.route) },
+                onClick = { navController.navigate(ScreenRoute.Login.route) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = stringResource(R.string.sign_in))
+                Text(text = stringResource(R.string.login))
             }
             Button(
-                onClick = { navController.navigate(ScreenRoute.SignUp.route) },
+                onClick = { navController.navigate(ScreenRoute.Register.route) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
             ) {
-                Text(text = stringResource(R.string.sign_up))
+                Text(text = stringResource(R.string.register))
             }
         }
 

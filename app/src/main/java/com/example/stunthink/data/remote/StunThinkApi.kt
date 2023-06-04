@@ -1,7 +1,7 @@
 package com.example.stunthink.data.remote
 
-import com.example.stunthink.data.remote.dto.sign_in.SignInDto
-import com.example.stunthink.data.remote.dto.sign_up.SignUpDto
+import com.example.stunthink.data.remote.dto.ApiResponse
+import com.example.stunthink.data.remote.dto.login.LoginDto
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -13,7 +13,7 @@ interface StunThinkApi {
     suspend fun loginUser(
         @Field("email") email: String,
         @Field("password") password: String
-    ): SignInDto
+    ): ApiResponse<LoginDto>
 
     @FormUrlEncoded
     @POST("user/register")
@@ -21,9 +21,9 @@ interface StunThinkApi {
         @Field("namaLengkap") name: String,
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("confirmPassword") passwordConfirmation: String,
+        @Field("confirmPassword") confirmationPassword: String,
         @Field("tempatLahir") address: String,
         @Field("tanggalLahir") date: String,
         @Field("jenisKelamin") gender: String
-    ): SignUpDto
+    ): ApiResponse<Unit>
 }

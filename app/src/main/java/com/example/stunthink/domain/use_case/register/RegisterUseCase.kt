@@ -1,7 +1,6 @@
-package com.example.stunthink.domain.use_case.login
+package com.example.stunthink.domain.use_case.register
 
 import com.example.stunthink.common.Resource
-import com.example.stunthink.data.remote.dto.login.LoginDto
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -9,14 +8,24 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+class RegisterUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(email: String, password: String): Flow<Resource<LoginDto>> = flow {
+    operator fun invoke(
+        name: String,
+        email: String,
+        password: String,
+        confirmationPassword: String,
+        gender: String,
+        date: String,
+        address: String
+    ): Flow<Resource<Unit>> = flow {
         try {
             emit(Resource.Loading())
-            val login = userRepository.login(email, password)
-            emit(Resource.Success(login.success, login.message, login.data))
+            val register = userRepository.register(
+                name, email, password, confirmationPassword, gender, date, address
+            )
+            emit(Resource.Success(register.success, register.message, Unit))
         } catch(e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))
         } catch(e: IOException) {

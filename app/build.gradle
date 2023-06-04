@@ -61,9 +61,14 @@ dependencies {
     implementation "androidx.compose.ui:ui-graphics:$compose_ui"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui"
     implementation "androidx.compose.material3:material3:$compose_material3"
+    implementation "androidx.navigation:navigation-compose:$compose_navigation"
 
     // Splash Screen
     implementation "androidx.core:core-splashscreen:$splash_screen"
+
+
+    // Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -86,6 +91,11 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$dagger"
     kapt "com.google.dagger:hilt-android-compiler:$dagger"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_version"
+
+    // Dialog
+    implementation "com.maxkeppeler.sheets-compose-dialogs:core:$dialog_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:$dialog_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:option:$dialog_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

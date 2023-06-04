@@ -1,22 +1,31 @@
 <resources>
     <string name="app_name">StunThink</string>
-    <string name="sign_in">Masuk</string>
-    <string name="sign_up">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="register">Daftar</string>
     <string name="welcome_title">Selamat Datang di Stunthink</string>
     <string name="welcome_message">Ayo, daftar sekarang untuk monitor gizi \n dan bantu cegah anak anda dari stunting.</string>
-    <string name="sign_in_page_title">Masukkan Akun</string>
-    <string name="sign_in_title">Selamat Datang Kembali</string>
-    <string name="sign_in_message">Kami senang bisa melihat anda lagi!</string>
-    <string name="sign_up_page_title">Buat Akun</string>
-    <string name="sign_up_title">Buat Akun Baru</string>
-    <string name="sign_up_message">Segera buat akun untuk monitoring gizi!</string>
+    <string name="login_page_title">Masukkan Akun</string>
+    <string name="login_title">Selamat Datang Kembali</string>
+    <string name="login_message">Kami senang bisa melihat anda lagi!</string>
+    <string name="register_page_title">Buat Akun</string>
+    <string name="register_title">Buat Akun Baru</string>
+    <string name="register_message">Segera buat akun untuk monitoring gizi!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirmation_password">Konfirmasi Password</string>
     <string name="full_name">Nama Lengkap</string>
+    <string name="date_of_birth">Tanggal Lahir</string>
+    <string name="address">Alamat</string>
     <string name="input_email">Masukkan email</string>
     <string name="input_password">Masukkan password</string>
     <string name="input_confirmation_password">Masukkan konfirmasi password</string>
     <string name="input_full_name">Masukkan nama lengkap</string>
+    <string name="input_date_of_birth">Masukkan tanggal lahir</string>
+    <string name="input_address">Masukkan alamat</string>
+    <string name="home_title">Beranda</string>
+    <string name="male">Laki - Laki</string>
+    <string name="female">Perempuan</string>
+    <string name="login_success_message">Login berhasil!</string>
+    <string name="register_success_message">Register berhasiL!</string>
 
 </resources>
