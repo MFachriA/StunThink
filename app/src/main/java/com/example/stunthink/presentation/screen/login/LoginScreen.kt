@@ -49,10 +49,10 @@ fun LoginScreen(
             loginViewModel.validationEvents.collect { event ->
                 when (event) {
                     is LoginViewModel.ValidationEvent.Success -> {
-                        navController.navigate(route = ScreenRoute.Home.route) {
+                        navController.navigate(route = ScreenRoute.Main.route) {
                             popUpTo(ScreenRoute.Welcome.route) { inclusive = true }
                         }
-                        Toast.makeText(context, R.string.login_success_message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, R.string.login_success_message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

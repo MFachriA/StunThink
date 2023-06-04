@@ -22,7 +22,7 @@ fun StartScreen(
                         popUpTo(ScreenRoute.Start.route) { inclusive = true }
                     }
                 } else {
-                    navController.navigate(route = ScreenRoute.Home.route) {
+                    navController.navigate(route = ScreenRoute.Main.route) {
                         popUpTo(ScreenRoute.Start.route) { inclusive = true }
                     }
                 }

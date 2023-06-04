@@ -2,6 +2,7 @@
     <string name="app_name">StunThink</string>
     <string name="login">Masuk</string>
     <string name="register">Daftar</string>
+    <string name="logout">Keluar</string>
     <string name="welcome_title">Selamat Datang di Stunthink</string>
     <string name="welcome_message">Ayo, daftar sekarang untuk monitor gizi \n dan bantu cegah anak anda dari stunting.</string>
     <string name="login_page_title">Masukkan Akun</string>
@@ -26,6 +27,7 @@
     <string name="male">Laki - Laki</string>
     <string name="female">Perempuan</string>
     <string name="login_success_message">Login berhasil!</string>
-    <string name="register_success_message">Register berhasiL!</string>
+    <string name="register_success_message">Register berhasil!</string>
+    <string name="logout_success_message">Logout berhasil!</string>
 
 </resources>

@@ -71,10 +71,10 @@ fun RegisterScreen(
             registerViewModel.validationEvents.collect { event ->
                 when (event) {
                     is RegisterViewModel.ValidationEvent.Success -> {
-                        navController.navigate(route = ScreenRoute.Home.route) {
+                        navController.navigate(route = ScreenRoute.Main.route) {
                             popUpTo(ScreenRoute.Welcome.route) { inclusive = true }
                         }
-                        Toast.makeText(context, R.string.register_success_message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, R.string.register_success_message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

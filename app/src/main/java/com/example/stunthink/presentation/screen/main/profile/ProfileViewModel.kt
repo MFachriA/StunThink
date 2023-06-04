@@ -1,4 +1,4 @@
-package com.example.stunthink.presentation.screen.home
+package com.example.stunthink.presentation.screen.main.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
     getUserTokenUseCase: GetUserTokenUseCase,
     private val deleteUserTokenUseCase: DeleteUserTokenUseCase
 ): ViewModel() {

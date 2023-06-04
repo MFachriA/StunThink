@@ -8,8 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.stunthink.presentation.navigation.start.StartScreen
-import com.example.stunthink.presentation.screen.home.HomeScreen
+import com.example.stunthink.presentation.screen.main.camera.CameraScreen
+import com.example.stunthink.presentation.screen.main.education.EducationScreen
+import com.example.stunthink.presentation.screen.main.home.HomeScreen
+import com.example.stunthink.presentation.screen.main.MainScreen
 import com.example.stunthink.presentation.screen.login.LoginScreen
+import com.example.stunthink.presentation.screen.main.profile.ProfileScreen
 import com.example.stunthink.presentation.screen.register.RegisterScreen
 import com.example.stunthink.presentation.screen.welcome.WelcomeScreen
 
@@ -43,9 +47,30 @@ fun ApplicationNavHost(
             LoginScreen(navController = navController)
         }
         composable(
+            route = ScreenRoute.Main.route
+        ) {
+            MainScreen(navController = navController)
+        }
+        composable(
             route = ScreenRoute.Home.route
         ) {
             HomeScreen(navController = navController)
         }
+        composable(
+            route = ScreenRoute.Camera.route
+        ) {
+            CameraScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.Education.route
+        ) {
+            EducationScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.Profile.route
+        ) {
+            ProfileScreen(navController = navController)
+        }
+
     }
 }
