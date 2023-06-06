@@ -16,6 +16,7 @@ import com.example.stunthink.domain.use_case.validate.ValidateDateUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateEmailUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateNameUseCase
 import com.example.stunthink.domain.use_case.validate.ValidatePasswordUseCase
+import com.example.stunthink.utils.PhotoUriManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,6 +70,13 @@ object AppModule {
     @Singleton
     fun provideUserRepository(api: StunThinkApi, userPreferences: UserPreferences): UserRepository {
         return UserRepositoryImpl(api, userPreferences)
+    }
+
+    // CAMERA
+    @Provides
+    @Singleton
+    fun providePhotoManager(context: Context): PhotoUriManager {
+        return PhotoUriManager(context)
     }
 
     // USE CASE

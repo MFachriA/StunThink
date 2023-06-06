@@ -1,5 +1,6 @@
 package com.example.stunthink.presentation.screen.main
 
+import android.Manifest
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,13 +40,26 @@ import com.example.stunthink.presentation.screen.main.education.EducationScreen
 import com.example.stunthink.presentation.screen.main.home.HomeScreen
 import com.example.stunthink.presentation.screen.main.profile.ProfileScreen
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun MainScreen(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
+    val permissionState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.CAMERA
+        )
+    )
+    if (!permissionState.allPermissionsGranted){
+        SideEffect {
+            permissionState.launchMultiplePermissionRequest()
+        }
+    }
+
     StunThinkTheme {
         var selectedItem by remember { mutableStateOf(0) }
         Scaffold(
@@ -88,21 +104,30 @@ fun MainScreen(
                         )
                     }
                 }
-            },
-            content = { paddingValues ->
-                Box(modifier = Modifier
+            }
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                ) {
-                    when (selectedItem) {
-                        0 -> HomeScreen(navController)
-                        1 -> CameraScreen(navController)
-                        2 -> EducationScreen(navController)
-                        3 -> ProfileScreen(navController)
-                    }
+            ) {
+                when (selectedItem) {
+                    0 -> HomeScreen(navController)
+                    1 ->
+                        if (permissionState.allPermissionsGranted){
+                            CameraScreen(navController)
+                        } else {
+                            LaunchedEffect(key1 = permissionState) {
+                                permissionState.launchMultiplePermissionRequest()
+                            }
+                            selectedItem = 1
+                        }
+
+                    2 -> EducationScreen(navController)
+                    3 -> ProfileScreen(navController)
                 }
             }
-        )
+        }
     }
 }
 

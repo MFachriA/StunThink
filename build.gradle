@@ -1,6 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
+        camerax_version = '1.2.3'
+        coil_version = '2.4.0'
         compose = '1.4.7'
         compose_ui = '1.4.3'
         compose_activity = '1.7.2'
@@ -11,8 +13,9 @@ buildscript {
         dialog_version = '1.1.1'
         hilt_version = '1.0.0'
         hilt_lifecycle = '1.0.0-alpha03'
-        splash_screen = '1.0.1'
+        permission_handling = '0.30.1'
         room_version = '2.5.1'
+        splash_screen = '1.0.1'
         retrofit_version = '2.9.0'
         coroutine_version = '1.5.2'
         lifecycle_version = '2.6.1'
