@@ -1,6 +1,6 @@
 package com.example.stunthink.domain.use_case.login
 
-import com.example.stunthink.common.Resource
+import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.data.remote.dto.login.LoginDto
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow

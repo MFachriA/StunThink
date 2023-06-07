@@ -3,8 +3,8 @@
     <style name="Theme.StunThink.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimationDuration">10000</item>
         <item name="windowSplashScreenBackground">#FFFFFF</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/stunthink_logo_plain</item>
-        <item name="splashScreenIconSize">300dp</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/stunthink_icon_plain</item>
+        <item name="splashScreenIconSize">50dp</item>
         <item name="postSplashScreenTheme">@style/Theme.StunThink</item>
     </style>
 </resources>

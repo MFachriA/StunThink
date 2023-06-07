@@ -1,8 +1,8 @@
-package com.example.stunthink.di
+package com.example.stunthink.domain.di
 
 import android.app.Application
 import android.content.Context
-import com.example.stunthink.common.Constants
+import com.example.stunthink.domain.common.Constants
 import com.example.stunthink.data.preferences.UserPreferences
 import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.repository.UserRepositoryImpl

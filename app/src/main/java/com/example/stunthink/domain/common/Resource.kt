@@ -1,4 +1,4 @@
-package com.example.stunthink.common
+package com.example.stunthink.domain.common
 
 sealed class Resource<T>(val success: Boolean? = null, val message: String? = null, val data: T? = null) {
     class Success<T>(success: Boolean, message: String, data: T) : Resource<T>(

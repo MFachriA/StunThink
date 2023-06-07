@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.stunthink.common.Resource
+import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.use_case.login.LoginUseCase
 import com.example.stunthink.domain.use_case.user.SaveUserTokenUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateEmailUseCase

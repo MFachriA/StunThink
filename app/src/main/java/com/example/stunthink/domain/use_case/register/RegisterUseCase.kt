@@ -1,6 +1,6 @@
 package com.example.stunthink.domain.use_case.register
 
-import com.example.stunthink.common.Resource
+import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

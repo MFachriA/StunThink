@@ -1,4 +1,4 @@
-package com.example.stunthink.common
+package com.example.stunthink.domain.common
 
 object Constants {
 
