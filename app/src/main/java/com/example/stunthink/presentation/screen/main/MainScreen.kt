@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.School
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -70,19 +68,6 @@ fun MainScreen(
                         Image(
                             painter = painterResource(id = R.drawable.stunthink_logo_plain),
                             contentDescription = null
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                    mainViewModel.deleteUserToken()
-                                },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "back"
-                                )
-                            }
                         )
                     }
                 )

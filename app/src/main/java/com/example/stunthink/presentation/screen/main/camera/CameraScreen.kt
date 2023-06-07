@@ -38,9 +38,8 @@ fun CameraScreen(
     navController: NavController,
     cameraViewModel: CameraViewModel = hiltViewModel()
 ) {
-    val imageUri: Uri? = null
+    val hasPhoto = cameraViewModel.selfieUri != null
 
-    val hasPhoto = imageUri != null
     val iconResource = if (hasPhoto) {
         Icons.Filled.SwapHoriz
     } else {
@@ -52,54 +51,60 @@ fun CameraScreen(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
             if (success) {
-
+                cameraViewModel.onSelfieResponse(newImageUri!!)
             }
         }
     )
 
-    OutlinedButton(
-        onClick = {
-            newImageUri = cameraViewModel.getNewSelfieUri()
-            cameraLauncher.launch(newImageUri)
-        },
-        shape = MaterialTheme.shapes.small,
-        contentPadding = PaddingValues()
-    ) {
-        Column {
-            if (hasPhoto) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(imageUri)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Text(
+            text = "Deteksi Makanan",
+            style = Typography.headlineSmall
+        )
+        Text(
+            text = "Ambil foto makanan untuk mendata gizi harian kamu",
+            style = Typography.bodyMedium
+        )
+        OutlinedButton(
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = {
+                newImageUri = cameraViewModel.getNewSelfieUri()
+                cameraLauncher.launch(newImageUri)
+            },
+            shape = MaterialTheme.shapes.small,
+            contentPadding = PaddingValues()
+        ) {
+            Column {
+                if (hasPhoto) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(cameraViewModel.selfieUri)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(96.dp)
+                            .aspectRatio(4 / 3f)
+                    )
+                }
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(96.dp)
-                        .aspectRatio(4 / 3f)
-                )
-            } else {
-                Text(
-                    text = "Edukasi",
-                    style = Typography.headlineMedium
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.BottomCenter)
-                    .padding(vertical = 26.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(imageVector = iconResource, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = if (hasPhoto) {
+                        .wrapContentSize(Alignment.BottomCenter)
+                        .padding(vertical = 26.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = iconResource, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (hasPhoto) {
                             "Ambil Ulang Gambar"
                         } else {
                             "Ambil Gambar"
                         }
                     )
+                }
             }
         }
     }
