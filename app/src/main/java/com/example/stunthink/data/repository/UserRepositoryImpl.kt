@@ -3,6 +3,7 @@ package com.example.stunthink.data.repository
 import com.example.stunthink.data.preferences.UserPreferences
 import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.remote.dto.ApiResponse
+import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +49,10 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserToken(): Flow<String?> {
         return userPreferences.userTokenFlow
+    }
+
+    override suspend fun getChildList(token: String): ApiResponse<List<ChildDto>> {
+        return api.getChildList(token)
     }
 
 }

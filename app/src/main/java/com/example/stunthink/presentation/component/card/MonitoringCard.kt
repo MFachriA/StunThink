@@ -28,7 +28,7 @@ import com.example.stunthink.presentation.ui.theme.Typography
 
 @Composable
 fun MonitoringCard(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     @DrawableRes image: Int,
     title: String,
     description: String,

@@ -17,7 +17,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -29,7 +28,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -55,6 +53,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
+import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.utils.formatDate
@@ -65,7 +64,6 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     navController: NavController,
@@ -88,19 +86,9 @@ fun RegisterScreen(
 
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = { Text(text = stringResource(id = R.string.register_page_title)) },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = { navController.popBackStack() },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "back"
-                                )
-                            }
-                        )
-                    }
+                BackButtonAppBar(
+                    title = stringResource(id = R.string.register_page_title),
+                    navigationOnClick = { navController.popBackStack() }
                 )
             },
             content = { paddingValues ->

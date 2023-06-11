@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
 import com.example.stunthink.presentation.component.card.EducationCard
 import com.example.stunthink.presentation.component.card.MonitoringCard
+import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.presentation.ui.theme.Typography
 
@@ -42,7 +43,7 @@ fun HomeScreen(
                         description = "Belum ada data anak",
                         buttonText = "Tambah Data Anak"
                     ) {
-
+                        navController.navigate(route = ScreenRoute.ChildList.route)
                     }
                 }
                 item {
@@ -81,7 +82,7 @@ fun EducationList() {
     }
     Column(
         modifier = Modifier.padding(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         (1..2).forEach {
             EducationCard(

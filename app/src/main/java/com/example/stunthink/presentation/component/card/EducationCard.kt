@@ -20,7 +20,7 @@ import com.example.stunthink.presentation.ui.theme.Typography
 
 @Composable
 fun EducationCard(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     imageLink: String,
     title: String,
     description: String,
@@ -33,7 +33,7 @@ fun EducationCard(
         shape = MaterialTheme.shapes.small,
         contentPadding = PaddingValues()
     ) {
-        Column() {
+        Column {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imageLink)
@@ -50,7 +50,7 @@ fun EducationCard(
             ) {
                 Text(
                     text = title,
-                    style = Typography.titleMedium
+                    style = Typography.titleMedium,
                 )
                 Text(
                     text = description,

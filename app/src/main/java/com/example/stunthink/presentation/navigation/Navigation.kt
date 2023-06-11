@@ -4,9 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.stunthink.presentation.navigation.start.StartScreen
 import com.example.stunthink.presentation.screen.main.camera.CameraScreen
 import com.example.stunthink.presentation.screen.main.education.EducationScreen
@@ -14,6 +16,10 @@ import com.example.stunthink.presentation.screen.main.home.HomeScreen
 import com.example.stunthink.presentation.screen.main.MainScreen
 import com.example.stunthink.presentation.screen.login.LoginScreen
 import com.example.stunthink.presentation.screen.main.profile.ProfileScreen
+import com.example.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
+import com.example.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
+import com.example.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
+import com.example.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.example.stunthink.presentation.screen.register.RegisterScreen
 import com.example.stunthink.presentation.screen.welcome.WelcomeScreen
 
@@ -71,6 +77,37 @@ fun ApplicationNavHost(
         ) {
             ProfileScreen(navController = navController)
         }
-
+        composable(
+            route = ScreenRoute.ChildList.route
+        ) {
+            ChildListScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.ChildMonitoringMain.route,
+            arguments = listOf(
+                navArgument(CHILD_KEY_ID) {
+                    type = NavType.StringType
+                },
+                navArgument(CHILD_KEY_NAME) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            ChildMonitoringMainScreen(
+                navController = navController,
+                id = it.arguments?.getString(CHILD_KEY_ID),
+                name = it.arguments?.getString(CHILD_KEY_NAME)
+            )
+        }
+        composable(
+            route = ScreenRoute.ChildNutrition.route
+        ) {
+            ChildNutritionScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.ChildStunting.route
+        ) {
+            ChildStuntingScreen(navController = navController)
+        }
     }
 }

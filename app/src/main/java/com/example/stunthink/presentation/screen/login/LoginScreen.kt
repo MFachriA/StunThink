@@ -10,18 +10,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,10 +39,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
+import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -68,20 +65,10 @@ fun LoginScreen(
 
         Scaffold(
             topBar = {
-                 TopAppBar(
-                     title = { Text(text = stringResource(id = R.string.login_page_title)) },
-                     navigationIcon = {
-                         IconButton(
-                             onClick = { navController.popBackStack() },
-                             content = {
-                                 Icon(
-                                     imageVector = Icons.Default.ArrowBack,
-                                     contentDescription = "back"
-                                 )
-                             }
-                         )
-                     }
-                 )
+                BackButtonAppBar(
+                    title = stringResource(id = R.string.login_page_title),
+                    navigationOnClick = { navController.popBackStack() }
+                )
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {

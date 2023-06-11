@@ -1,6 +1,7 @@
 package com.example.stunthink.domain.repository
 
 import com.example.stunthink.data.remote.dto.ApiResponse
+import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +20,6 @@ interface UserRepository {
     suspend fun saveUserToken(token: String)
     suspend fun deleteUserToken()
     fun getUserToken(): Flow<String?>
+
+    suspend fun getChildList(token: String): ApiResponse<List<ChildDto>>
 }
