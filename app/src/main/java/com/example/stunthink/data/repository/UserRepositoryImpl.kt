@@ -5,6 +5,7 @@ import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
+import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -54,5 +55,16 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getChildList(token: String): ApiResponse<List<ChildDto>> {
         return api.getChildList(token)
     }
+
+    override suspend fun getChildNutrition(
+        token: String,
+        id: String
+    ): ApiResponse<List<NutritionDto>> {
+        return api.getChildNutrition(
+            auth = token,
+            id = id
+        )
+    }
+
 
 }

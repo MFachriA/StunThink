@@ -9,6 +9,7 @@ import com.example.stunthink.data.repository.UserRepositoryImpl
 import com.example.stunthink.domain.repository.UserRepository
 import com.example.stunthink.domain.use_case.login.LoginUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
+import com.example.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
 import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.example.stunthink.domain.use_case.user.SaveUserTokenUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateAddressUseCase
@@ -128,5 +129,10 @@ object AppModule {
     @Provides
     fun provideGetChildListUseCase(userRepository: UserRepository): GetChildListUseCase {
         return GetChildListUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetChildNutritionUseCase(userRepository: UserRepository): GetChildNutritionUseCase {
+        return GetChildNutritionUseCase(userRepository)
     }
 }

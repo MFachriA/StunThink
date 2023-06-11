@@ -95,14 +95,22 @@ fun ApplicationNavHost(
         ) {
             ChildMonitoringMainScreen(
                 navController = navController,
-                id = it.arguments?.getString(CHILD_KEY_ID),
-                name = it.arguments?.getString(CHILD_KEY_NAME)
+                id = it.arguments?.getString(CHILD_KEY_ID) ?: "",
+                name = it.arguments?.getString(CHILD_KEY_NAME) ?: ""
             )
         }
         composable(
-            route = ScreenRoute.ChildNutrition.route
+            route = ScreenRoute.ChildNutrition.route,
+            arguments = listOf(
+                navArgument(CHILD_KEY_ID) {
+                    type = NavType.StringType
+                }
+            )
         ) {
-            ChildNutritionScreen(navController = navController)
+            ChildNutritionScreen(
+                navController = navController,
+                id = it.arguments?.getString(CHILD_KEY_ID) ?: ""
+            )
         }
         composable(
             route = ScreenRoute.ChildStunting.route

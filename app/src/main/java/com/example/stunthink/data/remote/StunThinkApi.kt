@@ -3,11 +3,13 @@ package com.example.stunthink.data.remote
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
+import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface StunThinkApi {
 
@@ -44,6 +46,12 @@ interface StunThinkApi {
     suspend fun getChildList(
         @Header("auth") auth: String
     ): ApiResponse<List<ChildDto>>
+
+    @GET("gizi/anak/{id}")
+    suspend fun getChildNutrition(
+        @Header("auth") auth: String,
+        @Path("id") id: String
+    ): ApiResponse<List<NutritionDto>>
 
 //    @GET("anak/{id}")
 //    fun child(
