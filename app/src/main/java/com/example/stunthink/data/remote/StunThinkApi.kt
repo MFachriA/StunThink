@@ -47,7 +47,7 @@ interface StunThinkApi {
         @Header("auth") auth: String
     ): ApiResponse<List<ChildDto>>
 
-    @GET("gizi/anak/{id}")
+    @GET("history/gizi/anak/{id}")
     suspend fun getChildNutrition(
         @Header("auth") auth: String,
         @Path("id") id: String

@@ -73,7 +73,7 @@ fun EducationList() {
         Text(
             modifier = Modifier.weight(1f),
             text = "Edukasi Stunting",
-            style = Typography.headlineSmall
+            style = Typography.titleLarge
         )
         Text(
             text = "Lihat Semua",

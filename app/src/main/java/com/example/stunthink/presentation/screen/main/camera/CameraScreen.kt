@@ -3,6 +3,7 @@ package com.example.stunthink.presentation.screen.main.camera
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -56,17 +58,21 @@ fun CameraScreen(
         }
     )
 
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Text(
-            text = "Deteksi Makanan",
-            style = Typography.headlineSmall
-        )
-        Text(
-            text = "Ambil foto makanan untuk mendata gizi harian kamu",
-            style = Typography.bodyMedium
-        )
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Column {
+            Text(
+                text = "Deteksi Makanan",
+                style = Typography.headlineSmall
+            )
+            Text(
+                text = "Ambil foto makanan untuk mendata gizi harian kamu",
+                style = Typography.bodyMedium
+            )
+        }
         OutlinedButton(
-            modifier = Modifier.padding(top = 16.dp),
             onClick = {
                 newImageUri = cameraViewModel.getNewSelfieUri()
                 cameraLauncher.launch(newImageUri)
@@ -106,6 +112,13 @@ fun CameraScreen(
                     )
                 }
             }
+        }
+        Button(
+            onClick = {  },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = hasPhoto
+        ) {
+            Text(text = "Kirim")
         }
     }
 }
