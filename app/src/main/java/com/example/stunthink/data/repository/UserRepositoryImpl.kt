@@ -1,13 +1,20 @@
 package com.example.stunthink.data.repository
 
+import android.net.Uri
 import com.example.stunthink.data.preferences.UserPreferences
 import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
+import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -66,5 +73,16 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun uploadFoodPicture(
+        token: String,
+        image: Uri
+    ): ApiResponse<FoodDto> {
+        val file = File(image.path ?: "")
 
+        val mediaType = "image/*".toMediaType()
+        val requestFile: RequestBody = file.asRequestBody(mediaType)
+        val photoPart: MultipartBody.Part = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+
+        return api.uploadPhoto(auth = token, image = photoPart)
+    }
 }

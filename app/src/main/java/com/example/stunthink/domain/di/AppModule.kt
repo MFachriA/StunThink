@@ -10,6 +10,7 @@ import com.example.stunthink.domain.repository.UserRepository
 import com.example.stunthink.domain.use_case.login.LoginUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
+import com.example.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
 import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.example.stunthink.domain.use_case.user.SaveUserTokenUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateAddressUseCase
@@ -134,5 +135,10 @@ object AppModule {
     @Provides
     fun provideGetChildNutritionUseCase(userRepository: UserRepository): GetChildNutritionUseCase {
         return GetChildNutritionUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideUploadFoodPictureUseCase(userRepository: UserRepository): UploadFoodPictureUseCase {
+        return UploadFoodPictureUseCase(userRepository)
     }
 }

@@ -3,12 +3,16 @@ package com.example.stunthink.data.remote
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
+import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
+import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface StunThinkApi {
@@ -52,6 +56,14 @@ interface StunThinkApi {
         @Header("auth") auth: String,
         @Path("id") id: String
     ): ApiResponse<List<NutritionDto>>
+
+    @Multipart
+    @POST("history/detect")
+    suspend fun uploadPhoto(
+        @Header("auth") auth: String,
+        @Part("image") image: MultipartBody.Part
+    ): ApiResponse<FoodDto>
+
 
 //    @GET("anak/{id}")
 //    fun child(
