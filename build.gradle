@@ -11,6 +11,7 @@ buildscript {
         dagger = '2.46.1'
         datastore_version = '1.0.0'
         dialog_version = '1.1.1'
+        documentfile_version = '1.0.1'
         hilt_version = '1.0.0'
         hilt_lifecycle = '1.0.0-alpha03'
         permission_handling = '0.30.1'

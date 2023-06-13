@@ -61,7 +61,7 @@ interface StunThinkApi {
     @POST("history/detect")
     suspend fun uploadPhoto(
         @Header("auth") auth: String,
-        @Part("image") image: MultipartBody.Part
+        @Part image: MultipartBody.Part
     ): ApiResponse<FoodDto>
 
 

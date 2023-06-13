@@ -1,12 +1,12 @@
 package com.example.stunthink.domain.use_case.monitoring.food_detection
 
-import android.net.Uri
 import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class UploadFoodPictureUseCase @Inject constructor(
 ) {
     operator fun invoke(
         token: String,
-        image: Uri
+        image: File
     ): Flow<Resource<FoodDto>> = flow {
         try {
             emit(Resource.Loading())

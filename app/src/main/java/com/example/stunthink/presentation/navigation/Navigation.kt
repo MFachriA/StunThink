@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.stunthink.presentation.navigation.start.StartScreen
+import com.example.stunthink.presentation.screen.food.FoodDetailScreen
 import com.example.stunthink.presentation.screen.main.camera.CameraScreen
 import com.example.stunthink.presentation.screen.main.education.EducationScreen
 import com.example.stunthink.presentation.screen.main.home.HomeScreen
@@ -85,37 +86,50 @@ fun ApplicationNavHost(
         composable(
             route = ScreenRoute.ChildMonitoringMain.route,
             arguments = listOf(
-                navArgument(CHILD_KEY_ID) {
+                navArgument(CHILD_ID_KEY) {
                     type = NavType.StringType
                 },
-                navArgument(CHILD_KEY_NAME) {
+                navArgument(CHILD_NAME_KEY) {
                     type = NavType.StringType
                 }
             )
         ) {
             ChildMonitoringMainScreen(
                 navController = navController,
-                id = it.arguments?.getString(CHILD_KEY_ID) ?: "",
-                name = it.arguments?.getString(CHILD_KEY_NAME) ?: ""
+                id = it.arguments?.getString(CHILD_ID_KEY) ?: "",
+                name = it.arguments?.getString(CHILD_NAME_KEY) ?: ""
             )
         }
         composable(
             route = ScreenRoute.ChildNutrition.route,
             arguments = listOf(
-                navArgument(CHILD_KEY_ID) {
+                navArgument(CHILD_ID_KEY) {
                     type = NavType.StringType
                 }
             )
         ) {
             ChildNutritionScreen(
                 navController = navController,
-                id = it.arguments?.getString(CHILD_KEY_ID) ?: ""
+                id = it.arguments?.getString(CHILD_ID_KEY) ?: ""
             )
         }
         composable(
             route = ScreenRoute.ChildStunting.route
         ) {
             ChildStuntingScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.FoodDetail.route,
+            arguments = listOf(
+                navArgument(FOOD_ID_KEY) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            FoodDetailScreen(
+                navController = navController,
+                id = it.arguments?.getString(CHILD_ID_KEY) ?: "",
+            )
         }
     }
 }

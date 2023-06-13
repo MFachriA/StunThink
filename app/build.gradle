@@ -70,7 +70,7 @@ dependencies {
 
 
     // Datastore
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -116,6 +116,9 @@ dependencies {
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
+
+    // Document File
+    implementation "androidx.documentfile:documentfile:$documentfile_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

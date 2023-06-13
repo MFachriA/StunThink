@@ -1,7 +1,6 @@
 package com.example.stunthink.presentation.screen.main.camera
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +27,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,7 +41,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.Typography
+import com.example.stunthink.utils.getImageFileFromUri
 
 @Composable
 fun CameraScreen(
@@ -46,19 +51,26 @@ fun CameraScreen(
     cameraViewModel: CameraViewModel = hiltViewModel()
 ) {
     val state = cameraViewModel.state.value
+    var foodId by rememberSaveable { mutableStateOf("0") }
 
     val context = LocalContext.current
-    LaunchedEffect(key1 = context) {
+    LaunchedEffect(context, foodId) {
         cameraViewModel.validationEvents.collect { event ->
             when (event) {
                 is CameraViewModel.ValidationEvent.Success -> {
-                    Toast.makeText(context, state.food?.image, Toast.LENGTH_SHORT).show()
+                    navController.navigate(
+                        route = ScreenRoute.FoodDetail.passId(
+                            id = foodId
+                        )
+                    )
                 }
             }
         }
     }
 
-    val hasPhoto = cameraViewModel.selfieUri != null
+    val token = cameraViewModel.userToken
+    val selfieUri = cameraViewModel.selfieUri
+    val hasPhoto = selfieUri != null
 
     val iconResource = if (hasPhoto) {
         Icons.Filled.SwapHoriz
@@ -133,7 +145,15 @@ fun CameraScreen(
             }
         }
         Button(
-            onClick = { cameraViewModel.uploadFoodImage() },
+            onClick = {
+                getImageFileFromUri(selfieUri ?: Uri.EMPTY, context)?.let {
+                    cameraViewModel.uploadFoodImage(
+                        token = token.value ?: "",
+                        image = it
+                    )
+                }
+                foodId = state.food?.dataGizi?.id ?: "100"
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = hasPhoto
         ) {

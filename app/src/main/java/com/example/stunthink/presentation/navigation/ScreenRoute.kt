@@ -1,7 +1,9 @@
 package com.example.stunthink.presentation.navigation
 
-const val CHILD_KEY_ID = "id"
-const val CHILD_KEY_NAME = "name"
+const val CHILD_ID_KEY = "id"
+const val CHILD_NAME_KEY = "name"
+const val FOOD_ID_KEY = "id"
+
 
 sealed class ScreenRoute(val route: String) {
     object Start: ScreenRoute(route = "start_screen")
@@ -14,7 +16,7 @@ sealed class ScreenRoute(val route: String) {
     object Education: ScreenRoute(route = "education_screen")
     object Profile: ScreenRoute(route = "profile_screen")
     object ChildList: ScreenRoute(route = "child_list_screen")
-    object ChildMonitoringMain: ScreenRoute(route = "child_monitoring_main_screen/{$CHILD_KEY_ID}/{$CHILD_KEY_NAME}") {
+    object ChildMonitoringMain: ScreenRoute(route = "child_monitoring_main_screen/{$CHILD_ID_KEY}/{$CHILD_NAME_KEY}") {
         fun passIdAndName(
             id: String,
             name: String
@@ -22,7 +24,13 @@ sealed class ScreenRoute(val route: String) {
             return "child_monitoring_main_screen/$id/$name"
         }
     }
-
     object ChildNutrition: ScreenRoute(route = "child_nutrition_screen")
     object ChildStunting: ScreenRoute(route = "child_stunting_screen")
+    object FoodDetail: ScreenRoute(route = "food_detail_screen/{$FOOD_ID_KEY}") {
+        fun passId(
+            id: String
+        ): String {
+            return "food_detail_screen/$id"
+        }
+    }
 }
