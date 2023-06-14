@@ -1,6 +1,7 @@
 package com.example.stunthink.presentation.screen.main.camera
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -27,10 +28,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,18 +48,20 @@ fun CameraScreen(
     cameraViewModel: CameraViewModel = hiltViewModel()
 ) {
     val state = cameraViewModel.state.value
-    var foodId by rememberSaveable { mutableStateOf("0") }
-
     val context = LocalContext.current
-    LaunchedEffect(context, foodId) {
+
+    LaunchedEffect(state) {
         cameraViewModel.validationEvents.collect { event ->
             when (event) {
                 is CameraViewModel.ValidationEvent.Success -> {
                     navController.navigate(
                         route = ScreenRoute.FoodDetail.passId(
-                            id = foodId
+                            id = event.id
                         )
                     )
+                }
+                is CameraViewModel.ValidationEvent.Failed -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -89,75 +88,78 @@ fun CameraScreen(
         }
     )
 
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Column {
-            Text(
-                text = "Deteksi Makanan",
-                style = Typography.headlineSmall
-            )
-            Text(
-                text = "Ambil foto makanan untuk mendata gizi harian kamu",
-                style = Typography.bodyMedium
-            )
-        }
-        OutlinedButton(
-            onClick = {
-                newImageUri = cameraViewModel.getNewSelfieUri()
-                cameraLauncher.launch(newImageUri)
-            },
-            shape = MaterialTheme.shapes.small,
-            contentPadding = PaddingValues()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column {
-                if (hasPhoto) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(cameraViewModel.selfieUri)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = null,
+                Text(
+                    text = "Deteksi Makanan",
+                    style = Typography.headlineSmall
+                )
+                Text(
+                    text = "Ambil foto makanan untuk mendata gizi harian kamu",
+                    style = Typography.bodyMedium
+                )
+            }
+            OutlinedButton(
+                onClick = {
+                    newImageUri = cameraViewModel.getNewSelfieUri()
+                    cameraLauncher.launch(newImageUri)
+                },
+                shape = MaterialTheme.shapes.small,
+                contentPadding = PaddingValues()
+            ) {
+                Column {
+                    if (hasPhoto) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(cameraViewModel.selfieUri)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(96.dp)
+                                .aspectRatio(4 / 3f)
+                        )
+                    }
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(96.dp)
-                            .aspectRatio(4 / 3f)
-                    )
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.BottomCenter)
-                        .padding(vertical = 26.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(imageVector = iconResource, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (hasPhoto) {
-                            "Ambil Ulang Gambar"
-                        } else {
-                            "Ambil Gambar"
-                        }
-                    )
+                            .wrapContentSize(Alignment.BottomCenter)
+                            .padding(vertical = 26.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(imageVector = iconResource, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (hasPhoto) {
+                                "Ambil Ulang Gambar"
+                            } else {
+                                "Ambil Gambar"
+                            }
+                        )
+                    }
                 }
             }
-        }
-        Button(
-            onClick = {
-                getImageFileFromUri(selfieUri ?: Uri.EMPTY, context)?.let {
-                    cameraViewModel.uploadFoodImage(
-                        token = token.value ?: "",
-                        image = it
-                    )
-                }
-                foodId = state.food?.dataGizi?.id ?: "100"
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = hasPhoto
-        ) {
-            Text(text = "Kirim")
+            Button(
+                onClick = {
+                    token.value?.let { token ->
+                        getImageFileFromUri(selfieUri ?: Uri.EMPTY, context)?.let {
+                            cameraViewModel.uploadFoodImage(
+                                token = token,
+                                image = it
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = hasPhoto
+            ) {
+                Text(text = "Kirim")
+            }
         }
 
         if (state.isLoading) {

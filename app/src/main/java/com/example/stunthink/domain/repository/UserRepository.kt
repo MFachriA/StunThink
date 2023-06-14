@@ -2,6 +2,7 @@ package com.example.stunthink.domain.repository
 
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
+import com.example.stunthink.data.remote.dto.education.EducationDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
 import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
@@ -24,6 +25,8 @@ interface UserRepository {
     suspend fun deleteUserToken()
     fun getUserToken(): Flow<String?>
     suspend fun getChildList(token: String): ApiResponse<List<ChildDto>>
+    suspend fun getEducationList(token: String): ApiResponse<List<EducationDto>>
+
     suspend fun getChildNutrition(
         token: String,
         id: String

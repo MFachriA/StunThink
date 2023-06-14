@@ -46,7 +46,7 @@ fun ChildListScreen(
                         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(items = state.childs, itemContent = { child ->
+                        items(items = state.childList, itemContent = { child ->
                             ChildCard(
                                 name = child.namaLengkap,
                                 gender = child.jenisKelamin,

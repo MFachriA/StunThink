@@ -2,6 +2,7 @@ package com.example.stunthink.data.remote
 
 import com.example.stunthink.data.remote.dto.ApiResponse
 import com.example.stunthink.data.remote.dto.child.ChildDto
+import com.example.stunthink.data.remote.dto.education.EducationDto
 import com.example.stunthink.data.remote.dto.login.LoginDto
 import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.data.remote.dto.nutrition.NutritionDto
@@ -64,6 +65,10 @@ interface StunThinkApi {
         @Part image: MultipartBody.Part
     ): ApiResponse<FoodDto>
 
+    @GET("education")
+    suspend fun getEducationList(
+        @Header("auth") auth: String
+    ): ApiResponse<List<EducationDto>>
 
 //    @GET("anak/{id}")
 //    fun child(

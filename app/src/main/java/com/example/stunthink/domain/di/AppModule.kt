@@ -7,6 +7,7 @@ import com.example.stunthink.data.preferences.UserPreferences
 import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.repository.UserRepositoryImpl
 import com.example.stunthink.domain.repository.UserRepository
+import com.example.stunthink.domain.use_case.education.GetEducationListUseCase
 import com.example.stunthink.domain.use_case.login.LoginUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
@@ -140,5 +141,10 @@ object AppModule {
     @Provides
     fun provideUploadFoodPictureUseCase(userRepository: UserRepository): UploadFoodPictureUseCase {
         return UploadFoodPictureUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetEducationListUseCase(userRepository: UserRepository): GetEducationListUseCase {
+        return GetEducationListUseCase(userRepository)
     }
 }

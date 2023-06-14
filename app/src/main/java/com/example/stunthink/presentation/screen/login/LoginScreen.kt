@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -16,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,6 +45,7 @@ import com.example.stunthink.R
 import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
+import com.example.stunthink.presentation.ui.theme.Typography
 
 @Composable
 fun LoginScreen(
@@ -89,87 +93,94 @@ private fun Content(
 
     var passwordVisibility by rememberSaveable { mutableStateOf(true) }
 
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
     ) {
-        Text(text = stringResource(id = R.string.login_title))
-        Spacer(modifier = Modifier.padding(12.dp))
-        Text(text = stringResource(id = R.string.login_message))
-        Spacer(modifier = Modifier.padding(24.dp))
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(text = stringResource(id = R.string.login_title), style = Typography.headlineSmall)
+            Spacer(modifier = Modifier.padding(12.dp))
+            Text(text = stringResource(id = R.string.login_message))
+            Spacer(modifier = Modifier.padding(24.dp))
 
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = loginState.email,
-                onValueChange = {
-                    loginViewModel.onEvent(LoginFormEvent.EmailChanged(it))
-                },
-                modifier = Modifier.fillMaxWidth(),
-                isError = loginState.emailError != null,
-                label = { Text(text = stringResource(id = R.string.email)) },
-                placeholder = { Text(text = stringResource(id = R.string.input_email)) },
-                supportingText = loginState.emailError?.let {
-                    { Text(text = loginState.emailError) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = loginState.email,
+                    onValueChange = {
+                        loginViewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = loginState.emailError != null,
+                    label = { Text(text = stringResource(id = R.string.email)) },
+                    placeholder = { Text(text = stringResource(id = R.string.input_email)) },
+                    supportingText = loginState.emailError?.let {
+                        { Text(text = loginState.emailError) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    )
                 )
-            )
-            OutlinedTextField(
-                value = loginState.password,
-                onValueChange = {
-                    loginViewModel.onEvent(LoginFormEvent.PasswordChanged(it))
-                },
-                modifier = Modifier.fillMaxWidth(),
-                isError = loginState.passwordError != null,
-                label = { Text(text = stringResource(id = R.string.password)) },
-                placeholder = { Text(text = stringResource(id = R.string.input_password)) },
-                supportingText = loginState.passwordError?.let {
-                    { Text(text = loginState.passwordError) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
-                ),
-                visualTransformation =
+                OutlinedTextField(
+                    value = loginState.password,
+                    onValueChange = {
+                        loginViewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = loginState.passwordError != null,
+                    label = { Text(text = stringResource(id = R.string.password)) },
+                    placeholder = { Text(text = stringResource(id = R.string.input_password)) },
+                    supportingText = loginState.passwordError?.let {
+                        { Text(text = loginState.passwordError) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password
+                    ),
+                    visualTransformation =
                     if (passwordVisibility) PasswordVisualTransformation()
                     else VisualTransformation.None,
-                trailingIcon = {
-                    val image =
-                        if (passwordVisibility) Icons.Filled.VisibilityOff
-                        else Icons.Filled.Visibility
-                    val description =
-                        if (passwordVisibility) "show_password" else "hide_password"
+                    trailingIcon = {
+                        val image =
+                            if (passwordVisibility) Icons.Filled.VisibilityOff
+                            else Icons.Filled.Visibility
+                        val description =
+                            if (passwordVisibility) "show_password" else "hide_password"
 
-                    IconButton(
-                        onClick = { passwordVisibility = !passwordVisibility },
-                    ) {
-                        Icon(
-                            imageVector = image,
-                            contentDescription = description,
-                            tint = Color.Gray
-                        )
+                        IconButton(
+                            onClick = { passwordVisibility = !passwordVisibility },
+                        ) {
+                            Icon(
+                                imageVector = image,
+                                contentDescription = description,
+                                tint = Color.Gray
+                            )
+                        }
                     }
-                }
-            )
-        }
-        Spacer(modifier = Modifier.padding(16.dp))
+                )
+            }
+            Spacer(modifier = Modifier.padding(12.dp))
 
-        Button(
-            onClick = {
-                loginViewModel.onEvent(LoginFormEvent.Submit)
-            },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = stringResource(R.string.login))
+            Button(
+                onClick = {
+                    loginViewModel.onEvent(LoginFormEvent.Submit)
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(text = stringResource(R.string.login))
+            }
         }
     }
 
     if (loginSubmitState.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = Modifier
-                .align(Alignment.Center)
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }

@@ -4,7 +4,6 @@ import com.example.stunthink.data.remote.dto.child.ChildDto
 
 data class ChildListState(
     val isLoading: Boolean = false,
-    val childs: List<ChildDto> = emptyList(),
-    val token: String = "",
+    val childList: List<ChildDto> = emptyList(),
     val error: String = ""
 )

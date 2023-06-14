@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.example.stunthink.R
 import com.example.stunthink.presentation.ui.theme.Typography
 
 @Composable
@@ -37,6 +38,8 @@ fun EducationCard(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imageLink)
+                    .placeholder(R.drawable.stunthink_logo_background)
+                    .error(R.drawable.stunthink_logo_background)
                     .crossfade(true)
                     .scale(Scale.FILL)
                     .build(),

@@ -1,11 +1,11 @@
-package com.example.stunthink.presentation.screen.monitoring.child.list
+package com.example.stunthink.presentation.screen.main.education
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stunthink.domain.common.Resource
-import com.example.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
+import com.example.stunthink.domain.use_case.education.GetEducationListUseCase
 import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChildListViewModel @Inject constructor(
+class EducationViewModel @Inject constructor(
     private val getUserTokenUseCase: GetUserTokenUseCase,
-    private val getChildListUseCase: GetChildListUseCase
+    private val getEducationListUseCase: GetEducationListUseCase
 ): ViewModel() {
-    private val _state = mutableStateOf(ChildListState())
-    val state: State<ChildListState> = _state
+    private val _state = mutableStateOf(EducationState())
+    val state: State<EducationState> = _state
 
     init {
         observeUserToken()
@@ -28,27 +28,26 @@ class ChildListViewModel @Inject constructor(
     private fun observeUserToken() {
         viewModelScope.launch {
             getUserTokenUseCase.execute().collect { token ->
-                // Call getCoins() again when userTokenFlow emits a new value
                 if (token != null) {
-                    getChilds(token)
+                    getEducationList(token)
                 }
             }
         }
     }
 
-    private fun getChilds(token: String) {
-        getChildListUseCase(token).onEach { result ->
+    private fun getEducationList(token: String) {
+        getEducationListUseCase(token).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = ChildListState(childList = result.data ?: emptyList())
+                    _state.value = EducationState(educationList = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = ChildListState(
+                    _state.value = EducationState(
                         error = result.message ?: "An unexpected error occured"
                     )
                 }
                 is Resource.Loading -> {
-                    _state.value = ChildListState(isLoading = true)
+                    _state.value = EducationState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

@@ -37,8 +37,6 @@ class CameraViewModel @Inject constructor(
         _selfieUri.value = uri
     }
 
-
-
     private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
 
@@ -67,7 +65,15 @@ class CameraViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _state.value = CameraState(food = result.data)
-                    validationEventChannel.send(ValidationEvent.Success)
+                    if (result.success == true) {
+                        validationEventChannel.send(
+                            ValidationEvent.Success(id = result.data?.dataGizi?.id ?: "0")
+                        )
+                    } else if (result.success == false) {
+                        validationEventChannel.send(
+                            ValidationEvent.Failed(message = result.message ?: "Failed")
+                        )
+                    }
                 }
                 is Resource.Error -> {
                     _state.value = CameraState(
@@ -81,7 +87,8 @@ class CameraViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    sealed class ValidationEvent {
-        object Success: ValidationEvent()
-    }
+        sealed class ValidationEvent {
+            data class Success(val id: String): ValidationEvent()
+            data class Failed(val message: String): ValidationEvent()
+        }
 }
