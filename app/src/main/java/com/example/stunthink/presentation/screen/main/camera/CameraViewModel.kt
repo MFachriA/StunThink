@@ -47,8 +47,6 @@ class CameraViewModel @Inject constructor(
     val userToken: StateFlow<String?>
         get() = _userToken
 
-    private val _foodId = MutableStateFlow<String?>(null)
-
     init {
         fetchUserToken()
     }
@@ -67,7 +65,7 @@ class CameraViewModel @Inject constructor(
                     _state.value = CameraState(food = result.data)
                     if (result.success == true) {
                         validationEventChannel.send(
-                            ValidationEvent.Success(id = result.data?.dataGizi?.id ?: "0")
+                            ValidationEvent.Success(id = result.data?.dataGizi?.namaMakanan ?: "0")
                         )
                     } else if (result.success == false) {
                         validationEventChannel.send(

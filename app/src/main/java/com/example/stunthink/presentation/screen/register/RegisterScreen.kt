@@ -56,6 +56,7 @@ import com.example.stunthink.R
 import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
+import com.example.stunthink.presentation.ui.theme.Typography
 import com.example.stunthink.utils.formatDate
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -130,10 +131,10 @@ private fun Content(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(id = R.string.register_title))
+        Text(text = stringResource(id = R.string.register_title), style = Typography.headlineSmall)
         Spacer(modifier = Modifier.padding(12.dp))
         Text(text = stringResource(id = R.string.register_message))
-        Spacer(modifier = Modifier.padding(24.dp))
+        Spacer(modifier = Modifier.padding(12.dp))
 
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)

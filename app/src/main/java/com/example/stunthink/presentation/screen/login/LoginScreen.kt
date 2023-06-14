@@ -106,7 +106,7 @@ private fun Content(
             Text(text = stringResource(id = R.string.login_title), style = Typography.headlineSmall)
             Spacer(modifier = Modifier.padding(12.dp))
             Text(text = stringResource(id = R.string.login_message))
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.padding(12.dp))
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
