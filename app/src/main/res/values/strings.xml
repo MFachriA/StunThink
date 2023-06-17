@@ -8,9 +8,9 @@
     <string name="login_page_title">Masukkan Akun</string>
     <string name="login_title">Selamat Datang Kembali</string>
     <string name="login_message">Kami senang bisa melihat anda lagi!</string>
-    <string name="register_page_title">Buat Akun</string>
+    <string name="register_page_title">Daftar</string>
     <string name="register_title">Buat Akun Baru</string>
-    <string name="register_message">Segera buat akun untuk monitoring gizi!</string>
+    <string name="register_message">Segera lakukan untuk mulai monitoring gizi!</string>
     <string name="child_list_title">Daftar Anak</string>
     <string name="child_monitoring_title">Monitoring Anak</string>
     <string name="mother_monitoring_title">Monitoring Ibu</string>
