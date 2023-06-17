@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -39,39 +40,75 @@ fun WelcomeScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary),
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.welcome_screen_background),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )
             Column(
                 modifier = Modifier
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(painter = painterResource(id = R.drawable.stunthink_logo_white), contentDescription = "logo")
-                Spacer(modifier = Modifier.padding(12.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.stunthink_logo_white),
+                    contentDescription = "logo",
+                    modifier = Modifier
+                        .padding(24.dp)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 32.dp),
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.welcome_screen_logo_1),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.welcome_screen_logo_3),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.welcome_screen_logo_2),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
+                }
+
                 Text(
                     text = stringResource(R.string.welcome_title),
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = Typography.headlineSmall
                 )
-                Spacer(modifier = Modifier.padding(12.dp))
+                Spacer(modifier = Modifier.padding(8.dp))
+
                 Text(
                     text = stringResource(R.string.welcome_message),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.padding(24.dp))
 
                 Button(
-                    onClick = { navController.navigate(ScreenRoute.Login.route) },
+                    onClick = { navController.navigate(ScreenRoute.Register.route) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer)
                 ) {
-                    Text(text = stringResource(R.string.login), color = Color.Black)
+                    Text(text = stringResource(R.string.register), color = Color.Black)
                 }
+                Spacer(modifier = Modifier.padding(2.dp))
                 Button(
-                    onClick = { navController.navigate(ScreenRoute.Register.route) },
+                    onClick = { navController.navigate(ScreenRoute.Login.route) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
                 ) {
-                    Text(text = stringResource(R.string.register), color = Color.Black)
+                    Text(text = stringResource(R.string.login), color = Color.Black)
                 }
             }
         }

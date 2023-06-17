@@ -3,6 +3,7 @@ package com.example.stunthink.presentation.screen.register
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -42,10 +43,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -93,7 +97,12 @@ fun RegisterScreen(
                 )
             },
             content = { paddingValues ->
-                Box(modifier = Modifier.padding(paddingValues)) {
+
+                Box(
+                    modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                ) {
                     Content()
                 }
             }
@@ -124,19 +133,24 @@ private fun Content(
     var passwordVisibility by rememberSaveable { mutableStateOf(true) }
     var confirmationPasswordVisibility by rememberSaveable { mutableStateOf(true) }
 
+    Image(
+        painter = painterResource(id = R.drawable.register_screen_background),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize()
+    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = stringResource(id = R.string.register_title), style = Typography.headlineSmall)
-        Spacer(modifier = Modifier.padding(12.dp))
-        Text(text = stringResource(id = R.string.register_message))
+        Spacer(modifier = Modifier.padding(4.dp))
+        Text(text = stringResource(id = R.string.register_message), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.padding(12.dp))
 
         Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
@@ -150,7 +164,11 @@ private fun Content(
                 placeholder = { Text(text = stringResource(id = R.string.input_full_name)) },
                 supportingText = registerState.nameError?.let {
                     { Text(text = registerState.nameError) }
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                ),
+                maxLines = 1
             )
             OutlinedTextField(
                 value = registerState.email,
@@ -165,8 +183,10 @@ private fun Content(
                     { Text(text = registerState.emailError) }
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                )
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
+                maxLines = 1
             )
             OutlinedTextField(
                 value = registerState.password,
@@ -181,7 +201,8 @@ private fun Content(
                     { Text(text = registerState.passwordError) }
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next
                 ),
                 visualTransformation =
                     if (passwordVisibility) PasswordVisualTransformation()
@@ -202,7 +223,8 @@ private fun Content(
                             tint = Color.Gray
                         )
                     }
-                }
+                },
+                maxLines = 1
             )
             OutlinedTextField(
                 value = registerState.confirmationPassword,
@@ -217,10 +239,11 @@ private fun Content(
                     { Text(text = registerState.confirmationPasswordError) }
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
                 ),
                 visualTransformation =
-                    if (passwordVisibility) PasswordVisualTransformation()
+                    if (confirmationPasswordVisibility) PasswordVisualTransformation()
                     else VisualTransformation.None,
                 trailingIcon = {
                     val image =
@@ -238,11 +261,12 @@ private fun Content(
                             tint = Color.Gray
                         )
                     }
-                }
+                },
+                maxLines = 1
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 genderOptions.forEach { text ->
@@ -286,7 +310,8 @@ private fun Content(
                                 }
                             }
                         }
-                    }
+                    },
+                maxLines = 1
             )
             OutlinedTextField(
                 value = registerState.address,
@@ -299,16 +324,19 @@ private fun Content(
                 placeholder = { Text(text = stringResource(id = R.string.input_address)) },
                 supportingText = registerState.addressError?.let {
                     { Text(text = registerState.addressError) }
-                }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                ),
             )
-        }
-        Spacer(modifier = Modifier.padding(16.dp))
-
-        Button(
-            onClick = { registerViewModel.onEvent(RegisterFormEvent.Submit) },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = stringResource(R.string.register))
+            Button(
+                onClick = { registerViewModel.onEvent(RegisterFormEvent.Submit) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+            ) {
+                Text(text = stringResource(R.string.register))
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.stunthink.presentation.screen.login
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,10 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -97,6 +101,11 @@ private fun Content(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.login_screen_background),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize()
+        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -104,8 +113,11 @@ private fun Content(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(text = stringResource(id = R.string.login_title), style = Typography.headlineSmall)
-            Spacer(modifier = Modifier.padding(12.dp))
-            Text(text = stringResource(id = R.string.login_message))
+            Spacer(modifier = Modifier.padding(4.dp))
+            Text(
+                text = stringResource(id = R.string.login_message),
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.padding(12.dp))
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -122,8 +134,10 @@ private fun Content(
                         { Text(text = loginState.emailError) }
                     },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email
-                    )
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    ),
+                    maxLines = 1,
                 )
                 OutlinedTextField(
                     value = loginState.password,
@@ -138,7 +152,8 @@ private fun Content(
                         { Text(text = loginState.passwordError) }
                     },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
                     ),
                     visualTransformation =
                     if (passwordVisibility) PasswordVisualTransformation()
@@ -159,7 +174,8 @@ private fun Content(
                                 tint = Color.Gray
                             )
                         }
-                    }
+                    },
+                    maxLines = 1
                 )
             }
             Spacer(modifier = Modifier.padding(12.dp))
