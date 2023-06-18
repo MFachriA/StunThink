@@ -42,7 +42,6 @@ fun ProfileScreen(
             )
             Button(
                 onClick = {
-                    profileViewModel.deleteUserToken()
                     navController.navigate(route = ScreenRoute.Welcome.route) {
                         popUpTo(ScreenRoute.Main.route) { inclusive = true }
                     }
