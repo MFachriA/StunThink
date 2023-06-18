@@ -5,17 +5,19 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.stunthink.data.remote.dto.education.EducationDto
 import com.example.stunthink.presentation.navigation.start.StartScreen
 import com.example.stunthink.presentation.screen.food.FoodDetailScreen
+import com.example.stunthink.presentation.screen.login.LoginScreen
+import com.example.stunthink.presentation.screen.main.MainScreen
 import com.example.stunthink.presentation.screen.main.camera.CameraScreen
 import com.example.stunthink.presentation.screen.main.education.EducationScreen
+import com.example.stunthink.presentation.screen.main.education.detail.EducationDetailScreen
 import com.example.stunthink.presentation.screen.main.home.HomeScreen
-import com.example.stunthink.presentation.screen.main.MainScreen
-import com.example.stunthink.presentation.screen.login.LoginScreen
 import com.example.stunthink.presentation.screen.main.profile.ProfileScreen
 import com.example.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.example.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
@@ -130,6 +132,13 @@ fun ApplicationNavHost(
                 navController = navController,
                 id = it.arguments?.getString(CHILD_ID_KEY) ?: "",
             )
+        }
+        composable(
+            route = ScreenRoute.EducationDetail.route
+        ) {
+            val education =
+                navController.previousBackStackEntry?.savedStateHandle?.get<EducationDto>("education")
+            EducationDetailScreen(navController = navController, education = education)
         }
     }
 }

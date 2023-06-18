@@ -2,6 +2,7 @@ package com.example.stunthink.presentation.screen.main.education
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,21 +17,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.presentation.component.card.EducationCard
+import com.example.stunthink.presentation.navigation.ScreenRoute
+import com.example.stunthink.presentation.screen.main.MainViewModel
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 
 @Composable
 fun EducationScreen(
     navController: NavController,
-    viewModel: EducationViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     StunThinkTheme {
         val state = viewModel.state.value
 
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 items(items = state.educationList, itemContent = { education ->
                     EducationCard(
@@ -38,9 +41,12 @@ fun EducationScreen(
                         imageLink = education.urlToImage,
                         title = education.title,
                         description = education.desc,
-                        publishedDate = education.publishedAt
                     ) {
-
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "education",
+                            value = education
+                        )
+                        navController.navigate(ScreenRoute.EducationDetail.route)
                     }
                 })
             }

@@ -61,7 +61,7 @@ import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.presentation.ui.theme.Typography
-import com.example.stunthink.utils.formatDate
+import com.example.stunthink.utils.DateUtils.formatDateToIndonesianDate
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -288,7 +288,7 @@ private fun Content(
                 }
             }
             OutlinedTextField(
-                value = formatDate(registerState.date),
+                value = formatDateToIndonesianDate(registerState.date),
                 onValueChange = {
                     registerViewModel.onEvent(RegisterFormEvent.DateChanged(it))
                 },

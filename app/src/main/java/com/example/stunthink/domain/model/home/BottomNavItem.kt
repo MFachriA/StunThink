@@ -1,4 +1,4 @@
-package com.example.stunthink.domain.model
+package com.example.stunthink.domain.model.home
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

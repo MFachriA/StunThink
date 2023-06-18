@@ -1,6 +1,7 @@
 package com.example.stunthink.domain.use_case.validate
 
-import com.example.stunthink.utils.isDatePassed
+import com.example.stunthink.utils.DateUtils.isDatePassed
+
 
 class ValidateDateUseCase {
 

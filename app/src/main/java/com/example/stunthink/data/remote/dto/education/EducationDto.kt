@@ -1,5 +1,9 @@
 package com.example.stunthink.data.remote.dto.education
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class EducationDto(
     val author: String,
     val content: String,
@@ -8,4 +12,4 @@ data class EducationDto(
     val publishedAt: String,
     val title: String,
     val urlToImage: String
-)
+): Parcelable

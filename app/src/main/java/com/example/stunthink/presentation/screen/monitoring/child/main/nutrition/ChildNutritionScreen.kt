@@ -31,6 +31,7 @@ import com.example.stunthink.presentation.component.card.NutritionSummaryCard
 import com.example.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.presentation.ui.theme.Typography
+import com.example.stunthink.utils.DateUtils
 
 @Composable
 fun ChildNutritionScreen(
@@ -65,13 +66,14 @@ fun ChildNutritionScreen(
             LazyColumn(
                 modifier = Modifier,
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
                     NutritionSummaryCard()
                 }
                 item {
                     Text(
+                        modifier = Modifier.padding(vertical = 4.dp),
                         text = "Makanan Hari Ini",
                         style = Typography.titleLarge
                     )
@@ -80,7 +82,7 @@ fun ChildNutritionScreen(
                     NutritionCard(
                         image = null,
                         name = child.namaMakanan,
-                        date = child.timastamp
+                        date = DateUtils.formatDateTimeToIndonesianTimeDate(child.timastamp)
                     ) { }
                 })
             }

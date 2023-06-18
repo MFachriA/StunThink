@@ -15,15 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
-import com.example.stunthink.domain.model.BottomNavItem
+import com.example.stunthink.domain.model.home.BottomNavItem
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.screen.main.camera.CameraScreen
 import com.example.stunthink.presentation.screen.main.education.EducationScreen
@@ -58,9 +57,9 @@ fun MainScreen(
             permissionState.launchMultiplePermissionRequest()
         }
     }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     StunThinkTheme {
-        var selectedItem by remember { mutableStateOf(0) }
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -76,9 +75,9 @@ fun MainScreen(
                 NavigationBar {
                     bottomNavItems.forEachIndexed { index, item ->
                         NavigationBarItem(
-                            selected = selectedItem == index,
+                            selected = mainViewModel.selectedMenu == index,
                             onClick = {
-                                selectedItem = index
+                                mainViewModel.changeSelectedMenu(index)
                             },
                             label = {
                                 Text(
@@ -95,25 +94,28 @@ fun MainScreen(
                         )
                     }
                 }
-            }
+            },
+            snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                when (selectedItem) {
+                when (mainViewModel.selectedMenu) {
                     0 -> HomeScreen(navController)
                     1 ->
                         if (permissionState.allPermissionsGranted){
-                            CameraScreen(navController)
+                            CameraScreen(
+                                navController = navController,
+                                snackbarHostState = snackbarHostState
+                            )
                         } else {
                             LaunchedEffect(key1 = permissionState) {
                                 permissionState.launchMultiplePermissionRequest()
                             }
-                            selectedItem = 1
+                            mainViewModel.changeSelectedMenu(1)
                         }
-
                     2 -> EducationScreen(navController)
                     3 -> ProfileScreen(navController)
                 }

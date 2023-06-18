@@ -55,7 +55,7 @@ fun WelcomeScreen(
                     painter = painterResource(id = R.drawable.stunthink_logo_white),
                     contentDescription = "logo",
                     modifier = Modifier
-                        .padding(24.dp)
+                        .padding(12.dp)
                 )
 
                 Column(
@@ -93,7 +93,7 @@ fun WelcomeScreen(
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.padding(24.dp))
+                Spacer(modifier = Modifier.padding(12.dp))
 
                 Button(
                     onClick = { navController.navigate(ScreenRoute.Register.route) },
