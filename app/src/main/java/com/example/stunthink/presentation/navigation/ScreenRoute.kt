@@ -5,13 +5,6 @@ const val CHILD_NAME_KEY = "name"
 
 const val FOOD_ID_KEY = "id"
 
-const val EDUCATION_AUTHOR_KEY = "author"
-const val EDUCATION_CONTENT_KEY = "content"
-const val EDUCATION_DESC_KEY = "desc"
-const val EDUCATION_PUBLISHED_AT_KEY = "published_at"
-const val EDUCATION_IMAGE_KEY = "image"
-const val EDUCATION_TITLE_KEY = "title"
-
 
 sealed class ScreenRoute(val route: String) {
     object Start: ScreenRoute(route = "start_screen")
@@ -34,12 +27,6 @@ sealed class ScreenRoute(val route: String) {
     }
     object ChildNutrition: ScreenRoute(route = "child_nutrition_screen")
     object ChildStunting: ScreenRoute(route = "child_stunting_screen")
-    object FoodDetail: ScreenRoute(route = "food_detail_screen/{$FOOD_ID_KEY}") {
-        fun passId(
-            id: String
-        ): String {
-            return "food_detail_screen/$id"
-        }
-    }
+    object FoodDetail: ScreenRoute(route = "food_detail_screen")
     object EducationDetail: ScreenRoute(route = "education_detail_screen")
 }

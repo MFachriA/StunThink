@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.stunthink.data.remote.dto.education.EducationDto
+import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.presentation.navigation.start.StartScreen
 import com.example.stunthink.presentation.screen.food.FoodDetailScreen
 import com.example.stunthink.presentation.screen.login.LoginScreen
@@ -121,17 +122,11 @@ fun ApplicationNavHost(
             ChildStuntingScreen(navController = navController)
         }
         composable(
-            route = ScreenRoute.FoodDetail.route,
-            arguments = listOf(
-                navArgument(FOOD_ID_KEY) {
-                    type = NavType.StringType
-                }
-            )
+            route = ScreenRoute.FoodDetail.route
         ) {
-            FoodDetailScreen(
-                navController = navController,
-                id = it.arguments?.getString(CHILD_ID_KEY) ?: "",
-            )
+            val food =
+                navController.previousBackStackEntry?.savedStateHandle?.get<FoodDto>("food")
+            FoodDetailScreen(navController = navController, food = food)
         }
         composable(
             route = ScreenRoute.EducationDetail.route

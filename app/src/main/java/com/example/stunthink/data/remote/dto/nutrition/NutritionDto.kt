@@ -1,5 +1,9 @@
 package com.example.stunthink.data.remote.dto.nutrition
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class NutritionDto(
     val Air: Float,
     val Ca: Float,
@@ -25,4 +29,4 @@ data class NutritionDto(
     val namaMakanan: String,
     val persentaseHabis: String,
     val timastamp: String
-)
+): Parcelable

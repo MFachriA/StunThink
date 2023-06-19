@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -62,14 +64,16 @@ fun MainScreen(
     StunThinkTheme {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Image(
-                            painter = painterResource(id = R.drawable.stunthink_logo_plain),
-                            contentDescription = null
-                        )
-                    }
-                )
+                Surface(shadowElevation = 3.dp) {
+                    TopAppBar(
+                        title = {
+                            Image(
+                                painter = painterResource(id = R.drawable.stunthink_logo_plain),
+                                contentDescription = null
+                            )
+                        }
+                    )
+                }
             },
             bottomBar = {
                 NavigationBar {

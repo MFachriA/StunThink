@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -59,11 +59,11 @@ fun CameraScreen(
         cameraViewModel.validationEvents.collect { event ->
             when (event) {
                 is CameraViewModel.ValidationEvent.Success -> {
-                    navController.navigate(
-                        route = ScreenRoute.FoodDetail.passId(
-                            id = event.id
-                        )
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "food",
+                        value = event.food
                     )
+                    navController.navigate(route = ScreenRoute.FoodDetail.route)
                 }
                 is CameraViewModel.ValidationEvent.Failed -> {
                     scope.launch {
@@ -82,7 +82,7 @@ fun CameraScreen(
     val hasPhoto = selfieUri != null
 
     val iconResource = if (hasPhoto) {
-        Icons.Filled.SwapHoriz
+        Icons.Filled.Autorenew
     } else {
         Icons.Filled.AddAPhoto
     }

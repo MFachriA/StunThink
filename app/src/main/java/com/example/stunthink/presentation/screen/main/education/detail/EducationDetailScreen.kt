@@ -52,7 +52,7 @@ fun EducationDetailScreen(
 private fun EducationDetailContent(
     education: EducationDto?
 ) {
-    if (education != null) {
+    education?.let {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),

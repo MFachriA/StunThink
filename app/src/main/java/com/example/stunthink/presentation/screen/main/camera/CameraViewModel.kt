@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
 import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
@@ -65,7 +66,7 @@ class CameraViewModel @Inject constructor(
                     _state.value = CameraState(food = result.data)
                     if (result.success == true) {
                         validationEventChannel.send(
-                            ValidationEvent.Success(id = result.data?.dataGizi?.namaMakanan ?: "0")
+                            ValidationEvent.Success(result.data)
                         )
                     } else if (result.success == false) {
                         validationEventChannel.send(
@@ -77,6 +78,9 @@ class CameraViewModel @Inject constructor(
                     _state.value = CameraState(
                         error = result.message ?: "An unexpected error occured"
                     )
+                    validationEventChannel.send(
+                        ValidationEvent.Failed(message = state.value.error)
+                    )
                 }
                 is Resource.Loading -> {
                     _state.value = CameraState(isLoading = true)
@@ -86,7 +90,7 @@ class CameraViewModel @Inject constructor(
     }
 
         sealed class ValidationEvent {
-            data class Success(val id: String): ValidationEvent()
+            data class Success(val food: FoodDto?): ValidationEvent()
             data class Failed(val message: String): ValidationEvent()
         }
 }
