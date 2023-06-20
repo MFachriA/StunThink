@@ -7,11 +7,13 @@ import com.example.stunthink.data.preferences.UserPreferences
 import com.example.stunthink.data.remote.StunThinkApi
 import com.example.stunthink.data.repository.UserRepositoryImpl
 import com.example.stunthink.domain.repository.UserRepository
+import com.example.stunthink.domain.use_case.child_register.ChildRegisterUseCase
 import com.example.stunthink.domain.use_case.education.GetEducationListUseCase
 import com.example.stunthink.domain.use_case.login.LoginUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.example.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
 import com.example.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
+import com.example.stunthink.domain.use_case.register.RegisterUseCase
 import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.example.stunthink.domain.use_case.user.SaveUserTokenUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateAddressUseCase
@@ -20,6 +22,7 @@ import com.example.stunthink.domain.use_case.validate.ValidateDateUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateEmailUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateNameUseCase
 import com.example.stunthink.domain.use_case.validate.ValidatePasswordUseCase
+import com.example.stunthink.domain.use_case.validate.ValidatePlaceOfBirthUseCase
 import com.example.stunthink.utils.PhotoUriManager
 import dagger.Module
 import dagger.Provides
@@ -32,18 +35,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-
-//    @Provides
-//    fun providesUserDatabase(@ApplicationContext context: Context): UserDatabase {
-//        return Room.databaseBuilder(context, UserDatabase::class.java, "user.db")
-//            .build()
-//    }
-//
-//    @Provides
-//    fun provideUserDao(userDatabase: UserDatabase): UserDao {
-//        return userDatabase.userDao()
-//    }
 
     // Context
     @Provides
@@ -114,6 +105,11 @@ object AppModule {
     }
 
     @Provides
+    fun provideValidatePlaceOfBirthUseCase(): ValidatePlaceOfBirthUseCase {
+        return ValidatePlaceOfBirthUseCase()
+    }
+
+    @Provides
     fun provideGetUserTokenUseCase(userRepository: UserRepository): GetUserTokenUseCase {
         return GetUserTokenUseCase(userRepository)
     }
@@ -126,6 +122,11 @@ object AppModule {
     @Provides
     fun provideLoginUseCase(userRepository: UserRepository): LoginUseCase {
         return LoginUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideRegisterUseCase(userRepository: UserRepository): RegisterUseCase {
+        return RegisterUseCase(userRepository)
     }
 
     @Provides
@@ -146,5 +147,10 @@ object AppModule {
     @Provides
     fun provideGetEducationListUseCase(userRepository: UserRepository): GetEducationListUseCase {
         return GetEducationListUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideChildRegisterUseCase(userRepository: UserRepository): ChildRegisterUseCase {
+        return ChildRegisterUseCase(userRepository)
     }
 }

@@ -90,4 +90,20 @@ class UserRepositoryImpl @Inject constructor(
                 )
         )
     }
+
+    override suspend fun registerChild(
+        token: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit> {
+        return api.registerChild(
+            auth = token,
+            name = name,
+            gender = gender,
+            address = address,
+            date = date
+        )
+    }
 }

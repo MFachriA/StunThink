@@ -58,7 +58,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
 import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
-import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.presentation.ui.theme.Typography
 import com.example.stunthink.utils.DateUtils.formatDateToIndonesianDate
@@ -80,9 +79,7 @@ fun RegisterScreen(
             registerViewModel.validationEvents.collect { event ->
                 when (event) {
                     is RegisterViewModel.ValidationEvent.Success -> {
-                        navController.navigate(route = ScreenRoute.Main.route) {
-                            popUpTo(ScreenRoute.Welcome.route) { inclusive = true }
-                        }
+                        navController.popBackStack()
                         Toast.makeText(context, R.string.register_success_message, Toast.LENGTH_SHORT).show()
                     }
                 }

@@ -28,7 +28,7 @@ class ChildListViewModel @Inject constructor(
         observeUserToken()
     }
 
-    private fun observeUserToken() {
+    fun observeUserToken() {
         viewModelScope.launch {
             getUserTokenUseCase.execute().collect { token ->
                 // Call getCoins() again when userTokenFlow emits a new value

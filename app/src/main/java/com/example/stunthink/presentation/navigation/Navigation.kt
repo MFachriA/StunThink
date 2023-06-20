@@ -24,6 +24,7 @@ import com.example.stunthink.presentation.screen.monitoring.child.list.ChildList
 import com.example.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
 import com.example.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
 import com.example.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
+import com.example.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
 import com.example.stunthink.presentation.screen.register.RegisterScreen
 import com.example.stunthink.presentation.screen.welcome.WelcomeScreen
 
@@ -134,6 +135,11 @@ fun ApplicationNavHost(
             val education =
                 navController.previousBackStackEntry?.savedStateHandle?.get<EducationDto>("education")
             EducationDetailScreen(navController = navController, education = education)
+        }
+        composable(
+            route = ScreenRoute.ChildRegister.route
+        ) {
+            ChildRegisterScreen(navController = navController)
         }
     }
 }

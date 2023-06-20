@@ -36,4 +36,12 @@ interface UserRepository {
         token: String,
         image: File
     ): ApiResponse<FoodDto>
+
+    suspend fun registerChild(
+        token: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit>
 }

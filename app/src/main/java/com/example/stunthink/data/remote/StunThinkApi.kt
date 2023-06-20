@@ -37,15 +37,15 @@ interface StunThinkApi {
         @Field("jenisKelamin") gender: String
     ): ApiResponse<Unit>
 
-//    @FormUrlEncoded
-//    @POST("anak")
-//    fun registerChild(
-//        @Header("auth")auth:String,
-//        @Field("namaLengkap") name: String,
-//        @Field("tempatLahir") address: String,
-//        @Field("tanggalLahir") date: String,
-//        @Field("jenisKelamin") gender: String
-//    ): Call<ResponseRegister>
+    @FormUrlEncoded
+    @POST("anak")
+    suspend fun registerChild(
+        @Header("auth")auth:String,
+        @Field("namaLengkap") name: String,
+        @Field("tempatLahir") address: String,
+        @Field("tanggalLahir") date: String,
+        @Field("jenisKelamin") gender: String
+    ): ApiResponse<Unit>
 
     @GET("anak")
     suspend fun getChildList(
@@ -70,15 +70,5 @@ interface StunThinkApi {
         @Header("auth") auth: String
     ): ApiResponse<List<EducationDto>>
 
-//    @GET("anak/{id}")
-//    fun child(
-//        @Header("auth") auth:String,
-//        @Path("id") id: Int
-//    ): Call<List<ResponseChildListItem>>
-//
-//    @GET("education")
-//    fun education(
-//        @Header("auth") auth:String
-//    ): Call<List<ResponseEducationItem>>
 
 }

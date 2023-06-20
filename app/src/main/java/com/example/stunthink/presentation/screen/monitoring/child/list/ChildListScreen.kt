@@ -8,15 +8,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
@@ -24,6 +30,7 @@ import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.component.card.ChildCard
 import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
+import com.example.stunthink.utils.rememberLifecycleEvent
 
 
 @Composable
@@ -33,12 +40,29 @@ fun ChildListScreen(
 ) {
     StunThinkTheme {
         val state = viewModel.state.value
+        val lifecycleEvent = rememberLifecycleEvent()
+        LaunchedEffect(lifecycleEvent) {
+            if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+                viewModel.observeUserToken()
+            }
+        }
 
         Scaffold(
             topBar = {
                 BackButtonAppBar(
                     title = stringResource(id = R.string.child_list_title),
-                    navigationOnClick = { navController.popBackStack() }
+                    navigationOnClick = { navController.popBackStack() },
+                    actions = {
+                        IconButton(
+                            onClick = { navController.navigate(ScreenRoute.ChildRegister.route) },
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "back"
+                                )
+                            }
+                        )
+                    }
                 )
             },
             content = { paddingValues ->
