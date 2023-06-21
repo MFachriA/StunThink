@@ -32,8 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.stunthink.R
+import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.presentation.component.card.NutritionCard
 import com.example.stunthink.presentation.component.card.NutritionSummaryCard
+import com.example.stunthink.presentation.navigation.ScreenRoute
 import com.example.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.presentation.ui.theme.Typography
@@ -107,12 +109,21 @@ fun ChildNutritionScreen(
                         }
                     }
                 } else {
-                    items(items = state.nutritions, itemContent = { child ->
+                    items(items = state.nutritions, itemContent = { nutrition ->
                         NutritionCard(
-                            image = null,
-                            name = child.namaMakanan,
-                            date = DateUtils.formatDateTimeToIndonesianTimeDate(child.timastamp)
-                        ) { }
+                            image = nutrition.foodUrl,
+                            name = nutrition.namaMakanan,
+                            date = DateUtils.formatDateTimeToIndonesianTimeDate(nutrition.timastamp)
+                        ) {
+                            val food = FoodDto(dataGizi = nutrition, image = "")
+                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                key = "food",
+                                value = food
+                            )
+                            navController.navigate(
+                                ScreenRoute.FoodDetail.route
+                            )
+                        }
                     })
                 }
             }

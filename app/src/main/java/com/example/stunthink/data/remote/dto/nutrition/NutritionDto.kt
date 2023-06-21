@@ -28,5 +28,6 @@ data class NutritionDto(
     val id: String,
     val namaMakanan: String,
     val persentaseHabis: String,
-    val timastamp: String
+    val timastamp: String,
+    val foodUrl: String?
 ): Parcelable

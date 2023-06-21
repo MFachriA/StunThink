@@ -1,5 +1,7 @@
 package com.example.stunthink.presentation.screen.main.education.detail
 
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +13,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -53,6 +57,9 @@ private fun EducationDetailContent(
     education: EducationDto?
 ) {
     education?.let {
+        val htmlDescription = remember(education.content) {
+            HtmlCompat.fromHtml(education.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
@@ -94,11 +101,18 @@ private fun EducationDetailContent(
                 )
             }
             item {
-                Text(
-                    text = education.content,
-                    style = Typography.bodyLarge,
+                AndroidView(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    textAlign = TextAlign.Justify
+                    factory = { context ->
+                        TextView(context).apply {
+                            movementMethod = LinkMovementMethod.getInstance()
+                        }
+                    },
+                    update = {
+                        it.text = htmlDescription
+                        it.textSize = Typography.bodyLarge.fontSize.value
+                        it.setTextColor(it.context.getColor(R.color.black))
+                    }
                 )
             }
         }

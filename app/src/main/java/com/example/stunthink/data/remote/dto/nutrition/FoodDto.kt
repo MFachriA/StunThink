@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FoodDto(
     val dataGizi: NutritionDto,
-    val image: String
+    val image: String?
 ): Parcelable

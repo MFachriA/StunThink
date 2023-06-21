@@ -97,9 +97,11 @@ fun FoodDetailContent(
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             item {
+                val imageLink =
+                    if (food.image?.isEmpty() == false) food.image else food.dataGizi.foodUrl
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(food.image)
+                        .data(imageLink)
                         .placeholder(R.drawable.stunthink_logo_background)
                         .error(R.drawable.stunthink_logo_background)
                         .crossfade(true)
