@@ -65,7 +65,7 @@ fun LoginScreen(
                         navController.navigate(route = ScreenRoute.Main.route) {
                             popUpTo(ScreenRoute.Welcome.route) { inclusive = true }
                         }
-                        Toast.makeText(context, R.string.login_success_message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.login_success_message, Toast.LENGTH_LONG).show()
                     }
                 }
             }

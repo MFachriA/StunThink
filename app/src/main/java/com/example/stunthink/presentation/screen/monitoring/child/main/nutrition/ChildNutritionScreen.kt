@@ -50,11 +50,11 @@ fun ChildNutritionScreen(
     ) {
     StunThinkTheme {
         val context = LocalContext.current
+        val token = mainViewModel.userToken
+
         LaunchedEffect(key1 = context) {
-            childNutritionViewModel.userTokenFlow.collect { token ->
-                if (!token.isNullOrEmpty()) {
-                    childNutritionViewModel.getNutritions(token = token, id = id)
-                }
+            token.value?.let { token ->
+                childNutritionViewModel.getNutritions(token, id)
             }
         }
 

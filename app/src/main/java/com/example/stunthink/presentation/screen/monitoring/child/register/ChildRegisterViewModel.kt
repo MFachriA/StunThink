@@ -8,28 +8,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.use_case.child_register.ChildRegisterUseCase
-import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateDateUseCase
 import com.example.stunthink.domain.use_case.validate.ValidateNameUseCase
 import com.example.stunthink.domain.use_case.validate.ValidatePlaceOfBirthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChildRegisterViewModel @Inject constructor(
-    private val getUserTokenUseCase: GetUserTokenUseCase,
     private val childRegisterUseCase: ChildRegisterUseCase,
     private val validateNameUseCase: ValidateNameUseCase,
     private val validateDateUseCase: ValidateDateUseCase,
     private val validatePlaceOfBirthUseCase: ValidatePlaceOfBirthUseCase,
     ): ViewModel() {
 
-    private val tokenState = mutableStateOf("")
+    private val tokenState = MutableStateFlow("")
 
     var formState by mutableStateOf(ChildRegisterFormState())
 
@@ -39,18 +37,8 @@ class ChildRegisterViewModel @Inject constructor(
 
     val validationEvents = validationEventChannel.receiveAsFlow()
 
-    init {
-        observeUserToken()
-    }
-
-    private fun observeUserToken() {
-        viewModelScope.launch {
-            getUserTokenUseCase.execute().collect { token ->
-                if (token != null) {
-                    tokenState.value = token
-                }
-            }
-        }
+    fun setToken(token: String) {
+        tokenState.value = token
     }
 
     fun onEvent(event: ChildRegisterFormEvent) {

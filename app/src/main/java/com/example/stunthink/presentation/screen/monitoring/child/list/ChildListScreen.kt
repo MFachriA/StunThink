@@ -16,6 +16,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,6 +31,7 @@ import com.example.stunthink.R
 import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.example.stunthink.presentation.component.card.ChildCard
 import com.example.stunthink.presentation.navigation.ScreenRoute
+import com.example.stunthink.presentation.navigation.start.StartViewModel
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.utils.rememberLifecycleEvent
 
@@ -36,16 +39,23 @@ import com.example.stunthink.utils.rememberLifecycleEvent
 @Composable
 fun ChildListScreen(
     navController: NavController,
-    viewModel: ChildListViewModel = hiltViewModel()
+    startViewModel: StartViewModel = hiltViewModel(),
+    childListViewModel: ChildListViewModel = hiltViewModel()
 ) {
-    StunThinkTheme {
-        val state = viewModel.state.value
-        val lifecycleEvent = rememberLifecycleEvent()
-        LaunchedEffect(lifecycleEvent) {
-            if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
-                viewModel.observeUserToken()
+    val state = childListViewModel.state.value
+    val lifecycleEvent = rememberLifecycleEvent()
+    val token by startViewModel.userToken.collectAsState()
+
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            token?.let { token ->
+                childListViewModel.getChilds(token)
             }
         }
+    }
+
+
+    StunThinkTheme {
 
         Scaffold(
             topBar = {

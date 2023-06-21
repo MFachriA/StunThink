@@ -42,10 +42,11 @@ fun ProfileScreen(
             )
             Button(
                 onClick = {
+                    profileViewModel.deleteUserToken()
                     navController.navigate(route = ScreenRoute.Welcome.route) {
                         popUpTo(ScreenRoute.Main.route) { inclusive = true }
                     }
-                    Toast.makeText(context, R.string.logout_success_message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.logout_success_message, Toast.LENGTH_LONG).show()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

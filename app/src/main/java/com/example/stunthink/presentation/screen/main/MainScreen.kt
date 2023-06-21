@@ -23,6 +23,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
 import com.example.stunthink.domain.model.home.BottomNavItem
 import com.example.stunthink.presentation.navigation.ScreenRoute
+import com.example.stunthink.presentation.navigation.start.StartViewModel
 import com.example.stunthink.presentation.screen.main.camera.CameraScreen
 import com.example.stunthink.presentation.screen.main.education.EducationScreen
 import com.example.stunthink.presentation.screen.main.home.HomeScreen
@@ -47,8 +50,10 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 @Composable
 fun MainScreen(
     navController: NavController,
-    mainViewModel: MainViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
+    startViewModel: StartViewModel = hiltViewModel()
 ) {
+    val token by startViewModel.userToken.collectAsState()
     val permissionState = rememberMultiplePermissionsState(
         listOf(
             Manifest.permission.CAMERA
@@ -60,6 +65,12 @@ fun MainScreen(
         }
     }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = token) {
+        token?.let { token ->
+            mainViewModel.getEducationList(token)
+        }
+    }
 
     StunThinkTheme {
         Scaffold(

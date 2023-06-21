@@ -8,24 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.stunthink.data.remote.dto.nutrition.FoodDto
 import com.example.stunthink.domain.common.Resource
 import com.example.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
-import com.example.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.example.stunthink.utils.PhotoUriManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     private val photoUriManager: PhotoUriManager,
-    private val getUserTokenUseCase: GetUserTokenUseCase,
     private val uploadFoodPictureUseCase: UploadFoodPictureUseCase
 ): ViewModel() {
 
@@ -43,21 +37,6 @@ class CameraViewModel @Inject constructor(
 
     private val _state = mutableStateOf(CameraState())
     val state: State<CameraState> = _state
-
-    private val _userToken = MutableStateFlow<String?>(null)
-    val userToken: StateFlow<String?>
-        get() = _userToken
-
-    init {
-        fetchUserToken()
-    }
-
-    private fun fetchUserToken() {
-        viewModelScope.launch {
-            val token = getUserTokenUseCase.execute().first()
-            _userToken.value = token
-        }
-    }
 
     fun uploadFoodImage(token: String, image: File) {
         uploadFoodPictureUseCase.invoke(token = token, image = image).onEach { result ->

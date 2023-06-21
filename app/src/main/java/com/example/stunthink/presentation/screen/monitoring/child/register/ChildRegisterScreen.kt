@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +47,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.stunthink.R
 import com.example.stunthink.presentation.component.appbar.BackButtonAppBar
+import com.example.stunthink.presentation.navigation.start.StartViewModel
 import com.example.stunthink.presentation.ui.theme.StunThinkTheme
 import com.example.stunthink.utils.DateUtils.formatDateToIndonesianDate
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
@@ -58,24 +60,8 @@ import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 @Composable
 fun ChildRegisterScreen(
     navController: NavController,
-    childRegisterViewModel: ChildRegisterViewModel = hiltViewModel()
 ) {
     StunThinkTheme {
-        val context = LocalContext.current
-        LaunchedEffect(key1 = context) {
-            childRegisterViewModel.validationEvents.collect { event ->
-                when (event) {
-                    is ChildRegisterViewModel.ValidationEvent.Success -> {
-                        Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                        navController.popBackStack()
-                    }
-                    is ChildRegisterViewModel.ValidationEvent.Failed -> {
-                        Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-
         Scaffold(
             topBar = {
                 BackButtonAppBar(
@@ -84,13 +70,12 @@ fun ChildRegisterScreen(
                 )
             },
             content = { paddingValues ->
-
                 Box(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize()
                 ) {
-                    Content()
+                    Content(navController)
                 }
             }
         )
@@ -101,8 +86,32 @@ fun ChildRegisterScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun Content(
+    navController: NavController,
+    startViewModel: StartViewModel = hiltViewModel(),
     childRegisterViewModel: ChildRegisterViewModel = hiltViewModel()
 ) {
+
+    val context = LocalContext.current
+    val token by startViewModel.userToken.collectAsState()
+
+    LaunchedEffect(key1 = context) {
+        token?.let { token ->
+            childRegisterViewModel.setToken(token)
+        }
+
+        childRegisterViewModel.validationEvents.collect { event ->
+            when (event) {
+                is ChildRegisterViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                    navController.popBackStack()
+                }
+                is ChildRegisterViewModel.ValidationEvent.Failed -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     val childRegisterState = childRegisterViewModel.formState
     val childRegisterSubmitState = childRegisterViewModel.submitState.value
 

@@ -29,6 +29,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.stunthink.R
 import com.example.stunthink.presentation.navigation.ScreenRoute
+import com.example.stunthink.presentation.navigation.start.StartViewModel
 import com.example.stunthink.presentation.ui.theme.Typography
 import com.example.stunthink.utils.getImageFileFromUri
 import kotlinx.coroutines.launch
@@ -49,6 +51,7 @@ import kotlinx.coroutines.launch
 fun CameraScreen(
     navController: NavController,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
+    startViewModel: StartViewModel = hiltViewModel(),
     cameraViewModel: CameraViewModel = hiltViewModel()
 ) {
     val state = cameraViewModel.state.value
@@ -77,7 +80,7 @@ fun CameraScreen(
         }
     }
 
-    val token = cameraViewModel.userToken
+    val token = startViewModel.userToken.collectAsState()
     val selfieUri = cameraViewModel.selfieUri
     val hasPhoto = selfieUri != null
 

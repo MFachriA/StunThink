@@ -80,7 +80,7 @@ fun RegisterScreen(
                 when (event) {
                     is RegisterViewModel.ValidationEvent.Success -> {
                         navController.popBackStack()
-                        Toast.makeText(context, R.string.register_success_message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.register_success_message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
