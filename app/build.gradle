@@ -19,11 +19,11 @@ kotlin {
 }
 
 android {
-    namespace 'com.example.stunthink'
+    namespace 'com.project.stunthink'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.stunthink"
+        applicationId "com.project.stunthink"
         minSdk 24
         targetSdk 33
         versionCode 1
