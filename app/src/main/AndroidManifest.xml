@@ -15,7 +15,7 @@
         android:maxSdkVersion="18" />
 
     <application
-        android:name="com.project.stunthink.StunThinkApplication"
+        android:name="com.projectAnya.stunthink.StunThinkApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
