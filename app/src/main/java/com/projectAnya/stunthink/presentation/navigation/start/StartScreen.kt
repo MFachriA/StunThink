@@ -2,6 +2,7 @@ package com.projectAnya.stunthink.presentation.navigation.start
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,7 +15,8 @@ fun StartScreen(
     navController: NavController,
     viewModel: StartViewModel = hiltViewModel()
 ) {
-    val userToken by viewModel.userToken.collectAsState()
+    val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
 
     StunThinkTheme {
         LaunchedEffect(key1 = userToken) {

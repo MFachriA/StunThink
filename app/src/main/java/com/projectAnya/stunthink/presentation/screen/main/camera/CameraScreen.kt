@@ -29,7 +29,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +60,9 @@ fun CameraScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
+    val userTokenState: State<String?> = startViewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
+
     LaunchedEffect(state) {
         cameraViewModel.validationEvents.collect { event ->
             when (event) {
@@ -80,7 +85,6 @@ fun CameraScreen(
         }
     }
 
-    val token = startViewModel.userToken.collectAsState()
     val selfieUri = cameraViewModel.selfieUri
     val hasPhoto = selfieUri != null
 
@@ -170,7 +174,7 @@ fun CameraScreen(
             }
             Button(
                 onClick = {
-                    token.value?.let { token ->
+                    userToken?.let { token ->
                         getImageFileFromUri(selfieUri ?: Uri.EMPTY, context)?.let {
                             cameraViewModel.uploadFoodImage(
                                 token = token,

@@ -16,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -44,11 +45,13 @@ fun ChildListScreen(
 ) {
     val state = childListViewModel.state.value
     val lifecycleEvent = rememberLifecycleEvent()
-    val token by startViewModel.userToken.collectAsState()
+
+    val userTokenState: State<String?> = startViewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
 
     LaunchedEffect(lifecycleEvent) {
         if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
-            token?.let { token ->
+            userToken?.let { token ->
                 childListViewModel.getChilds(token)
             }
         }

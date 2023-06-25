@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -92,10 +93,12 @@ private fun Content(
 ) {
 
     val context = LocalContext.current
-    val token by startViewModel.userToken.collectAsState()
+
+    val userTokenState: State<String?> = startViewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
 
     LaunchedEffect(key1 = context) {
-        token?.let { token ->
+        userToken?.let { token ->
             childRegisterViewModel.setToken(token)
         }
 

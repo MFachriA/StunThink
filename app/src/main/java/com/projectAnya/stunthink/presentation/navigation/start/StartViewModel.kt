@@ -6,7 +6,7 @@ import com.projectAnya.stunthink.domain.use_case.user.GetUserTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,9 +14,8 @@ import javax.inject.Inject
 class StartViewModel @Inject constructor(
     private val getUserTokenUseCase: GetUserTokenUseCase
 ): ViewModel() {
-    private val _userToken = MutableStateFlow<String?>(null)
-    val userToken: StateFlow<String?>
-        get() = _userToken
+    private val _userTokenState = MutableStateFlow<String?>(null)
+    val userTokenState: StateFlow<String?> = _userTokenState.asStateFlow()
 
     init {
         fetchUserToken()
@@ -24,8 +23,9 @@ class StartViewModel @Inject constructor(
 
     private fun fetchUserToken() {
         viewModelScope.launch {
-            val token = getUserTokenUseCase.execute().first()
-            _userToken.value = token
+            getUserTokenUseCase.execute().collect { token ->
+                _userTokenState.value = token
+            }
         }
     }
 }
