@@ -23,14 +23,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.component.card.NutritionCard
 import com.projectAnya.stunthink.presentation.component.card.NutritionSummaryCard
@@ -38,22 +43,25 @@ import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
-import com.projectAnya.stunthink.utils.DateUtils
 
 @Composable
 fun ChildNutritionScreen(
     navController: NavController,
-    id: String,
     mainViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
     childNutritionViewModel: ChildNutritionViewModel = hiltViewModel()
-    ) {
+) {
     StunThinkTheme {
         val context = LocalContext.current
-        val token = mainViewModel.userToken
+
+        val userTokenState: State<String?> = mainViewModel.userTokenState.collectAsState()
+        val userToken: String? by userTokenState
+
+        val childIdState: State<String> = mainViewModel.childIdState.collectAsState()
+        val childId: String by childIdState
 
         LaunchedEffect(key1 = context) {
-            token.value?.let { token ->
-                childNutritionViewModel.getNutritions(token, id)
+            userToken?.let { token ->
+                childNutritionViewModel.getNutritions(token, childId)
             }
         }
 
@@ -76,11 +84,21 @@ fun ChildNutritionScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
+                    Text(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = "Total Nutrisi Hari Ini",
+                        style = Typography.titleLarge
+                    )
+                }
+                item {
                     NutritionSummaryCard()
                 }
                 item {
                     Text(
-                        modifier = Modifier.padding(vertical = 4.dp),
+                        modifier = Modifier.padding(
+                            top = 16.dp,
+                            bottom = 8.dp
+                        ),
                         text = "Makanan Hari Ini",
                         style = Typography.titleLarge
                     )
@@ -112,7 +130,7 @@ fun ChildNutritionScreen(
                         NutritionCard(
                             image = nutrition.foodUrl,
                             name = nutrition.namaMakanan,
-                            date = DateUtils.formatDateTimeToIndonesianTimeDate(nutrition.timastamp)
+                            date = nutrition.timastamp
                         ) {
                             val food = com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto(
                                 dataGizi = nutrition,
@@ -156,4 +174,12 @@ fun ChildNutritionScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ChildNutritionScreenPreview() {
+    ChildNutritionScreen(
+        navController = rememberNavController()
+    )
 }

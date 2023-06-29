@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.projectAnya.stunthink.utils.DateUtils
 import com.projectAnya.stunthink.utils.StringUtils
@@ -22,7 +23,7 @@ class ChildListViewModel @Inject constructor(
     fun getChilds(token: String) {
         getChildListUseCase(token).onEach { result ->
             when (result) {
-                is com.projectAnya.stunthink.domain.common.Resource.Success -> {
+                is Resource.Success -> {
                     _state.value = ChildListState(childList = result.data?.map {
                         com.projectAnya.stunthink.data.remote.dto.child.ChildDto(
                             id = it.id,
@@ -34,12 +35,12 @@ class ChildListViewModel @Inject constructor(
                         )
                     } ?: emptyList())
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Error -> {
+                is Resource.Error -> {
                     _state.value = ChildListState(
                         error = result.message ?: "An unexpected error occured"
                     )
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Loading -> {
+                is Resource.Loading -> {
                     _state.value = ChildListState(isLoading = true)
                 }
             }

@@ -2,6 +2,12 @@ package com.projectAnya.stunthink.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val capitalino_cactus = Color(0xFF008E4A)
+val green_eliot = Color(0xFF00B960)
+val red_republic = Color(0xFFD80000)
+val red_pentacle = Color(0xFFA60000)
+
+
 val md_theme_light_primary = Color(0xFF00629E)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFCFE5FF)

@@ -12,6 +12,7 @@ import com.projectAnya.stunthink.domain.use_case.education.GetEducationListUseCa
 import com.projectAnya.stunthink.domain.use_case.login.LoginUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildStuntingUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
 import com.projectAnya.stunthink.domain.use_case.register.RegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.user.GetUserTokenUseCase
@@ -153,4 +154,10 @@ object AppModule {
     fun provideChildRegisterUseCase(userRepository: UserRepository): ChildRegisterUseCase {
         return ChildRegisterUseCase(userRepository)
     }
+
+    @Provides
+    fun provideGetChildStuntingUseCase(userRepository: UserRepository): GetChildStuntingUseCase {
+        return GetChildStuntingUseCase(userRepository)
+    }
+
 }

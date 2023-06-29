@@ -294,7 +294,7 @@ fun NutritionContent(
         )
         Text(
             text = desc,
-            style = Typography.bodySmall
+            style = Typography.bodyMedium
         )
     }
 }
@@ -311,7 +311,7 @@ fun NutritionDetailContent(
     ) {
         Text(
             text = desc,
-            style = Typography.titleMedium,
+            style = Typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
         Text(

@@ -13,6 +13,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,6 +37,10 @@ fun ChildMonitoringMainScreen(
     viewModel: ChildMonitoringMainViewModel = hiltViewModel()
 ) {
     val tabIndex = viewModel.tabIndex.observeAsState()
+
+    LaunchedEffect(key1 = id) {
+        viewModel.setChildId(id = id)
+    }
 
     StunThinkTheme {
         Scaffold(
@@ -84,7 +89,7 @@ fun ChildMonitoringMainScreen(
                     }
                 }
                 when (tabIndex.value) {
-                    0 -> ChildNutritionScreen(navController, id)
+                    0 -> ChildNutritionScreen(navController)
                     1 -> ChildStuntingScreen(navController)
                 }
             }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -20,15 +21,15 @@ class ChildNutritionViewModel @Inject constructor(
     fun getNutritions(token: String, id: String) {
         getChildNutritionUseCase(token = token, id = id).onEach { result ->
             when (result) {
-                is com.projectAnya.stunthink.domain.common.Resource.Success -> {
+                is Resource.Success -> {
                     _state.value = ChildNutritionListState(nutritions = result.data ?: emptyList())
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Error -> {
+                is Resource.Error -> {
                     _state.value = ChildNutritionListState(
                         error = result.message ?: "An unexpected error occured"
                     )
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Loading -> {
+                is Resource.Loading -> {
                     _state.value = ChildNutritionListState(isLoading = true)
                 }
             }

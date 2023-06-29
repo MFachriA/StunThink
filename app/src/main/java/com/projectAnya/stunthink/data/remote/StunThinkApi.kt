@@ -6,6 +6,7 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.data.remote.dto.stunting.StuntingDto
 import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -70,5 +71,9 @@ interface StunThinkApi {
         @Header("auth") auth: String
     ): ApiResponse<List<EducationDto>>
 
-
+    @GET("history/stunting/{id}")
+    suspend fun getChildStunting(
+        @Header("auth") auth: String,
+        @Path("id") id: String
+    ): ApiResponse<List<StuntingDto>>
 }

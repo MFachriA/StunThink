@@ -6,6 +6,7 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -44,4 +45,9 @@ interface UserRepository {
         date: String,
         address: String
     ): ApiResponse<Unit>
+
+    suspend fun getChildStunting(
+        token: String,
+        id: String
+    ): ApiResponse<List<Stunting>>
 }

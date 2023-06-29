@@ -110,10 +110,7 @@ fun ApplicationNavHost(
                 }
             )
         ) {
-            ChildNutritionScreen(
-                navController = navController,
-                id = it.arguments?.getString(CHILD_ID_KEY) ?: ""
-            )
+            ChildNutritionScreen(navController = navController)
         }
         composable(
             route = ScreenRoute.ChildStunting.route

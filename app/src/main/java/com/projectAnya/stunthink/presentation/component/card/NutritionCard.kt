@@ -23,6 +23,7 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
+import com.projectAnya.stunthink.utils.DateUtils
 
 @Composable
 fun NutritionCard(
@@ -59,7 +60,7 @@ fun NutritionCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(text = name, style = Typography.labelLarge)
-                Text(text = date, style = Typography.bodyMedium)
+                Text(text = DateUtils.formatDateTimeToIndonesianTimeDate(date), style = Typography.bodyMedium)
             }
             Icon(
                 imageVector = Icons.Default.ChevronRight,
@@ -76,7 +77,7 @@ fun NutritioNCardPreview() {
     StunThinkTheme() {
         NutritionCard(
             name = "Muhammad Fachri Akbar",
-            date = "3 Menit Yang Lalu"
+            date = "2023-06-29T15:32:14.808Z"
         ) { }
     }
 }
@@ -88,7 +89,7 @@ fun NutritioNCardWithImagePreview() {
         NutritionCard(
             image = "https://i0.wp.com/beritajatim.com/wp-content/uploads/2023/01/IMG_20230119_173726.jpg?w=800&ssl=1",
             name = "Muhammad Fachri Akbar",
-            date = "3 Menit Yang Lalu"
+            date = "2023-06-29T15:32:14.808Z"
         ) { }
     }
 }

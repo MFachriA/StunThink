@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.use_case.register.RegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateAddressUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateConfirmationPasswordUseCase
@@ -117,18 +118,18 @@ class RegisterViewModel @Inject constructor(
             address = formState.address
         ).onEach { result ->
             when (result) {
-                is com.projectAnya.stunthink.domain.common.Resource.Success -> {
+                is Resource.Success -> {
                     _state.value = RegisterSubmitState(
                         message = result.message ?: "Register berhasil!"
                     )
                     validationEventChannel.send(ValidationEvent.Success)
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Error -> {
+                is Resource.Error -> {
                     _state.value = RegisterSubmitState(
                         message = result.message ?: "Terjadi kesalahan tak terduga"
                     )
                 }
-                is com.projectAnya.stunthink.domain.common.Resource.Loading -> {
+                is Resource.Loading -> {
                     _state.value = RegisterSubmitState(isLoading = true)
                 }
             }

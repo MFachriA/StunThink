@@ -8,6 +8,8 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.data.remote.dto.stunting.toEntity
+import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -104,6 +106,23 @@ class UserRepositoryImpl @Inject constructor(
             gender = gender,
             address = address,
             date = date
+        )
+    }
+
+    override suspend fun getChildStunting(
+        token: String,
+        id: String
+    ): ApiResponse<List<Stunting>> {
+        val result = api.getChildStunting(
+            auth = token,
+            id = id
+        )
+        return ApiResponse(
+            result.success,
+            result.message,
+            result.data.map {
+                it.toEntity()
+            }
         )
     }
 }
