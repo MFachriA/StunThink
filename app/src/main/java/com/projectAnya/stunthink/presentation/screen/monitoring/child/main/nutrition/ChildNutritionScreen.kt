@@ -76,22 +76,28 @@ fun ChildNutritionScreen(
                     onDragStarted = { },
                     onDragStopped = {
                         mainViewModel.updateTabIndexBasedOnSwipe()
-                    })
+                    }
+                )
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Total Nutrisi Hari Ini",
-                        style = Typography.titleLarge
-                    )
-                }
-                item {
-                    NutritionSummaryCard()
+                    Column {
+                        Text(
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            text = "Total Nutrisi Hari Ini",
+                            style = Typography.titleLarge
+                        )
+                        NutritionSummaryCard()
+                    }
                 }
                 item {
                     Text(

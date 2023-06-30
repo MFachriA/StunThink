@@ -8,7 +8,8 @@ data class StuntingDto(
     val id: String,
     val result: String,
     val timestamp: String,
-    val tinggiBadan: Int
+    val tinggiBadan: Int,
+    val umur: String
 )
 
 fun StuntingDto.toEntity(): Stunting {
@@ -17,6 +18,7 @@ fun StuntingDto.toEntity(): Stunting {
         id = id,
         result = StuntLevel.fromName(result),
         timestamp = timestamp,
-        tinggiBadan = tinggiBadan
+        tinggiBadan = tinggiBadan,
+        umur = umur
     )
 }

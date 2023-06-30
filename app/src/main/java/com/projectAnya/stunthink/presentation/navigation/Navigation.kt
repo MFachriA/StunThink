@@ -9,6 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
+import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
 import com.projectAnya.stunthink.presentation.screen.food.FoodDetailScreen
 import com.projectAnya.stunthink.presentation.screen.login.LoginScreen
@@ -24,6 +27,7 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutri
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
+import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
 import com.projectAnya.stunthink.presentation.screen.welcome.WelcomeScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -121,20 +125,27 @@ fun ApplicationNavHost(
             route = ScreenRoute.FoodDetail.route
         ) {
             val food =
-                navController.previousBackStackEntry?.savedStateHandle?.get<com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto>("food")
+                navController.previousBackStackEntry?.savedStateHandle?.get<FoodDto>("food")
             FoodDetailScreen(navController = navController, food = food)
         }
         composable(
             route = ScreenRoute.EducationDetail.route
         ) {
             val education =
-                navController.previousBackStackEntry?.savedStateHandle?.get<com.projectAnya.stunthink.data.remote.dto.education.EducationDto>("education")
+                navController.previousBackStackEntry?.savedStateHandle?.get<EducationDto>("education")
             EducationDetailScreen(navController = navController, education = education)
         }
         composable(
             route = ScreenRoute.ChildRegister.route
         ) {
             ChildRegisterScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoute.StuntingDetail.route
+        ) {
+            val stunting =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Stunting>("stunting")
+            StuntingDetailScreen(navController = navController, stunting = stunting)
         }
     }
 }

@@ -79,18 +79,30 @@ fun ChildStuntingScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 if (stunting != null) {
                     item {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Column(
+                            modifier = Modifier.padding(bottom = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
                             Text(
-                                modifier = Modifier.padding(bottom = 8.dp),
+                                modifier = Modifier.padding(bottom = 4.dp),
                                 text = "Pengukuran Terakhir",
                                 style = Typography.titleLarge
                             )
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                ChildStuntingContent(
+                                    title = "Level Stunting",
+                                    content = stunting.result.displayName
+                                )
                                 ChildStuntingContent(
                                     title = "Tanggal Pengukuran",
                                     content = DateUtils.formatDateTimeToIndonesianTimeDate(stunting.timestamp)
@@ -101,7 +113,7 @@ fun ChildStuntingScreen(
                                 )
                                 ChildStuntingContent(
                                     title = "Umur",
-                                    content = "482 hari"
+                                    content = stunting.umur
                                 )
                             }
                         }
@@ -110,8 +122,7 @@ fun ChildStuntingScreen(
                 item {
                     Text(
                         modifier = Modifier.padding(
-                            top = 16.dp,
-                            bottom = 8.dp
+                            bottom = 4.dp
                         ),
                         text = "Riwayat Pengukuran Stunting",
                         style = Typography.titleLarge
@@ -151,7 +162,7 @@ fun ChildStuntingScreen(
                                 value = stunting
                             )
                             navController.navigate(
-                                ScreenRoute.FoodDetail.route
+                                ScreenRoute.StuntingDetail.route
                             )
                         }
                     })
