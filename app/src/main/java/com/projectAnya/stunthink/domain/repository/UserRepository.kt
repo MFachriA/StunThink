@@ -50,4 +50,12 @@ interface UserRepository {
         token: String,
         id: String
     ): ApiResponse<List<Stunting>>
+
+    suspend fun addChildFood(
+        token: String,
+        id: String,
+        foodPercentage: Float,
+        foodId: String,
+        foodImageUrl: String?
+    ): ApiResponse<NutritionDto>
 }

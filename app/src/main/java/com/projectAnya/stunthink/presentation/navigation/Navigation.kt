@@ -21,6 +21,7 @@ import com.projectAnya.stunthink.presentation.screen.main.education.EducationScr
 import com.projectAnya.stunthink.presentation.screen.main.education.detail.EducationDetailScreen
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
@@ -146,6 +147,19 @@ fun ApplicationNavHost(
             val stunting =
                 navController.previousBackStackEntry?.savedStateHandle?.get<Stunting>("stunting")
             StuntingDetailScreen(navController = navController, stunting = stunting)
+        }
+        composable(
+            route = ScreenRoute.ChildFoodDetection.route,
+            arguments = listOf(
+                navArgument(CHILD_ID_KEY) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            ChildFoodDetectionScreen(
+                navController = navController,
+                id = it.arguments?.getString(CHILD_ID_KEY)
+            )
         }
     }
 }

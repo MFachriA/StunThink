@@ -33,8 +33,8 @@ class ChildRegisterViewModel @Inject constructor(
 
     private val _state = mutableStateOf(ChildRegisterSubmitState())
     val submitState: State<ChildRegisterSubmitState> = _state
-    private val validationEventChannel = Channel<ValidationEvent>()
 
+    private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
 
     fun setToken(token: String) {

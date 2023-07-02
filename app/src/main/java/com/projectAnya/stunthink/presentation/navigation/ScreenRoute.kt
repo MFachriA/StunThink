@@ -29,5 +29,13 @@ sealed class ScreenRoute(val route: String) {
     object EducationDetail: ScreenRoute(route = "education_detail_screen")
     object ChildRegister: ScreenRoute(route = "child_register_screen")
     object StuntingDetail: ScreenRoute(route = "stunting_detail")
+    object ChildFoodDetection: ScreenRoute(route = "child_food_detection/{$CHILD_ID_KEY}") {
+        fun passId(
+            id: String
+        ): String {
+            return "child_food_detection/$id"
+        }
+    }
+
 
 }

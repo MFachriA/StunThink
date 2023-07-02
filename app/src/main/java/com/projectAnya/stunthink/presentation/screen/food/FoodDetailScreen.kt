@@ -1,36 +1,58 @@
 package com.projectAnya.stunthink.presentation.screen.food
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -39,13 +61,16 @@ import coil.size.Scale
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
+import com.projectAnya.stunthink.presentation.component.divider.DefaultDivider
+import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
 @Composable
 fun FoodDetailScreen(
     navController: NavController,
-    food: FoodDto?
+    food: FoodDto?,
 ) {
     StunThinkTheme {
         Scaffold(
@@ -57,7 +82,7 @@ fun FoodDetailScreen(
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    FoodDetailContent(food)
+                    FoodDetailContent(navController, food)
                 }
             }
         )
@@ -75,28 +100,56 @@ fun FoodDetailScreenPreview() {
 
 @Composable
 fun FoodDetailContent(
-    food: FoodDto?
+    navController: NavController,
+    food: FoodDto?,
+    childViewModel: ChildFoodDetectionViewModel = hiltViewModel(),
+    foodDetailViewModel: FoodDetailViewModel = hiltViewModel()
 ) {
+    val userTokenState: State<String?> = childViewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
+
     var showDetail by rememberSaveable { mutableStateOf(false) }
+
+    val childIdState: State<String?> = childViewModel.childIdState.collectAsState()
+    val childId: String? by childIdState
+
     val detailText = if (showDetail) {
         "Sembunyikan Detail"
     } else {
         "Tampilkan Detail"
     }
+
     val detailIcon = if (showDetail) {
         Icons.Filled.ExpandLess
     } else {
         Icons.Filled.ExpandMore
     }
 
-    food?.let {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(bottom = 16.dp)
-        ) {
-            item {
+    val context = LocalContext.current
+    Toast.makeText(context, childId, Toast.LENGTH_LONG).show()
+
+
+    val submitState = foodDetailViewModel.submitState.value
+
+    LaunchedEffect(key1 = context) {
+        foodDetailViewModel.validationEvents.collect { event ->
+            when (event) {
+                is FoodDetailViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                    navController.navigate(route = ScreenRoute.ChildMonitoringMain.route) {
+                        popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = false }
+                    }
+                }
+                is FoodDetailViewModel.ValidationEvent.Failed -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxHeight()) {
+            food?.let {
                 val imageLink =
                     if (food.image?.isEmpty() == false) food.image else food.dataGizi.foodUrl
                 AsyncImage(
@@ -110,15 +163,15 @@ fun FoodDetailContent(
                     contentDescription = null,
                     modifier = Modifier
                         .height(300.dp)
+                        .padding(bottom = 16.dp)
                         .fillMaxWidth(),
                     contentScale = ContentScale.Crop
                 )
-            }
-            item {
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -275,6 +328,23 @@ fun FoodDetailContent(
                 }
             }
         }
+        if (childId != null) {
+            NutritionBottomBar(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                onClick = {
+                    foodDetailViewModel.onSubmit(
+                        token = userToken!!,
+                        id = childId!!,
+                        foodPercentage = foodDetailViewModel.foodPortionState.value,
+                        foodId = food?.dataGizi?.id!!,
+                        foodImageUrl = food.image
+                    )
+                }
+            )
+        }
+        if (submitState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
     }
 }
 
@@ -318,5 +388,111 @@ fun NutritionDetailContent(
             text = "$amount $unit",
             style = Typography.titleMedium,
         )
+    }
+}
+
+@Composable
+fun NutritionBottomBar(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    foodDetailViewModel: FoodDetailViewModel = hiltViewModel()
+) {
+    val foodPortionState = foodDetailViewModel.foodPortionState.collectAsState()
+    val foodPortion = foodPortionState.value
+
+    Surface(modifier = modifier.zIndex(0f)) {
+        Column {
+            DefaultDivider()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(horizontal = 24.dp)
+                    .heightIn(min = 56.dp)
+            ) {
+                PortionSelector(
+                    count = foodPortion,
+                    decreaseItemCount = {
+                        if (foodPortion > 0)
+                            foodDetailViewModel.updateFoodPortion(foodPortion - 0.5f)
+                    },
+                    increaseItemCount = {
+                        foodDetailViewModel.updateFoodPortion(foodPortion + 0.5f)
+                    }
+                )
+                Spacer(Modifier.width(16.dp))
+                Button(
+                    onClick = { onClick() },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Tambah Makanan",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        maxLines = 1
+                    )
+                }
+            }
+        }
+
+    }
+}
+
+@Composable
+fun PortionSelector(
+    count: Float,
+    decreaseItemCount: () -> Unit,
+    increaseItemCount: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier) {
+        Text(
+            text = "Porsi",
+            modifier = Modifier
+                .padding(end = 18.dp)
+                .align(Alignment.CenterVertically)
+        )
+        IconButton(
+            onClick = decreaseItemCount,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+        ) {
+            Icon(
+                modifier = Modifier.border(
+                    1.dp,
+                    Color.Black,
+                    shape = CircleShape
+                ),
+                imageVector = Icons.Default.Remove,
+                contentDescription = "remove"
+            )
+        }
+        Crossfade(
+            targetState = count,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+        ) {
+            Text(
+                text = "$it",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.widthIn(min = 24.dp)
+            )
+        }
+        IconButton(
+            onClick = increaseItemCount,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+
+        ) {
+            Icon(
+                modifier = Modifier.border(
+                    1.dp,
+                    Color.Black,
+                    shape = CircleShape
+                ),
+                imageVector = Icons.Default.Add,
+                contentDescription = "add"
+            )
+        }
     }
 }

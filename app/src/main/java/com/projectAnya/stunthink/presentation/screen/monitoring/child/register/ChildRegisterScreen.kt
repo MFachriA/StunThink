@@ -91,7 +91,6 @@ private fun Content(
     startViewModel: StartViewModel = hiltViewModel(),
     childRegisterViewModel: ChildRegisterViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current
 
     val userTokenState: State<String?> = startViewModel.userTokenState.collectAsState()

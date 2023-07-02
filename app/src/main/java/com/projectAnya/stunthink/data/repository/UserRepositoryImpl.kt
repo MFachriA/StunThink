@@ -81,7 +81,6 @@ class UserRepositoryImpl @Inject constructor(
         token: String,
         image: File
     ): ApiResponse<FoodDto> {
-
         return api.uploadPhoto(
             auth = token,
             image = MultipartBody.Part
@@ -123,6 +122,22 @@ class UserRepositoryImpl @Inject constructor(
             result.data.map {
                 it.toEntity()
             }
+        )
+    }
+
+    override suspend fun addChildFood(
+        token: String,
+        id: String,
+        foodPercentage: Float,
+        foodId: String,
+        foodImageUrl: String?
+    ): ApiResponse<NutritionDto> {
+        return api.addChildFood(
+            auth = token,
+            id = id,
+            foodPercentage = foodPercentage,
+            foodId = foodId,
+            foodImageUrl = foodImageUrl
         )
     }
 }

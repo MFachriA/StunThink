@@ -156,7 +156,9 @@ fun ChildNutritionScreen(
 
             FloatingActionButton(
                 onClick = {
-                    //OnClick Method
+                    navController.navigate(
+                        ScreenRoute.ChildFoodDetection.passId(childId)
+                    )
                 },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
