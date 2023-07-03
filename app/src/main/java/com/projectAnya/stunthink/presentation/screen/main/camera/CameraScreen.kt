@@ -45,7 +45,6 @@ import coil.request.ImageRequest
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.navigation.start.StartViewModel
-import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.utils.getImageFileFromUri
 import kotlinx.coroutines.launch
@@ -56,7 +55,6 @@ fun CameraScreen(
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
     startViewModel: StartViewModel = hiltViewModel(),
     cameraViewModel: CameraViewModel = hiltViewModel(),
-    childViewModel: ChildFoodDetectionViewModel = hiltViewModel()
 ) {
     val state = cameraViewModel.state.value
     val context = LocalContext.current

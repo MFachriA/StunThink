@@ -1,5 +1,6 @@
 package com.projectAnya.stunthink.domain.use_case.monitoring.child
 
+import android.util.Log
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.repository.UserRepository
@@ -28,6 +29,7 @@ class AddChildFoodUseCase @Inject constructor(
                 foodId = foodId,
                 foodImageUrl = foodImageUrl
             )
+            Log.d("food", food.message)
             emit(Resource.Success(food.success, food.message, food.data))
         } catch(e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))

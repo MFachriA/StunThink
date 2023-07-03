@@ -54,12 +54,15 @@ fun ChildStuntingScreen(
         val userTokenState: State<String?> = mainViewModel.userTokenState.collectAsState()
         val userToken: String? by userTokenState
 
-        val childIdState: State<String> = mainViewModel.childIdState.collectAsState()
-        val childId: String by childIdState
+        val childIdState: State<String?> = mainViewModel.childIdState.collectAsState()
+        val childId: String? by childIdState
 
         LaunchedEffect(key1 = context) {
             userToken?.let { token ->
-                childStuntingViewModel.getStuntings(token, childId)
+                childId?.let { id ->
+                    childStuntingViewModel.getStuntings(token, id)
+
+                }
             }
         }
 

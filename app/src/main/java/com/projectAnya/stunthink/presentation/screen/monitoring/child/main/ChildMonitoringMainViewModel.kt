@@ -18,8 +18,11 @@ class ChildMonitoringMainViewModel @Inject constructor(
     private val getUserTokenUseCase: GetUserTokenUseCase,
 ): ViewModel() {
 
-    private val _childIdState = MutableStateFlow("")
-    val childIdState: StateFlow<String> = _childIdState.asStateFlow()
+    private val _childIdState = MutableStateFlow<String?>(null)
+    val childIdState: StateFlow<String?> = _childIdState.asStateFlow()
+
+    private val _childNameState = MutableStateFlow<String?>(null)
+    val childNameState: StateFlow<String?> = _childNameState.asStateFlow()
 
     private val _userTokenState = MutableStateFlow<String?>(null)
     val userTokenState: StateFlow<String?> = _userTokenState.asStateFlow()
@@ -28,17 +31,20 @@ class ChildMonitoringMainViewModel @Inject constructor(
         fetchUserToken()
     }
 
-    fun setChildId(id: String) {
-        _childIdState.value = id
-    }
-
-
     private fun fetchUserToken() {
         viewModelScope.launch {
             getUserTokenUseCase.execute().collect { token ->
                 _userTokenState.value = token
             }
         }
+    }
+
+    fun setChildId(id: String?) {
+        _childIdState.value = id
+    }
+
+    fun setChildName(name: String?) {
+        _childNameState.value = name
     }
 
     private val _tabIndex: MutableLiveData<Int> = MutableLiveData(0)

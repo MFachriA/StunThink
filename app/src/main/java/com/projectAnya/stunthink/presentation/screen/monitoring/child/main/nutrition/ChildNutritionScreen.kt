@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
+import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.card.NutritionCard
 import com.projectAnya.stunthink.presentation.component.card.NutritionSummaryCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
@@ -50,22 +51,26 @@ fun ChildNutritionScreen(
     mainViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
     childNutritionViewModel: ChildNutritionViewModel = hiltViewModel()
 ) {
-    StunThinkTheme {
-        val context = LocalContext.current
+    val context = LocalContext.current
 
-        val userTokenState: State<String?> = mainViewModel.userTokenState.collectAsState()
-        val userToken: String? by userTokenState
+    val userTokenState: State<String?> = mainViewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
 
-        val childIdState: State<String> = mainViewModel.childIdState.collectAsState()
-        val childId: String by childIdState
+    val childIdState: State<String?> = mainViewModel.childIdState.collectAsState()
+    val childId: String? by childIdState
 
-        LaunchedEffect(key1 = context) {
-            userToken?.let { token ->
-                childNutritionViewModel.getNutritions(token, childId)
+    LaunchedEffect(key1 = context) {
+        userToken?.let { token ->
+            childId?.let { id ->
+                childNutritionViewModel.getNutritions(token, id)
             }
         }
+    }
 
-        val state = childNutritionViewModel.state.value
+    val state = childNutritionViewModel.state.value
+
+    StunThinkTheme {
+
 
         Box(
             modifier = Modifier
@@ -138,7 +143,7 @@ fun ChildNutritionScreen(
                             name = nutrition.namaMakanan,
                             date = nutrition.timastamp
                         ) {
-                            val food = com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto(
+                            val food = FoodDto(
                                 dataGizi = nutrition,
                                 image = ""
                             )
@@ -157,7 +162,7 @@ fun ChildNutritionScreen(
             FloatingActionButton(
                 onClick = {
                     navController.navigate(
-                        ScreenRoute.ChildFoodDetection.passId(childId)
+                        ScreenRoute.ChildFoodDetection.route
                     )
                 },
                 modifier = Modifier

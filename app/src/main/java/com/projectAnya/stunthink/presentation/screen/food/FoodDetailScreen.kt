@@ -63,7 +63,7 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.projectAnya.stunthink.presentation.component.divider.DefaultDivider
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
-import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
@@ -71,6 +71,8 @@ import com.projectAnya.stunthink.presentation.ui.theme.Typography
 fun FoodDetailScreen(
     navController: NavController,
     food: FoodDto?,
+    viewModel: ChildMonitoringMainViewModel = hiltViewModel(),
+    foodDetailViewModel: FoodDetailViewModel = hiltViewModel()
 ) {
     StunThinkTheme {
         Scaffold(
@@ -82,7 +84,12 @@ fun FoodDetailScreen(
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    FoodDetailContent(navController, food)
+                    FoodDetailContent(
+                        navController, 
+                        food,
+                        viewModel,
+                        foodDetailViewModel
+                    )
                 }
             }
         )
@@ -102,15 +109,15 @@ fun FoodDetailScreenPreview() {
 fun FoodDetailContent(
     navController: NavController,
     food: FoodDto?,
-    childViewModel: ChildFoodDetectionViewModel = hiltViewModel(),
+    viewModel: ChildMonitoringMainViewModel = hiltViewModel(),
     foodDetailViewModel: FoodDetailViewModel = hiltViewModel()
 ) {
-    val userTokenState: State<String?> = childViewModel.userTokenState.collectAsState()
+    val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
     val userToken: String? by userTokenState
 
     var showDetail by rememberSaveable { mutableStateOf(false) }
 
-    val childIdState: State<String?> = childViewModel.childIdState.collectAsState()
+    val childIdState: State<String?> = viewModel.childIdState.collectAsState()
     val childId: String? by childIdState
 
     val detailText = if (showDetail) {
@@ -126,8 +133,6 @@ fun FoodDetailContent(
     }
 
     val context = LocalContext.current
-    Toast.makeText(context, childId, Toast.LENGTH_LONG).show()
-
 
     val submitState = foodDetailViewModel.submitState.value
 
@@ -137,7 +142,7 @@ fun FoodDetailContent(
                 is FoodDetailViewModel.ValidationEvent.Success -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
                     navController.navigate(route = ScreenRoute.ChildMonitoringMain.route) {
-                        popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = false }
+                        popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = true } // Set inclusive to true to keep ChildMonitoringMainScreen in the back stack
                     }
                 }
                 is FoodDetailViewModel.ValidationEvent.Failed -> {
@@ -328,7 +333,7 @@ fun FoodDetailContent(
                 }
             }
         }
-        if (childId != null) {
+        if (food?.dataGizi?.id?.isNotEmpty() == true) {
             NutritionBottomBar(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 onClick = {
@@ -336,7 +341,7 @@ fun FoodDetailContent(
                         token = userToken!!,
                         id = childId!!,
                         foodPercentage = foodDetailViewModel.foodPortionState.value,
-                        foodId = food?.dataGizi?.id!!,
+                        foodId = food.dataGizi.id,
                         foodImageUrl = food.image
                     )
                 }

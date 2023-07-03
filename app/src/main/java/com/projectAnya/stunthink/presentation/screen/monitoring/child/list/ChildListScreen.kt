@@ -33,6 +33,7 @@ import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.projectAnya.stunthink.presentation.component.card.ChildCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.navigation.start.StartViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.utils.rememberLifecycleEvent
 
@@ -41,7 +42,8 @@ import com.projectAnya.stunthink.utils.rememberLifecycleEvent
 fun ChildListScreen(
     navController: NavController,
     startViewModel: StartViewModel = hiltViewModel(),
-    childListViewModel: ChildListViewModel = hiltViewModel()
+    childListViewModel: ChildListViewModel = hiltViewModel(),
+    childMonitoringViewModel: ChildMonitoringMainViewModel = hiltViewModel()
 ) {
     val state = childListViewModel.state.value
     val lifecycleEvent = rememberLifecycleEvent()
@@ -91,11 +93,10 @@ fun ChildListScreen(
                                 gender = child.jenisKelamin,
                                 dateOfBirth = child.tanggalLahir
                             ) {
+                                childMonitoringViewModel.setChildId(child.id)
+                                childMonitoringViewModel.setChildName(child.namaLengkap)
                                 navController.navigate(
-                                    route = ScreenRoute.ChildMonitoringMain.passIdAndName(
-                                        id = child.id,
-                                        name = child.namaLengkap
-                                    )
+                                    route = ScreenRoute.ChildMonitoringMain.route
                                 )
                             }
                         })

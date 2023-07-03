@@ -13,7 +13,9 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,15 +34,12 @@ import com.projectAnya.stunthink.presentation.ui.theme.Typography
 @Composable
 fun ChildMonitoringMainScreen(
     navController: NavController,
-    id: String = "",
-    name: String = "",
     viewModel: ChildMonitoringMainViewModel = hiltViewModel()
 ) {
-    val tabIndex = viewModel.tabIndex.observeAsState()
+    val childNameState: State<String?> = viewModel.childNameState.collectAsState()
+    val childName: String? by childNameState
 
-    LaunchedEffect(key1 = id) {
-        viewModel.setChildId(id = id)
-    }
+    val tabIndex = viewModel.tabIndex.observeAsState()
 
     StunThinkTheme {
         Scaffold(
@@ -52,7 +51,7 @@ fun ChildMonitoringMainScreen(
                                 text = stringResource(id = R.string.child_monitoring_title)
                             )
                             Text(
-                                text = name,
+                                text = "$childName",
                                 style = Typography.labelMedium
                             )
                         }
@@ -89,8 +88,8 @@ fun ChildMonitoringMainScreen(
                     }
                 }
                 when (tabIndex.value) {
-                    0 -> ChildNutritionScreen(navController)
-                    1 -> ChildStuntingScreen(navController)
+                    0 -> ChildNutritionScreen(navController, viewModel)
+                    1 -> ChildStuntingScreen(navController, viewModel)
                 }
             }
         }
