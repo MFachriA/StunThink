@@ -10,6 +10,7 @@ import com.projectAnya.stunthink.domain.repository.UserRepository
 import com.projectAnya.stunthink.domain.use_case.child_register.ChildRegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.education.GetEducationListUseCase
 import com.projectAnya.stunthink.domain.use_case.login.LoginUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.child.AddChildStuntingUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildListUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildStuntingUseCase
@@ -20,7 +21,9 @@ import com.projectAnya.stunthink.domain.use_case.user.SaveUserTokenUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateAddressUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateConfirmationPasswordUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateDateUseCase
+import com.projectAnya.stunthink.domain.use_case.validate.ValidateDropDownUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateEmailUseCase
+import com.projectAnya.stunthink.domain.use_case.validate.ValidateHeightUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateNameUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidatePasswordUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidatePlaceOfBirthUseCase
@@ -111,6 +114,16 @@ object AppModule {
     }
 
     @Provides
+    fun provideValidateHeightUseCase(): ValidateHeightUseCase {
+        return ValidateHeightUseCase()
+    }
+
+    @Provides
+    fun provideValidateDropDownUseCase(): ValidateDropDownUseCase {
+        return ValidateDropDownUseCase()
+    }
+
+    @Provides
     fun provideGetUserTokenUseCase(userRepository: UserRepository): GetUserTokenUseCase {
         return GetUserTokenUseCase(userRepository)
     }
@@ -159,5 +172,12 @@ object AppModule {
     fun provideGetChildStuntingUseCase(userRepository: UserRepository): GetChildStuntingUseCase {
         return GetChildStuntingUseCase(userRepository)
     }
+
+    @Provides
+    fun provideAddChildStuntingUseCase(userRepository: UserRepository): AddChildStuntingUseCase {
+        return AddChildStuntingUseCase(userRepository)
+    }
+
+
 
 }

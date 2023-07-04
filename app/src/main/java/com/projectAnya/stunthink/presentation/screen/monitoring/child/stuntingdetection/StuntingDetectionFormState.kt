@@ -1,9 +1,9 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection
 
 data class ChildRegisterFormState(
-    val height: Int = 0,
+    val height: String = "",
     val heightError: String? = null,
-    val supine: Boolean = false,
+    val supine: String = "",
     val supineError: String? = null,
 )
 

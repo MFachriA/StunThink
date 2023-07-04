@@ -140,4 +140,23 @@ class UserRepositoryImpl @Inject constructor(
             foodImageUrl = foodImageUrl
         )
     }
+
+    override suspend fun addChildStunting(
+        token: String,
+        id: String,
+        height: Int,
+        isSupine: Boolean
+    ): ApiResponse<Stunting> {
+        val result =  api.addChildStunting(
+            auth = token,
+            id = id,
+            height = height,
+            isSupine = isSupine
+        )
+        return ApiResponse(
+            result.success,
+            result.message,
+            result.data.toEntity()
+        )
+    }
 }

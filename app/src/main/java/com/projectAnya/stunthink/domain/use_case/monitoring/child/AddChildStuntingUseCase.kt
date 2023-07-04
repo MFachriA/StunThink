@@ -1,7 +1,7 @@
 package com.projectAnya.stunthink.domain.use_case.monitoring.child
 
-import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.domain.common.Resource
+import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -9,26 +9,24 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class AddChildFoodUseCase @Inject constructor(
+class AddChildStuntingUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
     operator fun invoke(
         token: String,
         id: String,
-        foodPercentage: Float,
-        foodId: String,
-        foodImageUrl: String?
-    ): Flow<Resource<NutritionDto>> = flow {
+        height: Int,
+        isSupine: Boolean
+    ): Flow<Resource<Stunting>> = flow {
         try {
             emit(Resource.Loading())
-            val food = userRepository.addChildFood(
+            val stunting = userRepository.addChildStunting(
                 token = token,
                 id = id,
-                foodPercentage = foodPercentage,
-                foodId = foodId,
-                foodImageUrl = foodImageUrl
+                height = height,
+                isSupine = isSupine
             )
-            emit(Resource.Success(food.success, food.message, food.data))
+            emit(Resource.Success(stunting.success, stunting.message, stunting.data))
         } catch(e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))
         } catch(e: IOException) {

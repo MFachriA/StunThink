@@ -142,7 +142,7 @@ fun FoodDetailContent(
                 is FoodDetailViewModel.ValidationEvent.Success -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
                     navController.navigate(route = ScreenRoute.ChildMonitoringMain.route) {
-                        popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = true } // Set inclusive to true to keep ChildMonitoringMainScreen in the back stack
+                        popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = true }
                     }
                 }
                 is FoodDetailViewModel.ValidationEvent.Failed -> {

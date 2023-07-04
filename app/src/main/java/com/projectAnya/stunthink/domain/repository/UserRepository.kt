@@ -58,4 +58,11 @@ interface UserRepository {
         foodId: String,
         foodImageUrl: String?
     ): ApiResponse<NutritionDto>
+
+    suspend fun addChildStunting(
+        token: String,
+        id: String,
+        height: Int,
+        isSupine: Boolean
+    ): ApiResponse<Stunting>
 }

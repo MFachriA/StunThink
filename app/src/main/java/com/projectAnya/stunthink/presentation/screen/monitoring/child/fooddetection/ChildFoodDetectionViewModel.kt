@@ -17,9 +17,6 @@ class ChildFoodDetectionViewModel @Inject constructor(
     private val _userTokenState = MutableStateFlow<String?>(null)
     val userTokenState: StateFlow<String?> = _userTokenState.asStateFlow()
 
-    private val _childIdState = MutableStateFlow<String?>(null)
-    val childIdState: StateFlow<String?> = _childIdState.asStateFlow()
-
     init {
         fetchUserToken()
     }
@@ -30,9 +27,5 @@ class ChildFoodDetectionViewModel @Inject constructor(
                 _userTokenState.value = token
             }
         }
-    }
-
-    fun setChildId(id: String?) {
-        _childIdState.value = id
     }
 }

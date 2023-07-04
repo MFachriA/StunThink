@@ -70,8 +70,6 @@ fun ChildNutritionScreen(
     val state = childNutritionViewModel.state.value
 
     StunThinkTheme {
-
-
         Box(
             modifier = Modifier
                 .fillMaxSize()

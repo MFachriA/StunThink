@@ -23,5 +23,7 @@ sealed class ScreenRoute(val route: String) {
     object StuntingDetail: ScreenRoute(route = "stunting_detail")
     object ChildFoodDetection: ScreenRoute(route = "child_food_detection")
     object ChildMonitoringNavigation: ScreenRoute(route = "child_monitoring_navigation")
+    object ChildStuntingDetection: ScreenRoute(route = "child_stunting_detection")
+
 
 }

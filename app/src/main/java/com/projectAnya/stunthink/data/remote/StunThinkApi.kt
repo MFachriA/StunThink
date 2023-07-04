@@ -87,4 +87,12 @@ interface StunThinkApi {
         @Field("foodUrl") foodImageUrl: String?
     ): ApiResponse<NutritionDto>
 
+    @FormUrlEncoded
+    @POST("history/stunting/{id}")
+    suspend fun addChildStunting(
+        @Header("auth")auth:String,
+        @Path("id") id: String,
+        @Field("tinggiBadan") height: Int,
+        @Field("isTerlentang") isSupine: Boolean
+    ): ApiResponse<StuntingDto>
 }

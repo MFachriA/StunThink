@@ -70,7 +70,7 @@ fun StuntingDetailContent(
                 )
                 ChildStuntingContent(
                     title = "Umur",
-                    content = stunting.umur
+                    content = stunting.umur ?: "-"
                 )
             }
         }

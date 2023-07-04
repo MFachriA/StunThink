@@ -26,7 +26,7 @@ import com.projectAnya.stunthink.utils.DateUtils
 fun StuntingCard(
     modifier: Modifier = Modifier,
     stuntLevel: StuntLevel,
-    height: Int,
+    height: Float,
     date: String,
     onClick: () -> Unit
 ) {
@@ -77,7 +77,7 @@ fun StuntingCardPreview() {
     StunThinkTheme() {
         StuntingCard(
             stuntLevel = StuntLevel.NORMAL,
-            height = 10,
+            height = 10f,
             date = "2023-06-29T15:32:14.808Z"
         ) { }
     }

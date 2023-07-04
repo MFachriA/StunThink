@@ -31,6 +31,7 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.Child
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection.StuntingDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
 import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
 import com.projectAnya.stunthink.presentation.screen.welcome.WelcomeScreen
@@ -195,6 +196,16 @@ fun ApplicationNavHost(
                     navController = navController,
                     food = food,
                     viewModel = childMonitoringMainViewModel
+                )
+            }
+            composable(route = ScreenRoute.ChildStuntingDetection.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.ChildList.route)
+                }
+                val childMonitoringMainViewModel = hiltViewModel<ChildMonitoringMainViewModel>(parentEntry)
+                StuntingDetectionScreen(
+                    navController = navController,
+                    mainViewModel = childMonitoringMainViewModel
                 )
             }
         }

@@ -9,6 +9,6 @@ data class Stunting(
     val id: String,
     val result: StuntLevel,
     val timestamp: String,
-    val tinggiBadan: Int,
-    val umur: String
+    val tinggiBadan: Float,
+    val umur: String?
 ): Parcelable

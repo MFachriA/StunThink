@@ -61,7 +61,6 @@ fun ChildStuntingScreen(
             userToken?.let { token ->
                 childId?.let { id ->
                     childStuntingViewModel.getStuntings(token, id)
-
                 }
             }
         }
@@ -116,7 +115,7 @@ fun ChildStuntingScreen(
                                 )
                                 ChildStuntingContent(
                                     title = "Umur",
-                                    content = stunting.umur
+                                    content = stunting.umur ?: "-"
                                 )
                             }
                         }
@@ -174,7 +173,7 @@ fun ChildStuntingScreen(
 
             FloatingActionButton(
                 onClick = {
-                    //OnClick Method
+                    navController.navigate(ScreenRoute.ChildStuntingDetection.route)
                 },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
