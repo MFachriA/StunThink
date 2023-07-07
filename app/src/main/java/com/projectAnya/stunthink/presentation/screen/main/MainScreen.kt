@@ -30,9 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.projectAnya.stunthink.R
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.navigation.start.StartViewModel
 import com.projectAnya.stunthink.presentation.screen.main.camera.CameraScreen
 import com.projectAnya.stunthink.presentation.screen.main.education.EducationScreen
@@ -66,6 +66,7 @@ fun MainScreen(
     LaunchedEffect(key1 = userToken) {
         userToken?.let { token ->
             mainViewModel.getEducationList(token)
+            mainViewModel.getUserDetail(token)
         }
     }
 

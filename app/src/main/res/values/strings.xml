@@ -3,7 +3,7 @@
     <string name="login">Masuk</string>
     <string name="register">Daftar</string>
     <string name="logout">Keluar</string>
-    <string name="welcome_title">Selamat Datang di Stunthink</string>
+    <string name="welcome_title">Selamat Datang di StunThink</string>
     <string name="welcome_message">Ayo, daftar sekarang untuk monitor gizi \n dan bantu cegah anak anda dari stunting.</string>
     <string name="login_page_title">Masukkan Akun</string>
     <string name="login_title">Selamat Datang Kembali</string>

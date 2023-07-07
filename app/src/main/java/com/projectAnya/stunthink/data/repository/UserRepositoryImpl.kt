@@ -9,6 +9,7 @@ import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.stunting.toEntity
+import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -57,6 +58,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserToken(): Flow<String?> {
         return userPreferences.userTokenFlow
+    }
+    override suspend fun getUserDetail(token: String): ApiResponse<UserDto> {
+        return api.getUserDetail(token)
     }
 
     override suspend fun getChildList(token: String): ApiResponse<List<ChildDto>> {

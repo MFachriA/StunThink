@@ -26,9 +26,9 @@ fun EducationScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    StunThinkTheme {
-        val state = viewModel.state.value
+    val state = viewModel.educationState.value
 
+    StunThinkTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
                 modifier = Modifier.padding(horizontal = 16.dp),

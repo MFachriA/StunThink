@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+    
     private val deleteUserTokenUseCase: DeleteUserTokenUseCase
 ): ViewModel() {
     fun deleteUserToken() {

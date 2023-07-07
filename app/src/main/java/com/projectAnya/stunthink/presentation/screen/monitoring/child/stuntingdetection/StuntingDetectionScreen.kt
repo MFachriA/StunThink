@@ -41,7 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
 import com.projectAnya.stunthink.R
+import com.projectAnya.stunthink.data.remote.dto.height.HeightDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
@@ -51,8 +55,9 @@ import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 @Composable
 fun StuntingDetectionScreen(
     navController: NavController,
+    height: HeightDto?,
     mainViewModel: ChildMonitoringMainViewModel = hiltViewModel()
-    ) {
+) {
     StunThinkTheme {
         Scaffold(
             topBar = {
@@ -67,7 +72,7 @@ fun StuntingDetectionScreen(
                         .padding(paddingValues)
                         .fillMaxSize()
                 ) {
-                    Content(navController, mainViewModel)
+                    Content(navController, height, mainViewModel)
                 }
             }
         )
@@ -79,6 +84,7 @@ fun StuntingDetectionScreen(
 @Composable
 private fun Content(
     navController: NavController,
+    height: HeightDto?,
     mainViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
     stuntingViewModel: StuntingDetectionViewModel = hiltViewModel()
 ) {
@@ -89,6 +95,10 @@ private fun Content(
 
     LaunchedEffect(key1 = context) {
         stuntingViewModel.setChildId(token = childId)
+
+        height?.let {
+            stuntingViewModel.onEvent(StuntingDetectionFormEvent.HeightChanged(height = height.toString()))
+        }
 
         stuntingViewModel.validationEvents.collect { event ->
             when (event) {
@@ -118,83 +128,103 @@ private fun Content(
     )
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth(),
     ) {
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            OutlinedTextField(
-                value = stuntingDetectionState.height,
-                onValueChange = { stuntingViewModel.onEvent(StuntingDetectionFormEvent.HeightChanged(it)) },
-                modifier = Modifier.fillMaxWidth(),
-                isError = stuntingDetectionState.heightError != null,
-                label = { Text(text = "Tinggi Anak") },
-                placeholder = { Text(text = "Masukkan tinggi anak") },
-                suffix = { Text(text = "cm") },
-                supportingText = stuntingDetectionState.heightError?.let {
-                    { Text(text = stuntingDetectionState.heightError) }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                    ,
-                    keyboardType = KeyboardType.NumberPassword
-                ),
-                maxLines = 1
-            )
-            ExposedDropdownMenuBox(
-                modifier = Modifier.fillMaxWidth(),
-                expanded = expanded,
-                onExpandedChange = {
-                    expanded = !expanded
-                }
-            ) {
-                OutlinedTextField(
-                    value = stuntingDetectionState.supine,
-                    onValueChange = {},
-                    readOnly = true,
-                    isError = stuntingDetectionState.heightError != null,
-                    label = { Text(text = "Posisi Pengukuran") },
-                    placeholder = { Text(text = "Masukkan posisi pengukuran") },
-                    supportingText =
-                    stuntingDetectionState.heightError?.let {
-                        { Text(text = stuntingDetectionState.heightError) }
-                    } ?: run {
-                        { Text(text = "Posisi anak ketika tingginya diukur") }
-                    },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    modifier = Modifier.menuAnchor()
-                )
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    supineOptions.forEach { item ->
-                        DropdownMenuItem(
-                            text = { Text(text = item) },
-                            onClick = {
-                                stuntingViewModel.onEvent(
-                                    StuntingDetectionFormEvent.SupineChanged(item)
-                                )
-                                expanded = false
-                                Toast.makeText(context, stuntingDetectionState.supine, Toast.LENGTH_LONG).show()
-                            }
-                        )
-                    }
-                }
-            }
-            Text(text = "atau")
-            Button(
-                onClick = {  },
+        height?.let {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(height.image_url)
+                    .placeholder(R.drawable.stunthink_logo_background)
+                    .error(R.drawable.stunthink_logo_background)
+                    .crossfade(true)
+                    .scale(Scale.FILL)
+                    .build(),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Foto Tinggi anak")
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = stuntingDetectionState.height,
+                    onValueChange = { stuntingViewModel.onEvent(StuntingDetectionFormEvent.HeightChanged(it)) },
+                    isError = stuntingDetectionState.heightError != null,
+                    label = { Text(text = "Tinggi Anak") },
+                    placeholder = { Text(text = "Masukkan tinggi anak") },
+                    suffix = { Text(text = "cm") },
+                    supportingText = stuntingDetectionState.heightError?.let {
+                        { Text(text = stuntingDetectionState.heightError) }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                        ,
+                        keyboardType = KeyboardType.NumberPassword
+                    ),
+                    maxLines = 1
+                )
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = {
+                        expanded = !expanded
+                    }
+                ) {
+                    OutlinedTextField(
+                        value = stuntingDetectionState.supine,
+                        onValueChange = {},
+                        readOnly = true,
+                        isError = stuntingDetectionState.supineError != null,
+                        label = { Text(text = "Posisi Pengukuran") },
+                        placeholder = { Text(text = "Masukkan posisi pengukuran") },
+                        supportingText =
+                        stuntingDetectionState.supineError?.let {
+                            { Text(text = it) }
+                        } ?: run {
+                            { Text(text = "Posisi anak ketika tingginya diukur") }
+                        },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth()
+                    )
+                    ExposedDropdownMenu(
+                        modifier = Modifier.exposedDropdownSize(true),
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        supineOptions.forEach { item ->
+                            DropdownMenuItem(
+                                text = { Text(text = item) },
+                                onClick = {
+                                    stuntingViewModel.onEvent(
+                                        StuntingDetectionFormEvent.SupineChanged(item)
+                                    )
+                                    expanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+                Button(
+                    onClick = { stuntingViewModel.onEvent(StuntingDetectionFormEvent.Submit) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                ) {
+                    Text(text = "Selesai")
+                }
             }
         }
     }
@@ -214,6 +244,7 @@ private fun Content(
 @Composable
 fun StuntingDetectionScreenPreview() {
     StuntingDetectionScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        height = null
     )
 }

@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
-import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.R
+import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
 @Composable
 fun EducationCard(

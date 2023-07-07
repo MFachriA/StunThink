@@ -2,10 +2,13 @@ package com.projectAnya.stunthink.domain.di
 
 import android.app.Application
 import android.content.Context
-import com.projectAnya.stunthink.domain.common.Constants
 import com.projectAnya.stunthink.data.preferences.UserPreferences
+import com.projectAnya.stunthink.data.remote.HeightDetectionApi
 import com.projectAnya.stunthink.data.remote.StunThinkApi
+import com.projectAnya.stunthink.data.repository.HeightDetectionRepositoryImpl
 import com.projectAnya.stunthink.data.repository.UserRepositoryImpl
+import com.projectAnya.stunthink.domain.common.Constants
+import com.projectAnya.stunthink.domain.repository.HeightDetectionRepository
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import com.projectAnya.stunthink.domain.use_case.child_register.ChildRegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.education.GetEducationListUseCase
@@ -15,6 +18,7 @@ import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildListUs
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildNutritionUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildStuntingUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.height_detection.UploadHeightPictureUseCase
 import com.projectAnya.stunthink.domain.use_case.register.RegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.projectAnya.stunthink.domain.use_case.user.SaveUserTokenUseCase
@@ -57,6 +61,16 @@ object AppModule {
             .create(StunThinkApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideHeightDetectionApi(): HeightDetectionApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.HEIGHT_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(HeightDetectionApi::class.java)
+    }
+
     // PREFERENCES
     @Provides
     @Singleton
@@ -69,6 +83,12 @@ object AppModule {
     @Singleton
     fun provideUserRepository(api: StunThinkApi, userPreferences: UserPreferences): UserRepository {
         return UserRepositoryImpl(api, userPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHeightDetectionRepository(api: HeightDetectionApi): HeightDetectionRepository {
+        return HeightDetectionRepositoryImpl(api)
     }
 
     // CAMERA
@@ -178,6 +198,9 @@ object AppModule {
         return AddChildStuntingUseCase(userRepository)
     }
 
-
+    @Provides
+    fun provideUploadHeightPictureUseCase(heightDetectionRepository: HeightDetectionRepository): UploadHeightPictureUseCase {
+        return UploadHeightPictureUseCase(heightDetectionRepository)
+    }
 
 }

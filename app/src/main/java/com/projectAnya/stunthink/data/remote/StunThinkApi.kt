@@ -7,6 +7,7 @@ import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.stunting.StuntingDto
+import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import okhttp3.MultipartBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -37,6 +38,11 @@ interface StunThinkApi {
         @Field("tanggalLahir") date: String,
         @Field("jenisKelamin") gender: String
     ): ApiResponse<Unit>
+
+    @GET("user")
+    suspend fun getUserDetail(
+        @Header("auth") auth: String
+    ): ApiResponse<UserDto>
 
     @FormUrlEncoded
     @POST("anak")

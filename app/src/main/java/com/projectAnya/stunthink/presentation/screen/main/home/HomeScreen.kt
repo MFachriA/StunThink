@@ -36,7 +36,7 @@ fun HomeScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     StunThinkTheme {
-        val state = viewModel.state.value
+        val state = viewModel.educationState.value
 
         Box(modifier = Modifier
             .padding(horizontal = 16.dp)

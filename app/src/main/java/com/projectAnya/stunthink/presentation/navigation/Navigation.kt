@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
+import com.projectAnya.stunthink.data.remote.dto.height.HeightDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
@@ -24,6 +25,7 @@ import com.projectAnya.stunthink.presentation.screen.main.education.EducationScr
 import com.projectAnya.stunthink.presentation.screen.main.education.detail.EducationDetailScreen
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.StuntingCameraScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
@@ -198,13 +200,26 @@ fun ApplicationNavHost(
                     viewModel = childMonitoringMainViewModel
                 )
             }
+            composable(route = ScreenRoute.ChildStuntingCamera.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.ChildList.route)
+                }
+                val childMonitoringMainViewModel = hiltViewModel<ChildMonitoringMainViewModel>(parentEntry)
+                StuntingCameraScreen(
+                    navController = navController,
+                    mainViewModel = childMonitoringMainViewModel
+                )
+            }
             composable(route = ScreenRoute.ChildStuntingDetection.route) { backStackEntry ->
+                val height =
+                    navController.previousBackStackEntry?.savedStateHandle?.get<HeightDto>("height")
                 val parentEntry = remember(backStackEntry) {
                     navController.getBackStackEntry(ScreenRoute.ChildList.route)
                 }
                 val childMonitoringMainViewModel = hiltViewModel<ChildMonitoringMainViewModel>(parentEntry)
                 StuntingDetectionScreen(
                     navController = navController,
+                    height = height,
                     mainViewModel = childMonitoringMainViewModel
                 )
             }

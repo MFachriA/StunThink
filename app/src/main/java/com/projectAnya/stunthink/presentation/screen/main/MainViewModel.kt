@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.use_case.education.GetEducationListUseCase
+import com.projectAnya.stunthink.domain.use_case.user.GetUserDetailUseCase
 import com.projectAnya.stunthink.presentation.screen.main.education.EducationState
+import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileState
 import com.projectAnya.stunthink.utils.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getEducationListUseCase: GetEducationListUseCase
+    private val getEducationListUseCase: GetEducationListUseCase,
+    private val getUserDetailUseCase: GetUserDetailUseCase
 ): ViewModel() {
 
     private val _selectedMenu = mutableStateOf(0)
@@ -27,15 +30,18 @@ class MainViewModel @Inject constructor(
     fun changeSelectedMenu(int: Int) {
         _selectedMenu.value = int
     }
-    private val _state = mutableStateOf(EducationState())
 
-    val state: State<EducationState> = _state
+    private val _educationState = mutableStateOf(EducationState())
+    val educationState: State<EducationState> = _educationState
+
+    private val _profileState = mutableStateOf(ProfileState())
+    val profileState: State<ProfileState> = _profileState
 
     fun getEducationList(token: String) {
         getEducationListUseCase(token).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = EducationState(educationList = result.data?.map {
+                    _educationState.value = EducationState(educationList = result.data?.map {
                         EducationDto(
                             author = it.author,
                             content = it.content,
@@ -48,12 +54,30 @@ class MainViewModel @Inject constructor(
                     } ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = EducationState(
+                    _educationState.value = EducationState(
                         error = result.message ?: "An unexpected error occured"
                     )
                 }
                 is Resource.Loading -> {
-                    _state.value = EducationState(isLoading = true)
+                    _educationState.value = EducationState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getUserDetail(token: String) {
+        getUserDetailUseCase(token).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _profileState.value = ProfileState(userDetail = result.data)
+                }
+                is Resource.Error -> {
+                    _profileState.value = ProfileState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
+                }
+                is Resource.Loading -> {
+                    _profileState.value = ProfileState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

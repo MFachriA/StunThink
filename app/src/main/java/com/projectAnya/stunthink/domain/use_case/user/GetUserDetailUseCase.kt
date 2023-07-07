@@ -1,6 +1,6 @@
-package com.projectAnya.stunthink.domain.use_case.login
+package com.projectAnya.stunthink.domain.use_case.user
 
-import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
+import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -9,14 +9,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+class GetUserDetailUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(email: String, password: String): Flow<Resource<LoginDto>> = flow {
+    operator fun invoke(token: String): Flow<Resource<UserDto>> = flow {
         try {
             emit(Resource.Loading())
-            val login = userRepository.login(email, password)
-            emit(Resource.Success(login.success, login.message, login.data))
+            val userDetail = userRepository.getUserDetail(token)
+            emit(Resource.Success(userDetail.success, userDetail.message, userDetail.data))
         } catch(e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))
         } catch(e: IOException) {

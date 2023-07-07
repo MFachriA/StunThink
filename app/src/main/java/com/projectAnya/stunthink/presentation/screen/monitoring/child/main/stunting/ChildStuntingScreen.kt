@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.DesignServices
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,15 +29,23 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.projectAnya.stunthink.R
+import com.projectAnya.stunthink.presentation.component.bottomsheet.DefaultBottomSheet
 import com.projectAnya.stunthink.presentation.component.card.StuntingCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
@@ -57,6 +68,7 @@ fun ChildStuntingScreen(
         val childIdState: State<String?> = mainViewModel.childIdState.collectAsState()
         val childId: String? by childIdState
 
+
         LaunchedEffect(key1 = context) {
             userToken?.let { token ->
                 childId?.let { id ->
@@ -67,6 +79,8 @@ fun ChildStuntingScreen(
 
         val state = childStuntingViewModel.state.value
         val stunting = state.stuntings.firstOrNull()
+
+        var sheetState by remember { mutableStateOf(false) }
 
         Box(
             modifier = Modifier
@@ -173,7 +187,7 @@ fun ChildStuntingScreen(
 
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(ScreenRoute.ChildStuntingDetection.route)
+                    sheetState = true
                 },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -182,7 +196,7 @@ fun ChildStuntingScreen(
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Add,
+                    imageVector = Icons.Rounded.DesignServices,
                     contentDescription = "Add",
                     tint = Color.White,
                 )
@@ -194,6 +208,46 @@ fun ChildStuntingScreen(
                 CircularProgressIndicator(modifier = Modifier
                     .align(Alignment.Center)
                 )
+            }
+        }
+
+        DefaultBottomSheet(
+            title = "Ukur Stunting",
+            isOpened = sheetState,
+            onDismissRequest = { sheetState = false }
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    append("Dibutuhkan ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("tinggi anak ")
+                    }
+                    append("untuk melakukan pengukuran stunting, pilih cara untuk mengukur tinggi anak:")
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Column {
+                Button(
+                    onClick = {
+                        navController.navigate(ScreenRoute.ChildStuntingCamera.route)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                ) {
+                    Text(text = "Foto Tinggi Anak")
+                }
+                Button(
+                    onClick = {
+                        navController.navigate(ScreenRoute.ChildStuntingDetection.route)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary,)
+                ) {
+                    Text(text = "Ukur Manual")
+                }
             }
         }
     }

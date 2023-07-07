@@ -6,6 +6,7 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -25,6 +26,8 @@ interface UserRepository {
     suspend fun saveUserToken(token: String)
     suspend fun deleteUserToken()
     fun getUserToken(): Flow<String?>
+    suspend fun getUserDetail(token: String): ApiResponse<UserDto>
+
     suspend fun getChildList(token: String): ApiResponse<List<ChildDto>>
     suspend fun getEducationList(token: String): ApiResponse<List<EducationDto>>
 
