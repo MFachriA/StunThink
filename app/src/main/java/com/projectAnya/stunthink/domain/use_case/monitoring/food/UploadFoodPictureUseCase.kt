@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.domain.use_case.monitoring.food_detection
+package com.projectAnya.stunthink.domain.use_case.monitoring.food
 
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.domain.common.Resource

@@ -66,7 +66,7 @@ fun HomeScreen(
                         description = "Belum ada data ibu",
                         buttonText = "Tambah Data ibu"
                     ) {
-
+                        navController.navigate(route = ScreenRoute.MotherMonitoringMain.route)
                     }
                 }
                 item {

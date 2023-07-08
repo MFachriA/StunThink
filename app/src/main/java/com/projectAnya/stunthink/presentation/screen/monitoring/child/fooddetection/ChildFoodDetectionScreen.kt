@@ -37,7 +37,7 @@ fun ChildFoodDetectionScreen(
                     CameraScreen(
                         navController = navController,
                         snackbarHostState = snackbarHostState,
-
+                        childViewModel = viewModel
                     )
                 }
             },

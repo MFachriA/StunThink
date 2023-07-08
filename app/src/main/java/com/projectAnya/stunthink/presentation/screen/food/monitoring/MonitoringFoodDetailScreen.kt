@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.food
+package com.projectAnya.stunthink.presentation.screen.food.monitoring
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -16,12 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,37 +46,27 @@ import coil.size.Scale
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
+import com.projectAnya.stunthink.presentation.component.content.nutrition.NutritionBottomBar
 import com.projectAnya.stunthink.presentation.component.content.nutrition.NutritionContent
 import com.projectAnya.stunthink.presentation.component.content.nutrition.NutritionDetailContent
-import com.projectAnya.stunthink.presentation.component.dialog.ConfirmationDeleteDialog
+import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
 @Composable
-fun FoodDetailScreen(
+fun MonitoringFoodDetailScreen(
     navController: NavController,
     food: FoodDto?,
-    viewModel: FoodDetailViewModel = hiltViewModel()
+    viewModel: ChildMonitoringMainViewModel = hiltViewModel(),
+    foodDetailViewModel: MonitoringFoodDetailViewModel = hiltViewModel()
 ) {
     StunThinkTheme {
         Scaffold(
             topBar = {
                 BackButtonAppBar(
                     title = "Detail Makanan",
-                    navigationOnClick = { navController.popBackStack() },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                viewModel.uploadDialogState(true)
-                            },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "delete"
-                                )
-                            }
-                        )
-                    }
+                    navigationOnClick = { navController.popBackStack() }
                 )
             },
             content = { paddingValues ->
@@ -86,7 +74,8 @@ fun FoodDetailScreen(
                     FoodDetailContent(
                         navController, 
                         food,
-                        viewModel
+                        viewModel,
+                        foodDetailViewModel
                     )
                 }
             }
@@ -97,7 +86,7 @@ fun FoodDetailScreen(
 @Preview(showBackground = true)
 @Composable
 fun FoodDetailScreenPreview() {
-    FoodDetailScreen(
+    MonitoringFoodDetailScreen(
         navController = rememberNavController(),
         null
     )
@@ -107,9 +96,19 @@ fun FoodDetailScreenPreview() {
 fun FoodDetailContent(
     navController: NavController,
     food: FoodDto?,
-    viewModel: FoodDetailViewModel = hiltViewModel()
+    viewModel: ChildMonitoringMainViewModel = hiltViewModel(),
+    foodDetailViewModel: MonitoringFoodDetailViewModel = hiltViewModel()
 ) {
+    val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
+    val userToken: String? by userTokenState
+
     var showDetail by rememberSaveable { mutableStateOf(false) }
+
+    val childIdState: State<String?> = viewModel.childIdState.collectAsState()
+    val childId: String? by childIdState
+
+    val foodPortionState = foodDetailViewModel.foodPortionState.collectAsState()
+    val foodPortion = foodPortionState.value
 
     val detailText = if (showDetail) {
         "Sembunyikan Detail"
@@ -123,31 +122,27 @@ fun FoodDetailContent(
         Icons.Filled.ExpandMore
     }
 
-    val deleteDialogState: State<Boolean> = viewModel.deleteDialogState.collectAsState()
-    val deleteDialog: Boolean by deleteDialogState
-
     val context = LocalContext.current
-    val submitState = viewModel.submitState.value
 
-
+    val submitState = foodDetailViewModel.submitState.value
 
     LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
+        foodDetailViewModel.validationEvents.collect { event ->
             when (event) {
-                is FoodDetailViewModel.ValidationEvent.Success -> {
-                    Toast.makeText(
-                        context,
-                        event.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    navController.popBackStack()
+                is MonitoringFoodDetailViewModel.ValidationEvent.Success -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
+                    if (childId == null) {
+                        navController.navigate(route = ScreenRoute.MotherMonitoringMain.route) {
+                            popUpTo(ScreenRoute.MotherMonitoringMain.route) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(route = ScreenRoute.ChildMonitoringMain.route) {
+                            popUpTo(ScreenRoute.ChildMonitoringMain.route) { inclusive = true }
+                        }
+                    }
                 }
-                is FoodDetailViewModel.ValidationEvent.Failed -> {
-                    Toast.makeText(
-                        context,
-                        "Kesalahan terjadi, mohon ulangi kembali",
-                        Toast.LENGTH_LONG
-                    ).show()
+                is MonitoringFoodDetailViewModel.ValidationEvent.Failed -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -193,22 +188,22 @@ fun FoodDetailContent(
                             .SpaceAround,
                     ) {
                         NutritionContent(
-                            amount = food.dataGizi.Energi,
+                            amount = food.dataGizi.Energi * foodPortion,
                             unit = "kkal",
                             desc = "Kalori"
                         )
                         NutritionContent(
-                            amount = food.dataGizi.Karbohidrat,
+                            amount = food.dataGizi.Karbohidrat * foodPortion,
                             unit = "g",
                             desc = "Karbohidrat"
                         )
                         NutritionContent(
-                            amount = food.dataGizi.Protein,
+                            amount = food.dataGizi.Protein * foodPortion,
                             unit = "g",
                             desc = "Protein"
                         )
                         NutritionContent(
-                            amount = food.dataGizi.Lemak,
+                            amount = food.dataGizi.Lemak * foodPortion,
                             unit = "g",
                             desc = "Lemak"
                         )
@@ -245,87 +240,87 @@ fun FoodDetailContent(
                                 textAlign = TextAlign.Start
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Energi,
+                                amount = food.dataGizi.Energi * foodPortion,
                                 unit = "kkal",
                                 desc = "Kalori"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Karbohidrat,
+                                amount = food.dataGizi.Karbohidrat * foodPortion,
                                 unit = "g",
                                 desc = "Karbohidrat"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Protein,
+                                amount = food.dataGizi.Protein * foodPortion,
                                 unit = "g",
                                 desc = "Protein"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Lemak,
+                                amount = food.dataGizi.Lemak * foodPortion,
                                 unit = "g",
                                 desc = "Lemak"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Serat,
+                                amount = food.dataGizi.Serat * foodPortion,
                                 unit = "g",
                                 desc = "Serat"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Air,
+                                amount = food.dataGizi.Air * foodPortion,
                                 unit = "ml",
                                 desc = "Air"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Ca,
+                                amount = food.dataGizi.Ca * foodPortion,
                                 unit = "g",
                                 desc = "Kalsium"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Zn2,
+                                amount = food.dataGizi.Zn2 * foodPortion,
                                 unit = "g",
                                 desc = "Zat Besi"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Serat,
+                                amount = food.dataGizi.Serat * foodPortion,
                                 unit = "g",
                                 desc = "Zinc"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Ka,
+                                amount = food.dataGizi.Ka * foodPortion,
                                 unit = "g",
                                 desc = "Kalium"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Na,
+                                amount = food.dataGizi.Na * foodPortion,
                                 unit = "g",
                                 desc = "Natrium"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.Cu,
+                                amount = food.dataGizi.Cu * foodPortion,
                                 unit = "g",
                                 desc = "Tembaga"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.VitA,
+                                amount = food.dataGizi.VitA * foodPortion,
                                 unit = "mg",
                                 desc = "Vitamin A"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.VitB1,
+                                amount = food.dataGizi.VitB1 * foodPortion,
                                 unit = "mg",
                                 desc = "Vitamin B1"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.VitB2,
+                                amount = food.dataGizi.VitB2 * foodPortion,
                                 unit = "mg",
                                 desc = "Vitamin B2"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.VitB3,
+                                amount = food.dataGizi.VitB3 * foodPortion,
                                 unit = "mg",
                                 desc = "Vitamin B3"
                             )
                             NutritionDetailContent(
-                                amount = food.dataGizi.VitC,
+                                amount = food.dataGizi.VitC * foodPortion,
                                 unit = "mg",
                                 desc = "Vitamin C"
                             )
@@ -334,28 +329,41 @@ fun FoodDetailContent(
                 }
             }
         }
-
+        userToken?.let { token ->
+            food?.let {
+                NutritionBottomBar(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    onClick = {
+                        if (childId == null) {
+                            foodDetailViewModel.submitMotherFood(
+                                token = token,
+                                foodPercentage = foodDetailViewModel.foodPortionState.value,
+                                foodId = it.dataGizi.id,
+                                foodImageUrl = it.image
+                            )
+                        } else {
+                            foodDetailViewModel.submitChildFood(
+                                token = token,
+                                id = childId!!,
+                                foodPercentage = foodDetailViewModel.foodPortionState.value,
+                                foodId = it.dataGizi.id,
+                                foodImageUrl = it.image
+                            )
+                        }
+                    },
+                    portion = foodPortion,
+                    decreaseCallback = {
+                        if (foodPortion > 0)
+                            foodDetailViewModel.updateFoodPortion(foodPortion - 0.25f)
+                    },
+                    increaseCallback = {
+                        foodDetailViewModel.updateFoodPortion(foodPortion + 0.25f)
+                    }
+                )
+            }
+        }
         if (submitState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
-
-        ConfirmationDeleteDialog(
-            isOpen = deleteDialog,
-            onDismissRequest = {
-                viewModel.uploadDialogState(false)
-            },
-            onConfirmButton = {
-                food?.let { food ->
-                    viewModel.uploadDialogState(false)
-                    viewModel.submitChildFood(food.dataGizi.id)
-                }
-            },
-            onDismissButton = {
-                viewModel.uploadDialogState(false)
-            },
-            title = "Hapus Makanan",
-            text = "Apakah kamu yakin ingin menghapus makanan ini?"
-        )
     }
 }
-

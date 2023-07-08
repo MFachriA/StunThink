@@ -23,7 +23,7 @@ data class NutritionDto(
     val VitB3: Float,
     val VitC: Float,
     val Zn2: Float,
-    val anakId: String,
+    val anakId: String?,
     val ibuId: String,
     val id: String,
     val namaMakanan: String,

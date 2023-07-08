@@ -1,6 +1,7 @@
 package com.projectAnya.stunthink.presentation.screen.main.camera
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -45,6 +46,7 @@ import coil.request.ImageRequest
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.navigation.start.StartViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.utils.getImageFileFromUri
 import kotlinx.coroutines.launch
@@ -53,8 +55,9 @@ import kotlinx.coroutines.launch
 fun CameraScreen(
     navController: NavController,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
+    childViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
     startViewModel: StartViewModel = hiltViewModel(),
-    cameraViewModel: CameraViewModel = hiltViewModel(),
+    cameraViewModel: CameraViewModel = hiltViewModel()
 ) {
     val state = cameraViewModel.state.value
     val context = LocalContext.current
@@ -62,6 +65,9 @@ fun CameraScreen(
 
     val userTokenState: State<String?> = startViewModel.userTokenState.collectAsState()
     val userToken: String? by userTokenState
+
+    val childIdState: State<String?> = childViewModel.childIdState.collectAsState()
+    val childId: String? by childIdState
 
     LaunchedEffect(state) {
         cameraViewModel.validationEvents.collect { event ->
@@ -71,7 +77,11 @@ fun CameraScreen(
                         key = "food",
                         value = event.food
                     )
-                    navController.navigate(route = ScreenRoute.FoodDetail.route)
+                    if (childId.isNullOrEmpty()) {
+                        navController.navigate(route = ScreenRoute.MotherFoodDetail.route)
+                    } else {
+                        navController.navigate(route = ScreenRoute.ChildFoodDetail.route)
+                    }
                 }
                 is CameraViewModel.ValidationEvent.Failed -> {
                     scope.launch {
@@ -94,7 +104,6 @@ fun CameraScreen(
         Icons.Filled.AddAPhoto
     }
     var newImageUri: Uri? = null
-
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
@@ -124,6 +133,7 @@ fun CameraScreen(
             }
             OutlinedButton(
                 onClick = {
+                    Toast.makeText(context, childId, Toast.LENGTH_LONG).show()
                     newImageUri = cameraViewModel.getNewSelfieUri()
                     cameraLauncher.launch(newImageUri)
                 },

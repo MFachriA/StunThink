@@ -18,6 +18,7 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
 import com.projectAnya.stunthink.presentation.screen.food.FoodDetailScreen
+import com.projectAnya.stunthink.presentation.screen.food.monitoring.MonitoringFoodDetailScreen
 import com.projectAnya.stunthink.presentation.screen.login.LoginScreen
 import com.projectAnya.stunthink.presentation.screen.main.MainScreen
 import com.projectAnya.stunthink.presentation.screen.main.camera.CameraScreen
@@ -34,6 +35,7 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutri
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection.StuntingDetectionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
 import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
 import com.projectAnya.stunthink.presentation.screen.welcome.WelcomeScreen
@@ -131,6 +133,36 @@ fun ApplicationNavHost(
                 navController.previousBackStackEntry?.savedStateHandle?.get<Stunting>("stunting")
             StuntingDetailScreen(navController = navController, stunting = stunting)
         }
+        composable(
+            route = ScreenRoute.FoodDetail.route
+        ) {
+            val food =
+                navController.previousBackStackEntry?.savedStateHandle?.get<FoodDto>("food")
+            FoodDetailScreen(
+                navController = navController,
+                food = food
+            )
+        }
+        composable(
+            route = ScreenRoute.MotherFoodDetail.route
+        ) {
+            val food =
+                navController.previousBackStackEntry?.savedStateHandle?.get<FoodDto>("food")
+            MonitoringFoodDetailScreen(
+                navController = navController,
+                food = food
+            )
+        }
+        composable(
+            route = ScreenRoute.MotherMonitoringMain.route
+        ) {
+            MotherMonitoringMainScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.FoodDetection.route) {
+            ChildFoodDetectionScreen(
+                navController = navController
+            )
+        }
         navigation(
             startDestination = ScreenRoute.ChildList.route,
             route = ScreenRoute.ChildMonitoringNavigation.route
@@ -186,7 +218,7 @@ fun ApplicationNavHost(
                 )
             }
             composable(
-                route = ScreenRoute.FoodDetail.route
+                route = ScreenRoute.ChildFoodDetail.route
             ) { backStackEntry ->
                 val food =
                     navController.previousBackStackEntry?.savedStateHandle?.get<FoodDto>("food")
@@ -194,7 +226,7 @@ fun ApplicationNavHost(
                     navController.getBackStackEntry(ScreenRoute.ChildList.route)
                 }
                 val childMonitoringMainViewModel = hiltViewModel<ChildMonitoringMainViewModel>(parentEntry)
-                FoodDetailScreen(
+                MonitoringFoodDetailScreen(
                     navController = navController,
                     food = food,
                     viewModel = childMonitoringMainViewModel

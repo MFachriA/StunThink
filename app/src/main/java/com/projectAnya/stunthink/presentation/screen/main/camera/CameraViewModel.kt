@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.domain.common.Resource
-import com.projectAnya.stunthink.domain.use_case.monitoring.food_detection.UploadFoodPictureUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.food.UploadFoodPictureUseCase
 import com.projectAnya.stunthink.utils.PhotoUriManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

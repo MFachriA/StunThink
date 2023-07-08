@@ -14,6 +14,7 @@ import java.io.File
 interface UserRepository {
 
     suspend fun login(email: String, password: String): ApiResponse<LoginDto>
+
     suspend fun register(
         name: String,
         email: String,
@@ -23,18 +24,25 @@ interface UserRepository {
         date: String,
         address: String
     ): ApiResponse<Unit>
+
     suspend fun saveUserToken(token: String)
+
     suspend fun deleteUserToken()
+
     fun getUserToken(): Flow<String?>
+
     suspend fun getUserDetail(token: String): ApiResponse<UserDto>
 
     suspend fun getChildList(token: String): ApiResponse<List<ChildDto>>
+
     suspend fun getEducationList(token: String): ApiResponse<List<EducationDto>>
 
     suspend fun getChildNutrition(
         token: String,
         id: String
     ): ApiResponse<List<NutritionDto>>
+
+    suspend fun getMotherNutrition(token: String): ApiResponse<List<NutritionDto>>
 
     suspend fun uploadFoodPicture(
         token: String,
@@ -62,10 +70,32 @@ interface UserRepository {
         foodImageUrl: String?
     ): ApiResponse<NutritionDto>
 
+    suspend fun addMotherFood(
+        token: String,
+        foodPercentage: Float,
+        foodId: String,
+        foodImageUrl: String?
+    ): ApiResponse<NutritionDto>
+
     suspend fun addChildStunting(
         token: String,
         id: String,
         height: Int,
         isSupine: Boolean
     ): ApiResponse<Stunting>
+
+    suspend fun deleteChild(
+        token: String,
+        id: String
+    ): ApiResponse<Unit>
+
+    suspend fun deleteStuntingMeasurement(
+        token: String,
+        id: String
+    ): ApiResponse<Unit>
+
+    suspend fun deleteFood(
+        token: String,
+        id: String
+    ): ApiResponse<Unit>
 }

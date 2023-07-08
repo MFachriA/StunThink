@@ -14,10 +14,13 @@ sealed class ScreenRoute(val route: String) {
     object Education: ScreenRoute(route = "education_screen")
     object Profile: ScreenRoute(route = "profile_screen")
     object ChildList: ScreenRoute(route = "child_list_screen")
-    object ChildMonitoringMain: ScreenRoute(route = "child_monitoring_main_screen/")
+    object ChildMonitoringMain: ScreenRoute(route = "child_monitoring_main_screen")
     object ChildNutrition: ScreenRoute(route = "child_nutrition_screen")
     object ChildStunting: ScreenRoute(route = "child_stunting_screen")
+    object MotherMonitoringMain: ScreenRoute(route = "mother_monitoring_main_screen")
     object FoodDetail: ScreenRoute(route = "food_detail_screen")
+    object ChildFoodDetail: ScreenRoute(route = "child_food_detail_screen")
+    object MotherFoodDetail: ScreenRoute(route = "mother_food_detail_screen")
     object EducationDetail: ScreenRoute(route = "education_detail_screen")
     object ChildRegister: ScreenRoute(route = "child_register_screen")
     object StuntingDetail: ScreenRoute(route = "stunting_detail")
@@ -25,6 +28,6 @@ sealed class ScreenRoute(val route: String) {
     object ChildMonitoringNavigation: ScreenRoute(route = "child_monitoring_navigation")
     object ChildStuntingDetection: ScreenRoute(route = "child_stunting_detection")
     object ChildStuntingCamera: ScreenRoute(route = "child_stunting_camera")
-
+    object FoodDetection: ScreenRoute(route = "food_detection")
 
 }

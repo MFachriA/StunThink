@@ -9,6 +9,7 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.stunting.StuntingDto
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import okhttp3.MultipartBody
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -65,6 +66,11 @@ interface StunThinkApi {
         @Path("id") id: String
     ): ApiResponse<List<NutritionDto>>
 
+    @GET("history/gizi")
+    suspend fun getMotherNutrition(
+        @Header("auth") auth: String
+    ): ApiResponse<List<NutritionDto>>
+
     @Multipart
     @POST("history/detect")
     suspend fun uploadPhoto(
@@ -101,4 +107,31 @@ interface StunThinkApi {
         @Field("tinggiBadan") height: Int,
         @Field("isTerlentang") isSupine: Boolean
     ): ApiResponse<StuntingDto>
+
+    @FormUrlEncoded
+    @POST("history/gizi/manual")
+    suspend fun addMotherFood(
+        @Header("auth") auth: String,
+        @Field("persenHabis") foodPercentage: Float,
+        @Field("giziId") foodId: String,
+        @Field("foodUrl") foodImageUrl: String?
+    ): ApiResponse<NutritionDto>
+
+    @DELETE("anak/{id}")
+    suspend fun deleteChild(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+    ): ApiResponse<Unit>
+
+    @DELETE("history/stunting/{id}")
+    suspend fun deleteStuntingMeasurement(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+    ): ApiResponse<Unit>
+
+    @DELETE("history/gizi/{id}")
+    suspend fun deleteFood(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+    ): ApiResponse<Unit>
 }

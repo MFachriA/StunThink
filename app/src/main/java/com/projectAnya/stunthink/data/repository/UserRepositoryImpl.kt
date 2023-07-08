@@ -81,6 +81,13 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getMotherNutrition(
+        token: String,
+    ): ApiResponse<List<NutritionDto>> {
+        return api.getMotherNutrition(auth = token)
+    }
+
+
     override suspend fun uploadFoodPicture(
         token: String,
         image: File
@@ -162,5 +169,31 @@ class UserRepositoryImpl @Inject constructor(
             result.message,
             result.data.toEntity()
         )
+    }
+
+    override suspend fun addMotherFood(
+        token: String,
+        foodPercentage: Float,
+        foodId: String,
+        foodImageUrl: String?
+    ): ApiResponse<NutritionDto> {
+        return api.addMotherFood(
+            auth = token,
+            foodPercentage = foodPercentage,
+            foodId = foodId,
+            foodImageUrl = foodImageUrl
+        )
+    }
+
+    override suspend fun deleteChild(token: String, id: String): ApiResponse<Unit> {
+        return api.deleteChild(auth = token, id = id)
+    }
+
+    override suspend fun deleteStuntingMeasurement(token: String, id: String): ApiResponse<Unit> {
+        return api.deleteStuntingMeasurement(auth = token, id = id)
+    }
+
+    override suspend fun deleteFood(token: String, id: String): ApiResponse<Unit> {
+        return api.deleteFood(auth = token, id = id)
     }
 }
