@@ -39,7 +39,6 @@ import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.card.NutritionCard
-import com.projectAnya.stunthink.presentation.component.card.NutritionSummaryCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
@@ -99,7 +98,7 @@ fun ChildNutritionScreen(
                             text = "Total Nutrisi Hari Ini",
                             style = Typography.titleLarge
                         )
-                        NutritionSummaryCard()
+//                        NutritionSummaryCard()
                     }
                 }
                 item {

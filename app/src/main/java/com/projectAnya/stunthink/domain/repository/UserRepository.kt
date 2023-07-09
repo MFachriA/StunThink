@@ -6,6 +6,8 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStandardDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStatusDto
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +36,10 @@ interface UserRepository {
     suspend fun getUserDetail(token: String): ApiResponse<UserDto>
 
     suspend fun getChildList(token: String): ApiResponse<List<ChildDto>>
+    suspend fun getChildDetail(
+        token: String,
+        id: String
+    ): ApiResponse<ChildDto>
 
     suspend fun getEducationList(token: String): ApiResponse<List<EducationDto>>
 
@@ -43,6 +49,15 @@ interface UserRepository {
     ): ApiResponse<List<NutritionDto>>
 
     suspend fun getMotherNutrition(token: String): ApiResponse<List<NutritionDto>>
+
+    suspend fun getNutritionStatus(
+        token: String,
+        startDate: String,
+        endDate: String,
+        isChild: Boolean?,
+        childId: String?
+    ): ApiResponse<NutritionStatusDto>
+    suspend fun getNutritionStandard(token: String): ApiResponse<NutritionStandardDto>
 
     suspend fun uploadFoodPicture(
         token: String,

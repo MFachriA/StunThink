@@ -1,6 +1,10 @@
 package com.projectAnya.stunthink.utils
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -54,5 +58,40 @@ object DateUtils {
         val date = dateFormat.parse(dateString)
 
         return date?.after(currentDate) ?: false
+    }
+
+    @SuppressLint("NewApi")
+    fun getStartOfDay(dateString: String? = null): String {
+        return try {
+            val currentDate = if (!dateString.isNullOrEmpty()) {
+                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            } else {
+                LocalDate.now()
+            }
+            val startOfDay = currentDate.atStartOfDay().toInstant(ZoneOffset.UTC)
+
+            startOfDay.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    @SuppressLint("NewApi")
+    fun getEndOfDay(dateString: String? = null): String {
+        return try {
+            val currentDate = if (!dateString.isNullOrEmpty()) {
+                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            } else {
+                LocalDate.now()
+            }
+            val startOfDay = currentDate.atStartOfDay().toInstant(ZoneOffset.UTC)
+            val endOfDay = startOfDay.plusSeconds(86399)
+
+            endOfDay.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 }

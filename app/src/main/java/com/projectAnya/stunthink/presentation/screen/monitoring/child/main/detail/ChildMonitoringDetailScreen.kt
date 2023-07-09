@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.stunting
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.detail
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -23,37 +23,52 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.projectAnya.stunthink.domain.model.stunting.Stunting
+import com.projectAnya.stunthink.data.remote.dto.child.ChildDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.projectAnya.stunthink.presentation.component.dialog.ConfirmationDeleteDialog
+import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingContent
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.utils.DateUtils
+import com.projectAnya.stunthink.utils.StringUtils
 
 @Composable
-fun StuntingDetailScreen(
+fun ChildMonitoringDetailScreen(
     navController: NavController,
-    stunting: Stunting?,
-    viewModel: StuntingDetailViewModel = hiltViewModel()
+    mainViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
+    viewModel: ChildMonitoringDetailViewModel = hiltViewModel()
 ) {
+    val childIdState: State<String?> = mainViewModel.childIdState.collectAsState()
+    val childId: String? by childIdState
+
     val deleteDialogState: State<Boolean> = viewModel.deleteDialogState.collectAsState()
     val deleteDialog: Boolean by deleteDialogState
 
+    val childDetailState = viewModel.childDetailState.value
+    val childDetail = childDetailState.childDetail
+
+    val deleteState = viewModel.deleteState.value
+
     val context = LocalContext.current
-    val submitState = viewModel.submitState.value
 
     LaunchedEffect(key1 = context) {
+        childId?.let { id ->
+            viewModel.getChildDetail(id)
+        }
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is StuntingDetailViewModel.ValidationEvent.Success -> {
+                is ChildMonitoringDetailViewModel.DeleteValidationEvent.Success -> {
                     Toast.makeText(
                         context,
                         event.message,
                         Toast.LENGTH_LONG
                     ).show()
-                    navController.popBackStack()
+                    navController.navigate(route = ScreenRoute.ChildList.route) {
+                        popUpTo(ScreenRoute.ChildList.route) { inclusive = true }
+                    }
                 }
-                is StuntingDetailViewModel.ValidationEvent.Failed -> {
+                is ChildMonitoringDetailViewModel.DeleteValidationEvent.Failed -> {
                     Toast.makeText(
                         context,
                         "Kesalahan terjadi, mohon ulangi kembali",
@@ -68,7 +83,7 @@ fun StuntingDetailScreen(
         Scaffold(
             topBar = {
                 BackButtonAppBar(
-                    title = "Detail Stunting",
+                    title = "Detail Anak",
                     navigationOnClick = { navController.popBackStack() },
                     actions = {
                         IconButton(
@@ -87,9 +102,9 @@ fun StuntingDetailScreen(
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    StuntingDetailContent(stunting)
+                    ChildDetailContent(childDetail)
 
-                    if (submitState.isLoading) {
+                    if (deleteState.isLoading) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                     }
 
@@ -99,16 +114,16 @@ fun StuntingDetailScreen(
                             viewModel.uploadDialogState(false)
                         },
                         onConfirmButton = {
-                            stunting?.let {
+                            childDetail?.let {
                                 viewModel.uploadDialogState(false)
-                                viewModel.deleteStunting(stunting.id)
+                                viewModel.deleteChild(childDetail.id)
                             }
                         },
                         onDismissButton = {
                             viewModel.uploadDialogState(false)
                         },
-                        title = "Hapus Pengukuran Stunting",
-                        text = "Apakah kamu yakin ingin menghapus pengukuran stunting ini?"
+                        title = "Hapus Data Anak",
+                        text = "Apakah kamu yakin ingin menghapus data anak ini? Data yang sudah terhapus tidak bisa dikembalikan lagi"
                     )
                 }
             }
@@ -119,36 +134,36 @@ fun StuntingDetailScreen(
 @Preview(showBackground = true)
 @Composable
 fun StuntingDetailContentPreview() {
-    StuntingDetailContent(
-        stunting = null
+    ChildDetailContent(
+        childDetail = null
     )
 }
 
 @Composable
-fun StuntingDetailContent(
-    stunting: Stunting?
+fun ChildDetailContent(
+    childDetail: ChildDto?
 ) {
-    stunting?.let {
+    childDetail?.let {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 ChildStuntingContent(
-                    title = "Level Stunting",
-                    content = stunting.result.displayName
+                    title = "Nama Lengkap",
+                    content = childDetail.namaLengkap
                 )
                 ChildStuntingContent(
-                    title = "Tanggal Pengukuran",
-                    content = DateUtils.formatDateTimeToIndonesianTimeDate(stunting.timestamp)
+                    title = "Jenis Kelamin",
+                    content = StringUtils.convertGenderEnum(childDetail.jenisKelamin)
                 )
                 ChildStuntingContent(
-                    title = "Tinggi",
-                    content = "${stunting.tinggiBadan} cm"
+                    title = "Tanggal Lahir",
+                    content = DateUtils.formatDateToIndonesianDate(childDetail.tanggalLahir)
                 )
                 ChildStuntingContent(
-                    title = "Umur",
-                    content = stunting.umur ?: "-"
+                    title = "Tempat Lahir",
+                    content = childDetail.tempatLahir
                 )
             }
         }

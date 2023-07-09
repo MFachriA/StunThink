@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting
 
 sealed class StuntingDetectionFormEvent {
     data class HeightChanged(val height: String) : StuntingDetectionFormEvent()

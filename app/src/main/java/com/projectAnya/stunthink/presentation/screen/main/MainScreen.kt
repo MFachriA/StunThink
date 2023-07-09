@@ -34,7 +34,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.navigation.start.StartViewModel
-import com.projectAnya.stunthink.presentation.screen.main.camera.CameraScreen
 import com.projectAnya.stunthink.presentation.screen.main.education.EducationScreen
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
@@ -117,20 +116,8 @@ fun MainScreen(
             ) {
                 when (mainViewModel.selectedMenu) {
                     0 -> HomeScreen(navController)
-                    1 ->
-                        if (permissionState.allPermissionsGranted){
-                            CameraScreen(
-                                navController = navController,
-                                snackbarHostState = snackbarHostState
-                            )
-                        } else {
-                            LaunchedEffect(key1 = permissionState) {
-                                permissionState.launchMultiplePermissionRequest()
-                            }
-                            mainViewModel.changeSelectedMenu(1)
-                        }
-                    2 -> EducationScreen(navController)
-                    3 -> ProfileScreen(navController)
+                    1 -> EducationScreen(navController)
+                    2 -> ProfileScreen(navController)
                 }
             }
         }

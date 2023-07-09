@@ -51,7 +51,7 @@ class FoodDetailViewModel @Inject constructor(
         _deleteDialogState.value = value
     }
 
-    fun submitChildFood(foodId: String) {
+    fun deleteFood(foodId: String) {
         _userTokenState.value?.let { token ->
             deleteFoodUseCase.invoke(
                 token = token,

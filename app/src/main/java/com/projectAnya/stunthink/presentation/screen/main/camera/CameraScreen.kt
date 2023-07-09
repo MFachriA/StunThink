@@ -1,7 +1,6 @@
 package com.projectAnya.stunthink.presentation.screen.main.camera
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -133,7 +132,6 @@ fun CameraScreen(
             }
             OutlinedButton(
                 onClick = {
-                    Toast.makeText(context, childId, Toast.LENGTH_LONG).show()
                     newImageUri = cameraViewModel.getNewSelfieUri()
                     cameraLauncher.launch(newImageUri)
                 },

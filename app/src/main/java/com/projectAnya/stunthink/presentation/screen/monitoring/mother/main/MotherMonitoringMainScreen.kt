@@ -1,5 +1,7 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.mother.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +42,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
 import com.projectAnya.stunthink.presentation.component.card.NutritionCard
@@ -49,6 +52,7 @@ import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MotherMonitoringMainScreen(
     navController: NavController,
@@ -59,10 +63,14 @@ fun MotherMonitoringMainScreen(
     val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
     val userToken: String? by userTokenState
 
-    val state = viewModel.state.value
+    val nutritionStatusState = viewModel.nutritionStatusState.value
+    val nutritionStandardState = viewModel.nutritionStandardState.value
+    val nutritionListState = viewModel.nutritionListState.value
 
     LaunchedEffect(key1 = context) {
         userToken?.let { token ->
+            viewModel.getNutritionStatus(token)
+            viewModel.getNutritionStandard(token)
             viewModel.getNutritions(token)
         }
     }
@@ -104,9 +112,12 @@ fun MotherMonitoringMainScreen(
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    MotherMonitoringNutritionSummary()
+                    MotherMonitoringNutritionSummary(
+                        startNutrition = nutritionStatusState.nutritionStatus?._sum,
+                        targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
+                    )
                     MotherMonitoringNutritionList(
-                        nutritionList = state.nutritions,
+                        nutritionList = nutritionListState.nutritions,
                         navController = navController
                     )
                 }
@@ -115,6 +126,7 @@ fun MotherMonitoringMainScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun MotherMonitoringMainScreenPreview() {
@@ -125,23 +137,18 @@ fun MotherMonitoringMainScreenPreview() {
 
 @Composable
 fun MotherMonitoringNutritionSummary(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    startNutrition: NutritionDetailDto?,
+    targetNutrition: NutritionDetailDto?,
 ) {
     BaseContent(
         modifier = modifier
             .fillMaxWidth(),
         title = "Total Nutrisi Hari Ini"
     ) {
-        NutritionSummaryCard()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MotherMonitoringNutritionSummaryPreview() {
-    StunThinkTheme {
-        MotherMonitoringNutritionSummary(
-            modifier = Modifier.padding(16.dp)
+        NutritionSummaryCard(
+            startNutrition = startNutrition,
+            targetNutrition = targetNutrition
         )
     }
 }
@@ -203,7 +210,6 @@ fun MotherMonitoringNutritionList(
                         )
                     }
                 })
-
             }
         }
     }

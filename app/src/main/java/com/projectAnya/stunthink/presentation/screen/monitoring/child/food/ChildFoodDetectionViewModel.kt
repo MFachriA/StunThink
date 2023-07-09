@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.food
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

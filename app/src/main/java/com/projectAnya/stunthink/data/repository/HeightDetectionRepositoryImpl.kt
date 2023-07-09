@@ -15,9 +15,9 @@ class HeightDetectionRepositoryImpl @Inject constructor(
 
     override suspend fun uploadHeight(image: File): ApiResponse<HeightDto> {
         return api.uploadHeight(
-            image = MultipartBody.Part
+            file = MultipartBody.Part
                 .createFormData(
-                    "image",
+                    "file",
                     image.name,
                     image.asRequestBody()
                 )

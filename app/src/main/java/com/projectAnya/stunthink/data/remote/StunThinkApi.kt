@@ -6,6 +6,8 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.login.LoginDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStandardDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStatusDto
 import com.projectAnya.stunthink.data.remote.dto.stunting.StuntingDto
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import okhttp3.MultipartBody
@@ -18,6 +20,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface StunThinkApi {
 
@@ -60,6 +63,12 @@ interface StunThinkApi {
         @Header("auth") auth: String
     ): ApiResponse<List<ChildDto>>
 
+    @GET("anak/{id}")
+    suspend fun getChildDetail(
+        @Header("auth") auth: String,
+        @Path("id") id: String
+    ): ApiResponse<ChildDto>
+
     @GET("history/gizi/anak/{id}")
     suspend fun getChildNutrition(
         @Header("auth") auth: String,
@@ -70,6 +79,21 @@ interface StunThinkApi {
     suspend fun getMotherNutrition(
         @Header("auth") auth: String
     ): ApiResponse<List<NutritionDto>>
+
+    @GET("history/status-gizi")
+    suspend fun getNutritionStatus(
+        @Header("auth") auth: String,
+        @Query("date[0]") startDate: String,
+        @Query("date[1]") endDate: String,
+        @Query("isAnak") isChild: Boolean?,
+        @Query("id") childId: String?
+    ): ApiResponse<NutritionStatusDto>
+
+    @GET("standard")
+    suspend fun getNutritionStandard(
+        @Header("auth") auth: String,
+    ): ApiResponse<NutritionStandardDto>
+
 
     @Multipart
     @POST("history/detect")

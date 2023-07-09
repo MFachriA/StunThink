@@ -113,12 +113,12 @@ fun ProfileScreenContent(
             content = StringUtils.convertGenderEnum(user?.jenisKelamin ?: "")
         )
         ChildStuntingContent(
-            title = "Tempat Lahir",
-            content = user?.tempatLahir ?: "-"
-        )
-        ChildStuntingContent(
             title = "Tanggal Lahir",
             content = DateUtils.formatDateTimeToIndonesianDate(user?.tanggalLahir ?: "")
+        )
+        ChildStuntingContent(
+            title = "Tempat Lahir",
+            content = user?.tempatLahir ?: "-"
         )
         Button(
             onClick = { logoutCallback() },

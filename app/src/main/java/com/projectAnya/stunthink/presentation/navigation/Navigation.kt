@@ -27,14 +27,15 @@ import com.projectAnya.stunthink.presentation.screen.main.education.detail.Educa
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.StuntingCameraScreen
-import com.projectAnya.stunthink.presentation.screen.monitoring.child.fooddetection.ChildFoodDetectionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.food.ChildFoodDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.detail.ChildMonitoringDetailScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
-import com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection.StuntingDetectionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting.StuntingDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
 import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
@@ -252,6 +253,16 @@ fun ApplicationNavHost(
                 StuntingDetectionScreen(
                     navController = navController,
                     height = height,
+                    mainViewModel = childMonitoringMainViewModel
+                )
+            }
+            composable(route = ScreenRoute.ChildMonitoringDetail.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.ChildList.route)
+                }
+                val childMonitoringMainViewModel = hiltViewModel<ChildMonitoringMainViewModel>(parentEntry)
+                ChildMonitoringDetailScreen(
+                    navController = navController,
                     mainViewModel = childMonitoringMainViewModel
                 )
             }

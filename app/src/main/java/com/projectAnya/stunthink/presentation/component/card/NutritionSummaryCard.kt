@@ -16,15 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
-import kotlin.random.Random
 
 @Composable
 fun NutritionSummaryCard(
     modifier: Modifier = Modifier,
+    startNutrition: NutritionDetailDto?,
+    targetNutrition: NutritionDetailDto?
 ) {
     Card(
         modifier = modifier,
@@ -34,10 +34,30 @@ fun NutritionSummaryCard(
         Column(
             modifier = Modifier.padding(8.dp),
         ) {
-            NutritionSummary(title = "Kalori", value = 300f, target = 500f)
-            NutritionSummary(title = "Energi", value = 400f, target = 400f)
-            NutritionSummary(title = "Vitamin", value = 200f, target = 320f)
-            NutritionSummary(title = "Mineral", value = 50f, target = 70f)
+            NutritionSummary(
+                title = "Kalori",
+                start = startNutrition?.Energi ?: 0f,
+                target = targetNutrition?.Energi ?: 0f,
+                prefix = "kkal"
+            )
+            NutritionSummary(
+                title = "Karbohidrat",
+                start = startNutrition?.Karbohidrat ?: 0f,
+                target = targetNutrition?.Karbohidrat ?: 0f,
+                prefix = "g"
+            )
+            NutritionSummary(
+                title = "Protein",
+                start = startNutrition?.Protein ?: 0f,
+                target = targetNutrition?.Protein ?: 0f,
+                prefix = "g"
+            )
+            NutritionSummary(
+                title = "Lemak",
+                start = startNutrition?.Lemak ?: 0f,
+                target = targetNutrition?.Lemak ?: 0f,
+                prefix = "g"
+            )
         }
     }
 }
@@ -46,10 +66,11 @@ fun NutritionSummaryCard(
 fun NutritionSummary(
     modifier: Modifier = Modifier,
     title: String,
-    value: Float,
-    target: Float
+    start: Float,
+    target: Float,
+    prefix: String
 ){
-    val progress: Float by animateFloatAsState(Random.nextFloat())
+    val progress: Float by animateFloatAsState(start/target)
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -66,12 +87,12 @@ fun NutritionSummary(
                     style = Typography.titleSmall
                 )
                 Text(
-                    text = "$value/$target",
+                    text = "$start/$target $prefix",
                     style = Typography.bodySmall
                 )
             }
             LinearProgressIndicator(
-                progress = progress,
+                progress = if (!progress.isNaN()) progress else 0f,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(6.dp),
@@ -81,10 +102,10 @@ fun NutritionSummary(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun NutritionSummaryCardPreview() {
-    StunThinkTheme() {
-        NutritionSummaryCard()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun NutritionSummaryCardPreview() {
+//    StunThinkTheme() {
+//        NutritionSummaryCard()
+//    }
+//}

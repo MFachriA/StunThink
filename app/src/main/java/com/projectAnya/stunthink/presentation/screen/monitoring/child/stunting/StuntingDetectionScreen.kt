@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting
 
 import android.os.Build
 import android.widget.Toast
@@ -97,7 +97,7 @@ private fun Content(
         stuntingViewModel.setChildId(token = childId)
 
         height?.let {
-            stuntingViewModel.onEvent(StuntingDetectionFormEvent.HeightChanged(height = height.toString()))
+            stuntingViewModel.onEvent(StuntingDetectionFormEvent.HeightChanged(height = height.tinggiBadan.toInt().toString()))
         }
 
         stuntingViewModel.validationEvents.collect { event ->
@@ -128,7 +128,8 @@ private fun Content(
     )
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
     ) {
         height?.let {
             AsyncImage(
@@ -152,7 +153,6 @@ private fun Content(
         ) {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally

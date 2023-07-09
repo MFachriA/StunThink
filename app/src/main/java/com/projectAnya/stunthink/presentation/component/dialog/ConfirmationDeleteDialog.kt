@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
 @Composable
@@ -26,50 +27,53 @@ fun ConfirmationDeleteDialog(
     title: String,
     text: String
 ) {
-    if (isOpen) {
-        AlertDialog(
-            modifier = modifier,
-            onDismissRequest = onDismissRequest,
-            confirmButton = {
-                Text(
-                    modifier = Modifier.clickable {
-                        onConfirmButton()
-                    },
-                    text = "Ya",
-                    style = Typography.labelLarge,
-                    color = MaterialTheme.colorScheme.error
-                )
-            },
-            dismissButton = {
-                Text(
-                    modifier = Modifier.clickable {
-                        onDismissButton()
-                    },
-                    text = "Tidak",
-                    style = Typography.labelLarge,
-                    color = Color.DarkGray
-                )
-            },
-            icon = {
-                Icon(
-                    modifier = Modifier.size(50.dp),
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.error
-                )
-            },
-            title = {
-                Text(
-                    text = title,
-                    style = Typography.headlineSmall
-                )
-            },
-            text = {
-                Text(
-                    text = text,
-                    style = Typography.bodyMedium
-                )
-            }
-        )
+    StunThinkTheme {
+        if (isOpen) {
+            AlertDialog(
+                modifier = modifier,
+                onDismissRequest = onDismissRequest,
+                confirmButton = {
+                    Text(
+                        modifier = Modifier.clickable {
+                            onConfirmButton()
+                        },
+                        text = "Ya",
+                        style = Typography.labelLarge,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                },
+                dismissButton = {
+                    Text(
+                        modifier = Modifier.clickable {
+                            onDismissButton()
+                        },
+                        text = "Tidak",
+                        style = Typography.labelLarge,
+                        color = Color.DarkGray
+                    )
+                },
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(50.dp),
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                },
+                title = {
+                    Text(
+                        text = title,
+                        style = Typography.headlineSmall
+                    )
+                },
+                text = {
+                    Text(
+                        text = text,
+                        style = Typography.bodyMedium
+                    )
+                },
+                containerColor = Color.White
+            )
+        }
     }
 }

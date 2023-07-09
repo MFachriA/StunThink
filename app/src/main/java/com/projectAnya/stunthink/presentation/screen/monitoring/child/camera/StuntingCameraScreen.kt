@@ -107,7 +107,7 @@ fun StuntingCameraScreen(
     Scaffold(
         topBar = {
             BackButtonAppBar(
-                title = "Tambah Makanan",
+                title = "Tambah Pengukuran",
                 navigationOnClick = { navController.popBackStack() }
             )
         },

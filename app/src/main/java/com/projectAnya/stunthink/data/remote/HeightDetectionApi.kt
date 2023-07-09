@@ -11,6 +11,6 @@ interface HeightDetectionApi {
     @Multipart
     @POST("predict")
     suspend fun uploadHeight(
-        @Part image: MultipartBody.Part
+        @Part file: MultipartBody.Part
     ): ApiResponse<HeightDto>
 }

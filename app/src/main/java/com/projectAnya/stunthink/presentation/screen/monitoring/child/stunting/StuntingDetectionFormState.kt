@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.stuntingdetection
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting
 
 data class ChildRegisterFormState(
     val height: String = "",

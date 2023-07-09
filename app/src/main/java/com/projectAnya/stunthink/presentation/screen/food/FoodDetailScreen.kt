@@ -129,8 +129,6 @@ fun FoodDetailContent(
     val context = LocalContext.current
     val submitState = viewModel.submitState.value
 
-
-
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
@@ -347,7 +345,7 @@ fun FoodDetailContent(
             onConfirmButton = {
                 food?.let { food ->
                     viewModel.uploadDialogState(false)
-                    viewModel.submitChildFood(food.dataGizi.id)
+                    viewModel.deleteFood(food.dataGizi.id)
                 }
             },
             onDismissButton = {

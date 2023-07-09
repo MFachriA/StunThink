@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ChildCare
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
+import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
@@ -68,7 +70,19 @@ fun ChildMonitoringMainScreen(
                             }
                         )
                     },
-                    actions = { }
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(ScreenRoute.ChildMonitoringDetail.route)
+                            },
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.ChildCare,
+                                    contentDescription = "child_detail"
+                                )
+                            }
+                        )
+                    }
                 )
             }
         ) { paddingValues ->
