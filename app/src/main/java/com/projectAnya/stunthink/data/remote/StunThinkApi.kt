@@ -92,7 +92,8 @@ interface StunThinkApi {
     @GET("standard")
     suspend fun getNutritionStandard(
         @Header("auth") auth: String,
-    ): ApiResponse<NutritionStandardDto>
+        @Query("anakId") childId: String?,
+        ): ApiResponse<NutritionStandardDto>
 
 
     @Multipart

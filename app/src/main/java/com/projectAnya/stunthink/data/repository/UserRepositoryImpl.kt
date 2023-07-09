@@ -115,8 +115,11 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getNutritionStandard(token: String): ApiResponse<NutritionStandardDto> {
-        return api.getNutritionStandard(token)
+    override suspend fun getNutritionStandard(
+        token: String,
+        childId: String?
+    ): ApiResponse<NutritionStandardDto> {
+        return api.getNutritionStandard(token, childId = childId)
     }
 
 

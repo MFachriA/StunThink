@@ -13,11 +13,12 @@ class GetNutritionStandardUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
     operator fun invoke(
-        token: String
+        token: String,
+        id: String? = null
     ): Flow<Resource<NutritionStandardDto>> = flow {
         try {
             emit(Resource.Loading())
-            val nutritionStatus = userRepository.getNutritionStandard(token = token)
+            val nutritionStatus = userRepository.getNutritionStandard(token = token, childId = id)
 
             emit(Resource.Success(nutritionStatus.success, nutritionStatus.message, nutritionStatus.data))
         } catch(e: HttpException) {

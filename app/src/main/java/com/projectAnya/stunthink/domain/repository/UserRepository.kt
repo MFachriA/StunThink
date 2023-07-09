@@ -57,7 +57,10 @@ interface UserRepository {
         isChild: Boolean?,
         childId: String?
     ): ApiResponse<NutritionStatusDto>
-    suspend fun getNutritionStandard(token: String): ApiResponse<NutritionStandardDto>
+    suspend fun getNutritionStandard(
+        token: String,
+        childId: String?
+    ): ApiResponse<NutritionStandardDto>
 
     suspend fun uploadFoodPicture(
         token: String,

@@ -1,5 +1,7 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -31,24 +33,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.presentation.component.card.NutritionCard
+import com.projectAnya.stunthink.presentation.component.card.NutritionSummaryCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ChildNutritionScreen(
     navController: NavController,
     mainViewModel: ChildMonitoringMainViewModel = hiltViewModel(),
-    childNutritionViewModel: ChildNutritionViewModel = hiltViewModel()
+    viewModel: ChildNutritionViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
@@ -58,15 +60,20 @@ fun ChildNutritionScreen(
     val childIdState: State<String?> = mainViewModel.childIdState.collectAsState()
     val childId: String? by childIdState
 
+    val nutritionStatusState = viewModel.nutritionStatusState.value
+    val nutritionStandardState = viewModel.nutritionStandardState.value
+    val nutritionListState = viewModel.nutritionListState.value
+
     LaunchedEffect(key1 = context) {
         userToken?.let { token ->
             childId?.let { id ->
-                childNutritionViewModel.getNutritions(token, id)
+                viewModel.getNutritionStatus(token, id)
+                viewModel.getNutritionStandard(token, id)
+                viewModel.getNutritions(token, id)
             }
         }
     }
 
-    val state = childNutritionViewModel.state.value
 
     StunThinkTheme {
         Box(
@@ -98,7 +105,10 @@ fun ChildNutritionScreen(
                             text = "Total Nutrisi Hari Ini",
                             style = Typography.titleLarge
                         )
-//                        NutritionSummaryCard()
+                        NutritionSummaryCard(
+                            startNutrition = nutritionStatusState.nutritionStatus?._sum,
+                            targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
+                        )
                     }
                 }
                 item {
@@ -107,11 +117,11 @@ fun ChildNutritionScreen(
                             top = 16.dp,
                             bottom = 8.dp
                         ),
-                        text = "Makanan Hari Ini",
+                        text = "Daftar Makanan",
                         style = Typography.titleLarge
                     )
                 }
-                if (state.nutritions.isEmpty()) {
+                if (nutritionListState.nutritions.isEmpty()) {
                     item {
                         Column(
                             modifier = Modifier
@@ -134,7 +144,7 @@ fun ChildNutritionScreen(
                         }
                     }
                 } else {
-                    items(items = state.nutritions, itemContent = { nutrition ->
+                    items(items = nutritionListState.nutritions, itemContent = { nutrition ->
                         NutritionCard(
                             image = nutrition.foodUrl,
                             name = nutrition.namaMakanan,
@@ -176,7 +186,7 @@ fun ChildNutritionScreen(
             }
         }
 
-        if (state.isLoading) {
+        if (nutritionListState.isLoading) {
             Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier
                     .align(Alignment.Center)
@@ -184,12 +194,4 @@ fun ChildNutritionScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ChildNutritionScreenPreview() {
-    ChildNutritionScreen(
-        navController = rememberNavController()
-    )
 }

@@ -26,7 +26,7 @@ fun StartScreen(
                 }
             } else {
                 navController.navigate(route = ScreenRoute.Main.route) {
-                    popUpTo(ScreenRoute.Start.route) { inclusive = true }
+                    popUpTo(ScreenRoute.Welcome.route) { inclusive = true }
                 }
             }
         }

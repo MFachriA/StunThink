@@ -163,7 +163,7 @@ fun MotherMonitoringNutritionList(
         modifier = modifier
             .fillMaxWidth()
             .height(500.dp),
-        title = "Makanan Hari Ini"
+        title = "Daftar Makanan"
     ) {
         if (nutritionList.isEmpty()) {
             Column(
