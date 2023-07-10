@@ -114,7 +114,7 @@ fun ChildNutritionScreen(
                 item {
                     Text(
                         modifier = Modifier.padding(
-                            top = 16.dp,
+                            top = 8.dp,
                             bottom = 8.dp
                         ),
                         text = "Daftar Makanan",

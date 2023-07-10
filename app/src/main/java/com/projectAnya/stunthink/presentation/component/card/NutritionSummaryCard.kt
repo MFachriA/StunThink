@@ -101,11 +101,3 @@ fun NutritionSummary(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun NutritionSummaryCardPreview() {
-//    StunThinkTheme() {
-//        NutritionSummaryCard()
-//    }
-//}

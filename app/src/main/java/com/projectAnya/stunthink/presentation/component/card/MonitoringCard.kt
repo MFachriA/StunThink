@@ -47,7 +47,9 @@ fun MonitoringCard(
             Image(
                 painter = painterResource(image),
                 contentDescription = null,
-                modifier = Modifier.height(100.dp)
+                modifier = Modifier
+                    .height(120.dp)
+                    .padding(bottom = 8.dp),
             )
         }
     }

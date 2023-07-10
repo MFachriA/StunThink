@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Autorenew
@@ -37,6 +38,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -104,6 +109,23 @@ fun StuntingCameraScreen(
         }
     )
 
+    val annotatedText = buildAnnotatedString {
+        append("Ambil foto anak untuk mengukur tinggi anak kamu. Untuk panduan mengenai cara mengambil fotonya dapat di ")
+        pushStringAnnotation(
+            tag = "ThisPage",
+            annotation = "ThisPage"
+        )
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colorScheme.primary,
+                textDecoration = TextDecoration.Underline
+            )
+        ) {
+            append("halaman ini")
+        }
+        pop()
+    }
+
     Scaffold(
         topBar = {
             BackButtonAppBar(
@@ -124,9 +146,18 @@ fun StuntingCameraScreen(
                             text = "Deteksi Tinggi",
                             style = Typography.headlineSmall
                         )
-                        Text(
-                            text = "Ambil foto anak untuk mengukur tinggi anak kamu",
-                            style = Typography.bodyMedium
+                        ClickableText(
+                            text = annotatedText,
+                            style = Typography.bodyMedium,
+                            onClick = { offset ->
+                                annotatedText.getStringAnnotations(
+                                    tag = "ThisPage",
+                                    start = offset,
+                                    end = offset
+                                )[0].let {
+                                    navController.navigate(ScreenRoute.StuntingCameraGuide.route)
+                                }
+                            }
                         )
                     }
                     OutlinedButton(

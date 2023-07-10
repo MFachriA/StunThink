@@ -27,6 +27,8 @@ import com.projectAnya.stunthink.presentation.screen.main.education.detail.Educa
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.StuntingCameraScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.guide.FoodCameraGuideScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.guide.StuntingCameraGuideScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.food.ChildFoodDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
@@ -161,6 +163,16 @@ fun ApplicationNavHost(
         }
         composable(route = ScreenRoute.FoodDetection.route) {
             ChildFoodDetectionScreen(
+                navController = navController
+            )
+        }
+        composable(route = ScreenRoute.StuntingCameraGuide.route) {
+            StuntingCameraGuideScreen(
+                navController = navController
+            )
+        }
+        composable(route = ScreenRoute.FoodCameraGuide.route) {
+            FoodCameraGuideScreen(
                 navController = navController
             )
         }
