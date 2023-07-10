@@ -27,6 +27,9 @@ class ChildMonitoringMainViewModel @Inject constructor(
     private val _userTokenState = MutableStateFlow<String?>(null)
     val userTokenState: StateFlow<String?> = _userTokenState.asStateFlow()
 
+    private val _dateState: MutableLiveData<String?> = MutableLiveData(null)
+    val dateState: LiveData<String?> = _dateState
+
     init {
         fetchUserToken()
     }
@@ -70,4 +73,7 @@ class ChildMonitoringMainViewModel @Inject constructor(
         _tabIndex.value = i
     }
 
+    fun updateDate(date: String?) {
+        _dateState.value = date
+    }
 }

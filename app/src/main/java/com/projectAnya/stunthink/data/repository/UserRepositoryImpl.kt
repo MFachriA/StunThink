@@ -85,18 +85,28 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getChildNutrition(
         token: String,
-        id: String
+        id: String,
+        startDate: String,
+        endDate: String,
     ): ApiResponse<List<NutritionDto>> {
         return api.getChildNutrition(
             auth = token,
-            id = id
+            id = id,
+            startDate,
+            endDate,
         )
     }
 
     override suspend fun getMotherNutrition(
         token: String,
+        startDate: String,
+        endDate: String
     ): ApiResponse<List<NutritionDto>> {
-        return api.getMotherNutrition(auth = token)
+        return api.getMotherNutrition(
+            auth = token,
+            startDate,
+            endDate
+        )
     }
 
     override suspend fun getNutritionStatus(

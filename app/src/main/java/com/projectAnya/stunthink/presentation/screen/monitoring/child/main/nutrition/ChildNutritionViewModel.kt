@@ -1,7 +1,6 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -37,15 +36,12 @@ class ChildNutritionViewModel @Inject constructor(
     fun getNutritionStatus(
         token: String,
         id: String,
-        startDate: String? = null,
-        endDate: String? = null
+        date: String?
     ) {
-        Log.e("startDate mother", DateUtils.getStartOfDay(startDate))
-        Log.e("endDate mother", DateUtils.getEndOfDay(endDate))
         getNutritionStatusUseCase.invoke(
             token = token,
-            startDate = DateUtils.getStartOfDay(startDate),
-            endDate = DateUtils.getEndOfDay(endDate),
+            startDate = DateUtils.getStartOfDay(date),
+            endDate = DateUtils.getEndOfDay(date),
             isChild = true,
             childId = id
         ).onEach { result ->
@@ -93,8 +89,17 @@ class ChildNutritionViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getNutritions(token: String, id: String) {
-        getChildNutritionUseCase(token = token, id = id).onEach { result ->
+    fun getNutritions(
+        token: String,
+        id: String,
+        date: String?
+    ) {
+        getChildNutritionUseCase(
+            token = token,
+            id = id,
+            startDate = DateUtils.getStartOfDay(date),
+            endDate = DateUtils.getEndOfDay(date)
+        ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _nutritionListState.value = ChildNutritionListState(nutritions = result.data ?: emptyList())

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.presentation.ui.theme.capitalino_cactus
+import com.projectAnya.stunthink.presentation.ui.theme.md_theme_light_primary
 
 @Composable
 fun NutritionSummaryCard(
@@ -98,7 +99,7 @@ fun NutritionSummary(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(6.dp),
-            color = if (progress == 1f) capitalino_cactus else MaterialTheme.colorScheme.secondary,
+            color = if (progress >= 1f) capitalino_cactus else md_theme_light_primary,
             trackColor = Color.Gray
         )
     }

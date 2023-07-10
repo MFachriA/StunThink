@@ -11,10 +11,18 @@ import java.io.IOException
 class GetMotherNutritionUseCase(
     private val userRepository: UserRepository
 ) {
-    operator fun invoke(token: String): Flow<Resource<List<NutritionDto>>> = flow {
+    operator fun invoke(
+        token: String,
+        startDate: String,
+        endDate: String
+    ): Flow<Resource<List<NutritionDto>>> = flow {
         try {
             emit(Resource.Loading())
-            val nutritionList = userRepository.getMotherNutrition(token = token)
+            val nutritionList = userRepository.getMotherNutrition(
+                token = token,
+                startDate = startDate,
+                endDate = endDate,
+            )
             emit(Resource.Success(nutritionList.success, nutritionList.message, nutritionList.data))
         } catch (e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))

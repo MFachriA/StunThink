@@ -19,7 +19,6 @@ class GetNutritionStandardUseCase @Inject constructor(
         try {
             emit(Resource.Loading())
             val nutritionStatus = userRepository.getNutritionStandard(token = token, childId = id)
-
             emit(Resource.Success(nutritionStatus.success, nutritionStatus.message, nutritionStatus.data))
         } catch(e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))

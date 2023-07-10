@@ -63,7 +63,7 @@ fun HomeScreen(
                             color = Color.Black
                         )
                         Text(
-                            text = "${user?.namaLengkap}",
+                            text = user?.namaLengkap ?: "-",
                             fontWeight = FontWeight.SemiBold,
                             style = Typography.headlineSmall,
                             color = Color.Black
@@ -108,7 +108,7 @@ fun HomeScreen(
                         )
                         Row(
                             modifier = Modifier.clickable {
-                                viewModel.changeSelectedMenu(2)
+                                viewModel.changeSelectedMenu(1)
                             },
                             verticalAlignment = Alignment.CenterVertically
                         ) {

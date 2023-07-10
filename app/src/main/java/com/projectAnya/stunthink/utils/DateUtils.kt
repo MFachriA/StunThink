@@ -65,7 +65,7 @@ object DateUtils {
     fun getStartOfDay(dateString: String? = null): String {
         return try {
             val currentDate = if (!dateString.isNullOrEmpty()) {
-                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             } else {
                 LocalDate.now()
             }
@@ -84,7 +84,7 @@ object DateUtils {
     fun getEndOfDay(dateString: String? = null): String {
         return try {
             val currentDate = if (!dateString.isNullOrEmpty()) {
-                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             } else {
                 LocalDate.now()
             }

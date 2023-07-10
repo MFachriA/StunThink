@@ -45,10 +45,16 @@ interface UserRepository {
 
     suspend fun getChildNutrition(
         token: String,
-        id: String
+        id: String,
+        startDate: String,
+        endDate: String
     ): ApiResponse<List<NutritionDto>>
 
-    suspend fun getMotherNutrition(token: String): ApiResponse<List<NutritionDto>>
+    suspend fun getMotherNutrition(
+        token: String,
+        startDate: String,
+        endDate: String
+    ): ApiResponse<List<NutritionDto>>
 
     suspend fun getNutritionStatus(
         token: String,

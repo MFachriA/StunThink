@@ -1,10 +1,11 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.mother.main
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.projectAnya.stunthink.domain.common.Resource
@@ -34,6 +35,9 @@ class MotherMonitoringMainViewModel @Inject constructor(
     private val _userTokenState = MutableStateFlow<String?>(null)
     val userTokenState: StateFlow<String?> = _userTokenState.asStateFlow()
 
+    private val _dateState: MutableLiveData<String?> = MutableLiveData(null)
+    val dateState: LiveData<String?> = _dateState
+
     private val _nutritionStatusState = mutableStateOf(ChildNutritionListState())
     val nutritionStatusState: State<ChildNutritionListState> = _nutritionStatusState
 
@@ -55,18 +59,19 @@ class MotherMonitoringMainViewModel @Inject constructor(
         }
     }
 
+    fun updateDate(date: String?) {
+        _dateState.value = date
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getNutritionStatus(
         token: String,
-        startDate: String? = null,
-        endDate: String? = null
+        date: String?
     ) {
-        Log.e("startDate mother", DateUtils.getStartOfDay(startDate))
-        Log.e("endDate mother", DateUtils.getEndOfDay(endDate))
         getNutritionStatusUseCase.invoke(
             token = token,
-            startDate = DateUtils.getStartOfDay(startDate),
-            endDate = DateUtils.getEndOfDay(endDate)
+            startDate = DateUtils.getStartOfDay(date),
+            endDate = DateUtils.getEndOfDay(date)
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
@@ -106,8 +111,15 @@ class MotherMonitoringMainViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getNutritions(token: String) {
-        getMotherNutritionUseCase(token = token).onEach { result ->
+    fun getNutritions(
+        token: String,
+        date: String?
+    ) {
+        getMotherNutritionUseCase(
+            token = token,
+            startDate = DateUtils.getStartOfDay(date),
+            endDate = DateUtils.getEndOfDay(date)
+        ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _nutritionListState.value = ChildNutritionListState(nutritions = result.data ?: emptyList())

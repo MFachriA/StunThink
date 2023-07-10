@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
@@ -37,10 +38,22 @@ fun ChildCard(
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(text = name, style = Typography.labelLarge)
-                Text(text = gender, style = Typography.bodyMedium)
+                Text(
+                    text = name,
+                    style = Typography.labelLarge,
+                    color = Color.Black
+                )
+                Text(
+                    text = gender,
+                    style = Typography.bodyMedium,
+                    color = Color.Black
+                )
             }
-            Text(text = dateOfBirth, style = Typography.bodyMedium)
+            Text(
+                text = dateOfBirth,
+                style = Typography.bodyMedium,
+                color = Color.Black
+            )
         }
     }
 }

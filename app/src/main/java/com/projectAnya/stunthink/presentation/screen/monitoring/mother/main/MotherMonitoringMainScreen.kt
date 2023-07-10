@@ -2,6 +2,7 @@ package com.projectAnya.stunthink.presentation.screen.monitoring.mother.main
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,27 +21,37 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
@@ -52,7 +63,9 @@ import com.projectAnya.stunthink.presentation.component.content.BaseContent
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
+import com.projectAnya.stunthink.utils.DateUtils
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MotherMonitoringMainScreen(
@@ -64,15 +77,20 @@ fun MotherMonitoringMainScreen(
     val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
     val userToken: String? by userTokenState
 
+    val dateState = viewModel.dateState.observeAsState()
+    val date = dateState.value
+
     val nutritionStatusState = viewModel.nutritionStatusState.value
     val nutritionStandardState = viewModel.nutritionStandardState.value
     val nutritionListState = viewModel.nutritionListState.value
 
-    LaunchedEffect(key1 = context) {
+    val calendarState = rememberUseCaseState()
+
+    LaunchedEffect(key1 = context, key2 = date) {
         userToken?.let { token ->
-            viewModel.getNutritionStatus(token)
+            viewModel.getNutritionStatus(token, date)
             viewModel.getNutritionStandard(token)
-            viewModel.getNutritions(token)
+            viewModel.getNutritions(token, date)
         }
     }
 
@@ -107,22 +125,61 @@ fun MotherMonitoringMainScreen(
             Box(
                 modifier = Modifier.padding(paddingValues)
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    MotherMonitoringNutritionSummary(
-                        navController = navController,
-                        startNutrition = nutritionStatusState.nutritionStatus?._sum,
-                        targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
-                    )
-                    MotherMonitoringNutritionList(
-                        nutritionList = nutritionListState.nutritions,
-                        navController = navController
-                    )
+                Column {
+                    Surface(
+                        modifier = Modifier.clickable { calendarState.show() },
+                        shape = RectangleShape,
+                        border = BorderStroke(1.dp, Color.Gray),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = "Tanggal",
+                                style = Typography.bodyLarge
+                            )
+                            Text(
+                                text =
+                                if (date != null) DateUtils.formatDateToIndonesianDate(date)
+                                else "Hari Ini",
+                                style = Typography.titleMedium
+                            )
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        MotherMonitoringNutritionSummary(
+                            navController = navController,
+                            startNutrition = nutritionStatusState.nutritionStatus?._sum,
+                            targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
+                        )
+                        MotherMonitoringNutritionList(
+                            nutritionList = nutritionListState.nutritions,
+                            navController = navController
+                        )
+                    }
                 }
+
+                CalendarDialog(
+                    state = calendarState,
+                    config = CalendarConfig(
+                        yearSelection = true,
+                        monthSelection = true,
+                        style = CalendarStyle.MONTH
+                    ),
+                    selection = CalendarSelection.Date { date ->
+                        viewModel.updateDate(date.toString())
+                    },
+                    properties = DialogProperties()
+                )
             }
         }
     }

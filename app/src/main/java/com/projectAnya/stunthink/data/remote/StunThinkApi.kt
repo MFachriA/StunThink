@@ -72,12 +72,16 @@ interface StunThinkApi {
     @GET("history/gizi/anak/{id}")
     suspend fun getChildNutrition(
         @Header("auth") auth: String,
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Query("date[0]") startDate: String,
+        @Query("date[1]") endDate: String
     ): ApiResponse<List<NutritionDto>>
 
     @GET("history/gizi")
     suspend fun getMotherNutrition(
-        @Header("auth") auth: String
+        @Header("auth") auth: String,
+        @Query("date[0]") startDate: String,
+        @Query("date[1]") endDate: String,
     ): ApiResponse<List<NutritionDto>>
 
     @GET("history/status-gizi")
