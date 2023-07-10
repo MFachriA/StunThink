@@ -152,7 +152,7 @@ fun StuntingCameraScreen(
                                 )
                             } else {
                                 Image(
-                                    painter = painterResource(id = R.drawable.take_food_logo),
+                                    painter = painterResource(id = R.drawable.measurure_stunting_illustration),
                                     contentDescription = "image",
                                     modifier = Modifier.padding(
                                         horizontal = 64.dp,

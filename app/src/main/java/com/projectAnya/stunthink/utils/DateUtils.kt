@@ -3,6 +3,7 @@ package com.projectAnya.stunthink.utils
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -68,9 +69,13 @@ object DateUtils {
             } else {
                 LocalDate.now()
             }
-            val startOfDay = currentDate.atStartOfDay().toInstant(ZoneOffset.UTC)
+            // Set the time zone to Indonesian time zone (GMT+7)
+            val indonesianZoneId = ZoneId.of("Asia/Jakarta")
+            val startOfDayIndonesia = currentDate.atStartOfDay(indonesianZoneId).toInstant()
 
-            startOfDay.toString()
+            // Convert the start of day from Indonesian time to UTC
+            val startOfDayUTC = startOfDayIndonesia.atOffset(ZoneOffset.UTC).toInstant()
+            startOfDayUTC.toString()
         } catch (e: Exception) {
             e.printStackTrace()
             ""
@@ -85,8 +90,12 @@ object DateUtils {
             } else {
                 LocalDate.now()
             }
-            val startOfDay = currentDate.atStartOfDay().toInstant(ZoneOffset.UTC)
-            val endOfDay = startOfDay.plusSeconds(86399)
+            val indonesianZoneId = ZoneId.of("Asia/Jakarta")
+            val startOfDayIndonesia = currentDate.atStartOfDay(indonesianZoneId).toInstant()
+            val endOfDay = startOfDayIndonesia
+                .plusSeconds(86399)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant()
 
             endOfDay.toString()
         } catch (e: Exception) {

@@ -1,6 +1,7 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.mother.main
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +61,8 @@ class MotherMonitoringMainViewModel @Inject constructor(
         startDate: String? = null,
         endDate: String? = null
     ) {
+        Log.e("startDate mother", DateUtils.getStartOfDay(startDate))
+        Log.e("endDate mother", DateUtils.getEndOfDay(endDate))
         getNutritionStatusUseCase.invoke(
             token = token,
             startDate = DateUtils.getStartOfDay(startDate),

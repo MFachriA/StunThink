@@ -5,16 +5,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PersonAddAlt
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -31,8 +24,6 @@ fun MonitoringCard(
     modifier: Modifier = Modifier,
     @DrawableRes image: Int,
     title: String,
-    description: String,
-    buttonText: String,
     onClick: () -> Unit
 ) {
     OutlinedButton(
@@ -43,7 +34,8 @@ fun MonitoringCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp),
+                .padding(16.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -57,20 +49,6 @@ fun MonitoringCard(
                 contentDescription = null,
                 modifier = Modifier.height(100.dp)
             )
-            Text(
-                text = description,
-                style = Typography.bodyMedium
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.BottomCenter),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(imageVector = Icons.Rounded.PersonAddAlt, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = buttonText)
-            }
         }
     }
 }

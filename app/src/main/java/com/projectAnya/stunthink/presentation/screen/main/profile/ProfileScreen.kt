@@ -1,14 +1,13 @@
 package com.projectAnya.stunthink.presentation.screen.main.profile
 
 import android.widget.Toast
-import androidx.compose.foundation.border
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -16,17 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import coil.size.Scale
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
@@ -88,20 +83,14 @@ fun ProfileScreenContent(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(user?.profileUrl)
-                .placeholder(R.drawable.mother_baby_illustration)
-                .error(R.drawable.mother_baby_illustration)
-                .crossfade(true)
-                .scale(Scale.FIT)
-                .build(),
-            contentDescription = null,
+        Image(
+            painter = painterResource(id = R.drawable.profile_picture_illustration),
+            contentDescription = "image",
             modifier = Modifier
                 .size(150.dp)
-                .clip(CircleShape)
-                .border(2.dp, Color.Gray, CircleShape)
-                .align(Alignment.CenterHorizontally),
+                .padding(vertical = 16.dp)
+                .align(Alignment.CenterHorizontally)
+            ,
             alignment = Alignment.Center
         )
         ChildStuntingContent(
@@ -110,11 +99,11 @@ fun ProfileScreenContent(
         )
         ChildStuntingContent(
             title = "Kelamin",
-            content = StringUtils.convertGenderEnum(user?.jenisKelamin ?: "")
+            content = StringUtils.convertGenderEnum(user?.jenisKelamin ?: "-")
         )
         ChildStuntingContent(
             title = "Tanggal Lahir",
-            content = DateUtils.formatDateTimeToIndonesianDate(user?.tanggalLahir ?: "")
+            content = DateUtils.formatDateTimeToIndonesianDate(user?.tanggalLahir ?: "-")
         )
         ChildStuntingContent(
             title = "Tempat Lahir",

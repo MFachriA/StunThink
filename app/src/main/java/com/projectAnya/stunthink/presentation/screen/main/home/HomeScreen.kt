@@ -51,9 +51,7 @@ fun HomeScreen(
                     MonitoringCard(
                         modifier = Modifier,
                         title = "Monitoring Anak",
-                        image = R.drawable.mother_baby_illustration,
-                        description = "Belum ada data anak",
-                        buttonText = "Tambah Data Anak"
+                        image = R.drawable.mother_baby_illustration
                     ) {
                         navController.navigate(route = ScreenRoute.ChildList.route)
                     }
@@ -62,9 +60,7 @@ fun HomeScreen(
                     MonitoringCard(
                         modifier = Modifier,
                         title = "Monitoring Ibu",
-                        image = R.drawable.mother_illustration,
-                        description = "Belum ada data ibu",
-                        buttonText = "Tambah Data ibu"
+                        image = R.drawable.mother_illustration
                     ) {
                         navController.navigate(route = ScreenRoute.MotherMonitoringMain.route)
                     }
