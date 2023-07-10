@@ -3,6 +3,7 @@ package com.projectAnya.stunthink.presentation.screen.monitoring.mother.main
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -113,6 +114,7 @@ fun MotherMonitoringMainScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     MotherMonitoringNutritionSummary(
+                        navController = navController,
                         startNutrition = nutritionStatusState.nutritionStatus?._sum,
                         targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
                     )
@@ -138,6 +140,7 @@ fun MotherMonitoringMainScreenPreview() {
 @Composable
 fun MotherMonitoringNutritionSummary(
     modifier: Modifier = Modifier,
+    navController: NavController,
     startNutrition: NutritionDetailDto?,
     targetNutrition: NutritionDetailDto?,
 ) {
@@ -147,6 +150,17 @@ fun MotherMonitoringNutritionSummary(
         title = "Total Nutrisi Hari Ini"
     ) {
         NutritionSummaryCard(
+            modifier = Modifier.clickable {
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    key = "nutritionStart",
+                    value = startNutrition
+                )
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    key = "nutritionTarget",
+                    value = targetNutrition
+                )
+                navController.navigate(ScreenRoute.NutritionDetail.route)
+            },
             startNutrition = startNutrition,
             targetNutrition = targetNutrition
         )

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
+import com.projectAnya.stunthink.presentation.ui.theme.capitalino_cactus
 
 @Composable
 fun NutritionSummaryCard(
@@ -66,38 +67,39 @@ fun NutritionSummaryCard(
 fun NutritionSummary(
     modifier: Modifier = Modifier,
     title: String,
-    start: Float,
-    target: Float,
+    start: Float?,
+    target: Float?,
     prefix: String
 ){
-    val progress: Float by animateFloatAsState(start/target)
+    val mStart = start ?: 0f
+    val mTarget = target ?: 0f
 
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.small,
+    val progress: Float by animateFloatAsState(mStart/mTarget)
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Row {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = title,
-                    style = Typography.titleSmall
-                )
-                Text(
-                    text = "$start/$target $prefix",
-                    style = Typography.bodySmall
-                )
-            }
-            LinearProgressIndicator(
-                progress = if (!progress.isNaN()) progress else 0f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp),
-                trackColor = Color.Gray
+        Row {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = title,
+                style = Typography.titleSmall
+            )
+            Text(
+                text = "$mStart/$mTarget $prefix",
+                style = Typography.bodySmall
             )
         }
+        LinearProgressIndicator(
+            progress = if (!progress.isNaN()) progress else 0f,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp),
+            color = if (progress == 1f) capitalino_cactus else MaterialTheme.colorScheme.secondary,
+            trackColor = Color.Gray
+        )
     }
 }

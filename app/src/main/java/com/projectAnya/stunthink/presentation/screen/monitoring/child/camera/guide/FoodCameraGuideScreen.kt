@@ -58,22 +58,25 @@ fun FoodCameraGuideScreen(
                         text = "6. Mie Ayam",
                     )
                     Text(
-                        text = "7. Pelecing Kangkung",
+                        text = "7. Rendang Sapi",
                     )
                     Text(
-                        text = "8. Sayur Asem",
+                        text = "8. Pelecing Kangkung",
                     )
                     Text(
-                        text = "9. Semur Jengkol",
+                        text = "9. Sayur Asem",
                     )
                     Text(
-                        text = "10. Sup Buntut",
+                        text = "10. Semur Jengkol",
                     )
                     Text(
-                        text = "11. Soto Padang",
+                        text = "11. Sup Buntut",
                     )
                     Text(
-                        text = "12. Tekwan",
+                        text = "12. Soto Padang",
+                    )
+                    Text(
+                        text = "13. Tekwan",
                     )
                 }
             }

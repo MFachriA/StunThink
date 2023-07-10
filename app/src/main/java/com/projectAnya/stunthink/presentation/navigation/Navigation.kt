@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.height.HeightDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
+import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
 import com.projectAnya.stunthink.presentation.screen.food.FoodDetailScreen
@@ -33,8 +34,9 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.food.Child
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainViewModel
-import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.detail.ChildMonitoringDetailScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.child_detail.ChildMonitoringDetailScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition_detail.NutritionDetailScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting.StuntingDetectionScreen
@@ -174,6 +176,17 @@ fun ApplicationNavHost(
         composable(route = ScreenRoute.FoodCameraGuide.route) {
             FoodCameraGuideScreen(
                 navController = navController
+            )
+        }
+        composable(route = ScreenRoute.NutritionDetail.route) {
+            val nutritionStart =
+                navController.previousBackStackEntry?.savedStateHandle?.get<NutritionDetailDto>("nutritionStart")
+            val nutritionTarget =
+                navController.previousBackStackEntry?.savedStateHandle?.get<NutritionDetailDto>("nutritionTarget")
+            NutritionDetailScreen(
+                navController = navController,
+                nutritionStart = nutritionStart,
+                nutritionTarget = nutritionTarget
             )
         }
         navigation(

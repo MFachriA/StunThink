@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.detail
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.child_detail
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

@@ -3,6 +3,7 @@ package com.projectAnya.stunthink.presentation.screen.main.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,8 +37,12 @@ fun HomeScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
+    val educationState = viewModel.educationState.value
+
+    val userState = viewModel.profileState.value
+    val user = userState.userDetail
+
     StunThinkTheme {
-        val state = viewModel.educationState.value
 
         Box(modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -48,9 +54,33 @@ fun HomeScreen(
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 item {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "Selamat Datang,",
+                            style = Typography.titleLarge,
+                            color = Color.Black
+                        )
+                        Text(
+                            text = "${user?.namaLengkap}",
+                            fontWeight = FontWeight.SemiBold,
+                            style = Typography.headlineSmall,
+                            color = Color.Black
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp),
+                            text = "Yuk Cukupi Kebutuhan Nutrisi Anda dan Anak Anda Hari Ini!",
+                            style = Typography.bodyLarge,
+                            color = Color.Black
+                        )
+                    }
+                }
+                item {
                     MonitoringCard(
                         modifier = Modifier,
                         title = "Monitoring Anak",
+                        description = "Catatan makanan dan nutrisi \nharian anak",
                         image = R.drawable.mother_baby_illustration
                     ) {
                         navController.navigate(route = ScreenRoute.ChildList.route)
@@ -60,6 +90,7 @@ fun HomeScreen(
                     MonitoringCard(
                         modifier = Modifier,
                         title = "Monitoring Ibu",
+                        description = "Catatan makanan dan nutrisi \nharian ibu",
                         image = R.drawable.mother_illustration
                     ) {
                         navController.navigate(route = ScreenRoute.MotherMonitoringMain.route)
@@ -94,7 +125,7 @@ fun HomeScreen(
                         }
                     }
                 }
-                items(items = state.educationList.take(2), itemContent = { education ->
+                items(items = educationState.educationList.take(2), itemContent = { education ->
                     EducationCard(
                         modifier = Modifier,
                         imageLink = education.urlToImage,

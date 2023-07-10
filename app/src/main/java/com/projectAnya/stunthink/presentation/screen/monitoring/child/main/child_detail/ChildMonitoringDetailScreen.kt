@@ -1,4 +1,4 @@
-package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.detail
+package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.child_detail
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement

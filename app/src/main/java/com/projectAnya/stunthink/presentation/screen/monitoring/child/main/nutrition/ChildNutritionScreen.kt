@@ -3,6 +3,7 @@ package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutr
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.Arrangement
@@ -106,6 +107,17 @@ fun ChildNutritionScreen(
                             style = Typography.titleLarge
                         )
                         NutritionSummaryCard(
+                            modifier = Modifier.clickable {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "nutritionStart",
+                                    value = nutritionStatusState.nutritionStatus?._sum
+                                )
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "nutritionTarget",
+                                    value = nutritionStandardState.nutritionStandard?.standarGiziDetail
+                                )
+                                navController.navigate(ScreenRoute.NutritionDetail.route)
+                            },
                             startNutrition = nutritionStatusState.nutritionStatus?._sum,
                             targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
                         )

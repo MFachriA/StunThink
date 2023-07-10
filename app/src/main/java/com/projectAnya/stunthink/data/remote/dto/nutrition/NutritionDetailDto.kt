@@ -2,7 +2,6 @@ package com.projectAnya.stunthink.data.remote.dto.nutrition
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-
 @Parcelize
 data class NutritionDetailDto(
     val Air: Float,

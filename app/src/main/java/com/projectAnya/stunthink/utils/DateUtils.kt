@@ -69,11 +69,9 @@ object DateUtils {
             } else {
                 LocalDate.now()
             }
-            // Set the time zone to Indonesian time zone (GMT+7)
             val indonesianZoneId = ZoneId.of("Asia/Jakarta")
             val startOfDayIndonesia = currentDate.atStartOfDay(indonesianZoneId).toInstant()
 
-            // Convert the start of day from Indonesian time to UTC
             val startOfDayUTC = startOfDayIndonesia.atOffset(ZoneOffset.UTC).toInstant()
             startOfDayUTC.toString()
         } catch (e: Exception) {

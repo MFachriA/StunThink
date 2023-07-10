@@ -42,32 +42,24 @@ fun compressImageFile(imageFile: File): File {
 
     val options = BitmapFactory.Options()
 
-    // Decode the image file to get the original dimensions
     options.inJustDecodeBounds = true
     BitmapFactory.decodeFile(imageFile.absolutePath, options)
 
-    // Set the desired maximum width and height for the compressed image
     val maxWidth = 1080
     val maxHeight = 1920
 
-    // Calculate the sample size based on the original and desired dimensions
     options.inSampleSize = calculateSampleSize(options, maxWidth, maxHeight)
 
-    // Decode the image file again, this time with the desired dimensions
     options.inJustDecodeBounds = false
     val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath, options)
 
-    // Apply rotation based on EXIF orientation
     val rotatedBitmap = rotateBitmap(bitmap, orientation)
 
-    // Create a compressed output file
     val compressedFile = createCompressedFile(imageFile)
 
-    // Compress the rotated bitmap and save it to the output file
     val outputStream = FileOutputStream(compressedFile)
     rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
 
-    // Clean up resources
     outputStream.close()
     bitmap.recycle()
     rotatedBitmap.recycle()
