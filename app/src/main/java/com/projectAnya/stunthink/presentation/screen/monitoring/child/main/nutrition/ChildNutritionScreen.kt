@@ -18,14 +18,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -147,7 +145,7 @@ fun ChildNutritionScreen(
                         Column {
                             Text(
                                 modifier = Modifier.padding(bottom = 8.dp),
-                                text = "Total Nutrisi",
+                                text = "Nutrisi Hari Ini",
                                 style = Typography.titleLarge
                             )
                             NutritionSummaryCard(
@@ -222,7 +220,6 @@ fun ChildNutritionScreen(
                     }
                 }
             }
-
             FloatingActionButton(
                 onClick = {
                     navController.navigate(
@@ -232,13 +229,10 @@ fun ChildNutritionScreen(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp),
-                containerColor = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(16.dp),
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = "Add",
-                    tint = Color.White,
                 )
             }
 

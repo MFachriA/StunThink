@@ -24,11 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.component.card.EducationCard
-import com.projectAnya.stunthink.presentation.component.card.MonitoringCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.main.MainViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringNutritionSummary
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.presentation.ui.theme.md_theme_light_primary
@@ -38,13 +37,16 @@ fun HomeScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
+
+    val nutritionStatusState = viewModel.nutritionStatusState.value
+    val nutritionStandardState = viewModel.nutritionStandardState.value
+
     val educationState = viewModel.educationState.value
 
     val userState = viewModel.profileState.value
     val user = userState.userDetail
 
     StunThinkTheme {
-
         Box(modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxSize()
@@ -70,32 +72,19 @@ fun HomeScreen(
                             color = md_theme_light_primary
                         )
                         Text(
-                            modifier = Modifier.padding(top = 4.dp),
-                            text = "Yuk Cukupi Kebutuhan Nutrisi Anda dan Anak Anda Hari Ini!",
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            text = "Ayo, lengkapi gizi anda dan anak anda hari ini agar terhindar dari stunting!",
                             style = Typography.bodyLarge,
                             color = Color.Black
                         )
                     }
                 }
                 item {
-                    MonitoringCard(
-                        modifier = Modifier,
-                        title = "Monitoring Anak",
-                        description = "Catatan makanan dan nutrisi \nharian anak",
-                        image = R.drawable.mother_baby_illustration
-                    ) {
-                        navController.navigate(route = ScreenRoute.ChildList.route)
-                    }
-                }
-                item {
-                    MonitoringCard(
-                        modifier = Modifier,
-                        title = "Monitoring Ibu",
-                        description = "Catatan makanan dan nutrisi \nharian ibu",
-                        image = R.drawable.mother_illustration
-                    ) {
-                        navController.navigate(route = ScreenRoute.MotherMonitoringMain.route)
-                    }
+                    MotherMonitoringNutritionSummary(
+                        navController = navController,
+                        startNutrition = nutritionStatusState.nutritionStatus?._sum,
+                        targetNutrition = nutritionStandardState.nutritionStandard?.standarGiziDetail
+                    )
                 }
                 item {
                     Row(
@@ -109,7 +98,7 @@ fun HomeScreen(
                         )
                         Row(
                             modifier = Modifier.clickable {
-                                viewModel.changeSelectedMenu(1)
+                                viewModel.changeSelectedMenu(2)
                             },
                             verticalAlignment = Alignment.CenterVertically
                         ) {

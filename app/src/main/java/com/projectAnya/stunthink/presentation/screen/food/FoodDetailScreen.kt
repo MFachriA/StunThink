@@ -109,7 +109,7 @@ fun FoodDetailContent(
     food: FoodDto?,
     viewModel: FoodDetailViewModel = hiltViewModel()
 ) {
-    var showDetail by rememberSaveable { mutableStateOf(false) }
+    var showDetail by rememberSaveable { mutableStateOf(true) }
 
     val detailText = if (showDetail) {
         "Sembunyikan Detail"
@@ -166,7 +166,7 @@ fun FoodDetailContent(
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(300.dp)
+                        .height(400.dp)
                         .padding(bottom = 16.dp)
                         .fillMaxWidth(),
                     contentScale = ContentScale.Crop
