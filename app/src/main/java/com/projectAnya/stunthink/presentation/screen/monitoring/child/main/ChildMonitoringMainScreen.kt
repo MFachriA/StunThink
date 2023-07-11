@@ -1,5 +1,7 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.child.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -32,6 +35,7 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunt
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChildMonitoringMainScreen(
@@ -97,6 +101,7 @@ fun ChildMonitoringMainScreen(
                                 )
                             },
                             selected = tabIndex.value!! == index,
+                            unselectedContentColor = Color.DarkGray,
                             onClick = { viewModel.updateTabIndex(index) }
                         )
                     }
@@ -110,6 +115,7 @@ fun ChildMonitoringMainScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun ChildMonitoringMainScreenPreview() {

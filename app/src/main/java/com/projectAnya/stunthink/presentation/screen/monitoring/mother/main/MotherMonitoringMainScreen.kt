@@ -139,7 +139,7 @@ fun MotherMonitoringMainScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "Tanggal",
+                                text = "Pilih Tanggal",
                                 style = Typography.bodyLarge
                             )
                             Text(
@@ -204,7 +204,7 @@ fun MotherMonitoringNutritionSummary(
     BaseContent(
         modifier = modifier
             .fillMaxWidth(),
-        title = "Total Nutrisi Hari Ini"
+        title = "Total Nutrisi"
     ) {
         NutritionSummaryCard(
             modifier = Modifier.clickable {
@@ -239,8 +239,8 @@ fun MotherMonitoringNutritionList(
         if (nutritionList.isEmpty()) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
+                    .fillMaxWidth()
+                    .padding(vertical = 48.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

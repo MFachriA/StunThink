@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,8 +65,16 @@ fun NutritionCard(
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(text = name, style = Typography.labelLarge)
-                Text(text = DateUtils.formatDateTimeToIndonesianTimeDate(date), style = Typography.bodyMedium)
+                Text(
+                    text = name,
+                    style = Typography.labelLarge,
+                    color = Color.Black
+                )
+                Text(
+                    text = DateUtils.formatDateTimeToIndonesianTimeDate(date),
+                    style = Typography.bodyMedium,
+                    color = Color.Black
+                )
             }
             Icon(
                 imageVector = Icons.Default.ChevronRight,

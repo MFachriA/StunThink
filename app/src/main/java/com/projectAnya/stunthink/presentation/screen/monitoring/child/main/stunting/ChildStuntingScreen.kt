@@ -149,7 +149,7 @@ fun ChildStuntingScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(vertical = 64.dp),
+                                .padding(vertical = 80.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {

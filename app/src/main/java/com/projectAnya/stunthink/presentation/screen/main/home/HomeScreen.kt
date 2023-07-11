@@ -31,6 +31,7 @@ import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.main.MainViewModel
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
+import com.projectAnya.stunthink.presentation.ui.theme.md_theme_light_primary
 
 @Composable
 fun HomeScreen(
@@ -66,7 +67,7 @@ fun HomeScreen(
                             text = user?.namaLengkap ?: "-",
                             fontWeight = FontWeight.SemiBold,
                             style = Typography.headlineSmall,
-                            color = Color.Black
+                            color = md_theme_light_primary
                         )
                         Text(
                             modifier = Modifier.padding(top = 4.dp),

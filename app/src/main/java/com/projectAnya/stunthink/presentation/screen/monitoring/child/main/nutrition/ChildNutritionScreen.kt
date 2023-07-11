@@ -122,7 +122,7 @@ fun ChildNutritionScreen(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
-                            text = "Tanggal",
+                            text = "Pilih Tanggal",
                             style = Typography.bodyLarge
                         )
                         Text(
@@ -147,7 +147,7 @@ fun ChildNutritionScreen(
                         Column {
                             Text(
                                 modifier = Modifier.padding(bottom = 8.dp),
-                                text = "Total Nutrisi Hari Ini",
+                                text = "Total Nutrisi",
                                 style = Typography.titleLarge
                             )
                             NutritionSummaryCard(
@@ -182,7 +182,7 @@ fun ChildNutritionScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(vertical = 64.dp),
+                                    .padding(vertical = 48.dp),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
