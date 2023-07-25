@@ -102,7 +102,7 @@ fun FoodDetailContent(
     val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
     val userToken: String? by userTokenState
 
-    var showDetail by rememberSaveable { mutableStateOf(false) }
+    var showDetail by rememberSaveable { mutableStateOf(true) }
 
     val childIdState: State<String?> = viewModel.childIdState.collectAsState()
     val childId: String? by childIdState

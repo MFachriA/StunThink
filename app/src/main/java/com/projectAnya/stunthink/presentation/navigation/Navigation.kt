@@ -41,6 +41,8 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunt
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.register.ChildRegisterScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting.StuntingDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainViewModel
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.nutrition.MotherNutritionScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
 import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
 import com.projectAnya.stunthink.presentation.screen.welcome.WelcomeScreen
@@ -157,6 +159,33 @@ fun ApplicationNavHost(
                 navController = navController,
                 food = food
             )
+        }
+        navigation(
+            startDestination = ScreenRoute.MotherMonitoringMain.route,
+            route = ScreenRoute.MotherMonitoringNavigation.route
+        ) {
+            composable(route = ScreenRoute.MotherMonitoringMain.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.MotherMonitoringMain.route)
+                }
+                val motherMonitoringMainViewModel =
+                    hiltViewModel<MotherMonitoringMainViewModel>(parentEntry)
+                MotherMonitoringMainScreen(
+                    navController = navController,
+                    viewModel = motherMonitoringMainViewModel
+                )
+            }
+            composable(route = ScreenRoute.MotherNutritionScreen.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.MotherMonitoringMain.route)
+                }
+                val motherMonitoringMainViewModel =
+                    hiltViewModel<MotherMonitoringMainViewModel>(parentEntry)
+                MotherNutritionScreen(
+                    navController = navController,
+                    mainViewModel = motherMonitoringMainViewModel
+                )
+            }
         }
         composable(
             route = ScreenRoute.MotherMonitoringMain.route

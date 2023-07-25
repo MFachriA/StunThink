@@ -230,7 +230,7 @@ fun ChildStuntingScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 4.dp),
                 ) {
                     Text(text = "Foto Tinggi Anak")
                 }
@@ -239,8 +239,7 @@ fun ChildStuntingScreen(
                         navController.navigate(ScreenRoute.ChildStuntingDetection.route)
                     },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary,)
                 ) {
                     Text(text = "Ukur Manual")

@@ -1,6 +1,7 @@
 package com.projectAnya.stunthink.presentation.component.dialog
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
@@ -12,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
@@ -34,20 +37,21 @@ fun ConfirmationDeleteDialog(
                 onDismissRequest = onDismissRequest,
                 confirmButton = {
                     Text(
-                        modifier = Modifier.clickable {
-                            onConfirmButton()
-                        },
-                        text = "Ya",
+                        modifier = Modifier
+                            .padding(start = 20.dp)
+                            .clickable { onConfirmButton() },
+                        text = "YA",
                         style = Typography.labelLarge,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center
                     )
                 },
                 dismissButton = {
                     Text(
-                        modifier = Modifier.clickable {
-                            onDismissButton()
-                        },
-                        text = "Tidak",
+                        modifier = Modifier
+                            .padding(horizontal = 0.dp)
+                            .clickable { onDismissButton() },
+                        text = "TIDAK",
                         style = Typography.labelLarge,
                         color = Color.DarkGray
                     )
@@ -76,4 +80,17 @@ fun ConfirmationDeleteDialog(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ConfirmationDeleteDialogPreview() {
+    ConfirmationDeleteDialog(
+        isOpen = true,
+        onDismissRequest = { },
+        onConfirmButton = { },
+        onDismissButton = { },
+        title = "Hapus Makanan",
+        text = "Apakah kamu yakin ingin menghapus makanan ini?"
+    )
 }

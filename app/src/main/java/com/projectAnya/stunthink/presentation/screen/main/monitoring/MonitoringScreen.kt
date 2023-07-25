@@ -83,7 +83,7 @@ fun MonitoringScreen(
                         description = "Catatan makanan dan nutrisi \nharian ibu",
                         image = R.drawable.mother_illustration
                     ) {
-                        navController.navigate(route = ScreenRoute.MotherMonitoringMain.route)
+                        navController.navigate(route = ScreenRoute.MotherMonitoringNavigation.route)
                     }
                 }
             }

@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.presentation.component.card.EducationCard
 import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.screen.main.MainViewModel
-import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringNutritionSummary
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.nutrition.MotherMonitoringNutritionSummary
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 import com.projectAnya.stunthink.presentation.ui.theme.md_theme_light_primary

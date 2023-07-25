@@ -18,6 +18,10 @@ sealed class ScreenRoute(val route: String) {
     object ChildNutrition: ScreenRoute(route = "child_nutrition_screen")
     object ChildStunting: ScreenRoute(route = "child_stunting_screen")
     object MotherMonitoringMain: ScreenRoute(route = "mother_monitoring_main_screen")
+    object MotherMonitoringNavigation: ScreenRoute(route = "mother_monitoring_navigation")
+    object MotherNutritionScreen: ScreenRoute(route = "mother_nutrition_screen")
+    object MotherPregnancyScreen: ScreenRoute(route = "mother_pregnancy_screen")
+
     object FoodDetail: ScreenRoute(route = "food_detail_screen")
     object ChildFoodDetail: ScreenRoute(route = "child_food_detail_screen")
     object MotherFoodDetail: ScreenRoute(route = "mother_food_detail_screen")
