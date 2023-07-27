@@ -15,13 +15,9 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -30,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.nutrition.MotherNutritionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.MotherPregnancyScreen
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,11 +36,6 @@ fun MotherMonitoringMainScreen(
     navController: NavController,
     viewModel: MotherMonitoringMainViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
-
-    val userTokenState: State<String?> = viewModel.userTokenState.collectAsState()
-    val userToken: String? by userTokenState
-
     val tabIndex = viewModel.tabIndex.observeAsState()
 
     StunThinkTheme {
@@ -88,7 +80,7 @@ fun MotherMonitoringMainScreen(
                 }
                 when (tabIndex.value) {
                     0 -> MotherNutritionScreen(navController, viewModel)
-                    1 -> MotherNutritionScreen(navController, viewModel)
+                    1 -> MotherPregnancyScreen(navController, viewModel)
                 }
             }
         }

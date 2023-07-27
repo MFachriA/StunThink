@@ -20,6 +20,7 @@ import com.projectAnya.stunthink.domain.use_case.monitoring.child.GetChildStunti
 import com.projectAnya.stunthink.domain.use_case.monitoring.food.UploadFoodPictureUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.height_detection.UploadHeightPictureUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.mother.GetMotherNutritionUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.mother.GetMotherPregnancyUseCase
 import com.projectAnya.stunthink.domain.use_case.register.RegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.projectAnya.stunthink.domain.use_case.user.SaveUserTokenUseCase
@@ -207,6 +208,11 @@ object AppModule {
     @Provides
     fun provideUploadHeightPictureUseCase(heightDetectionRepository: HeightDetectionRepository): UploadHeightPictureUseCase {
         return UploadHeightPictureUseCase(heightDetectionRepository)
+    }
+
+    @Provides
+    fun provideGetMotherPregnancyUseCase(userRepository: UserRepository): GetMotherPregnancyUseCase {
+        return GetMotherPregnancyUseCase(userRepository)
     }
 
 }

@@ -8,6 +8,7 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStandardDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStatusDto
+import com.projectAnya.stunthink.data.remote.dto.pregnancy.PregnancyDto
 import com.projectAnya.stunthink.data.remote.dto.stunting.StuntingDto
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import okhttp3.MultipartBody
@@ -17,6 +18,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -162,5 +164,34 @@ interface StunThinkApi {
     suspend fun deleteFood(
         @Header("auth") auth: String,
         @Path("id") id: String,
+    ): ApiResponse<Unit>
+
+    @FormUrlEncoded
+    @POST("history/kehamilan")
+    suspend fun addMotherPregnancy(
+        @Header("auth")auth:String,
+        @Field("tanggalHamil") date: String,
+        @Field("lahir") status: String
+    ): ApiResponse<Unit>
+
+    @GET("history/kehamilan")
+    suspend fun getMotherPregnancyList(
+        @Header("auth") auth: String,
+    ): ApiResponse<List<PregnancyDto>>
+
+    @DELETE("history/kehamilan/{id}")
+    suspend fun deleteMotherPregnancy(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+    ): ApiResponse<Unit>
+
+    @FormUrlEncoded
+    @PATCH("history/kehamilan/{id}")
+    suspend fun updateMotherPregnancy(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+        @Field("lahir") status: String,
+        @Field("tanggalHamil") pregnantDate: String,
+        @Field("tanggalKelahiran") birthDate: String?
     ): ApiResponse<Unit>
 }

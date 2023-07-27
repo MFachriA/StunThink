@@ -20,13 +20,14 @@ import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
 
 @Composable
-fun ConfirmationDeleteDialog(
+fun ConfirmationDialog(
     isOpen: Boolean,
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onConfirmButton: () -> Unit,
     onDismissButton: () -> Unit,
     icon: ImageVector = Icons.Default.Cancel,
+    contentColor: Color = MaterialTheme.colorScheme.error,
     title: String,
     text: String
 ) {
@@ -42,7 +43,7 @@ fun ConfirmationDeleteDialog(
                             .clickable { onConfirmButton() },
                         text = "YA",
                         style = Typography.labelLarge,
-                        color = MaterialTheme.colorScheme.error,
+                        color = contentColor,
                         textAlign = TextAlign.Center
                     )
                 },
@@ -61,7 +62,7 @@ fun ConfirmationDeleteDialog(
                         modifier = Modifier.size(50.dp),
                         imageVector = icon,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error
+                        tint = contentColor
                     )
                 },
                 title = {
@@ -85,7 +86,7 @@ fun ConfirmationDeleteDialog(
 @Preview(showBackground = true)
 @Composable
 private fun ConfirmationDeleteDialogPreview() {
-    ConfirmationDeleteDialog(
+    ConfirmationDialog(
         isOpen = true,
         onDismissRequest = { },
         onConfirmButton = { },

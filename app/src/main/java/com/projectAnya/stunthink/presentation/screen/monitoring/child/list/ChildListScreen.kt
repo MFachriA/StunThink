@@ -66,7 +66,6 @@ fun ChildListScreen(
         }
     }
 
-
     StunThinkTheme {
 
         Scaffold(

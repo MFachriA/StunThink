@@ -19,8 +19,8 @@ sealed class ScreenRoute(val route: String) {
     object ChildStunting: ScreenRoute(route = "child_stunting_screen")
     object MotherMonitoringMain: ScreenRoute(route = "mother_monitoring_main_screen")
     object MotherMonitoringNavigation: ScreenRoute(route = "mother_monitoring_navigation")
-    object MotherNutritionScreen: ScreenRoute(route = "mother_nutrition_screen")
-    object MotherPregnancyScreen: ScreenRoute(route = "mother_pregnancy_screen")
+    object MotherNutrition: ScreenRoute(route = "mother_nutrition_screen")
+    object MotherPregnancy: ScreenRoute(route = "mother_pregnancy_screen")
 
     object FoodDetail: ScreenRoute(route = "food_detail_screen")
     object ChildFoodDetail: ScreenRoute(route = "child_food_detail_screen")
@@ -28,6 +28,7 @@ sealed class ScreenRoute(val route: String) {
     object EducationDetail: ScreenRoute(route = "education_detail_screen")
     object ChildRegister: ScreenRoute(route = "child_register_screen")
     object StuntingDetail: ScreenRoute(route = "stunting_detail")
+    object PregnancyDetail: ScreenRoute(route = "pregnancy_detail")
     object ChildFoodDetection: ScreenRoute(route = "child_food_detection")
     object ChildMonitoringNavigation: ScreenRoute(route = "child_monitoring_navigation")
     object ChildStuntingDetection: ScreenRoute(route = "child_stunting_detection")
@@ -37,6 +38,8 @@ sealed class ScreenRoute(val route: String) {
     object StuntingCameraGuide: ScreenRoute(route = "stunting_camera_guide")
     object FoodCameraGuide: ScreenRoute(route = "food_camera_guide")
     object NutritionDetail: ScreenRoute(route = "nutrition_detail")
+    object AddPregnancy: ScreenRoute(route = "add_pregnancy")
+    object EditPregnancy: ScreenRoute(route = "edit_pregnancy")
 
 
 }

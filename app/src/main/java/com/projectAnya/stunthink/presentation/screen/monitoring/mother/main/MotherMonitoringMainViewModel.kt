@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.projectAnya.stunthink.domain.common.Resource
 import com.projectAnya.stunthink.domain.use_case.monitoring.mother.GetMotherNutritionUseCase
+import com.projectAnya.stunthink.domain.use_case.monitoring.mother.GetMotherPregnancyUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.nutrition.GetNutritionStandardUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.nutrition.GetNutritionStatusUseCase
 import com.projectAnya.stunthink.domain.use_case.user.GetUserTokenUseCase
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.nutrition.ChildNutritionListState
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.MotherPregnancyListState
 import com.projectAnya.stunthink.utils.DateUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +32,8 @@ class MotherMonitoringMainViewModel @Inject constructor(
     private val getUserTokenUseCase: GetUserTokenUseCase,
     private val getNutritionStandardUseCase: GetNutritionStandardUseCase,
     private val getNutritionStatusUseCase: GetNutritionStatusUseCase,
-    private val getMotherNutritionUseCase: GetMotherNutritionUseCase
+    private val getMotherNutritionUseCase: GetMotherNutritionUseCase,
+    private val getMotherPregnancyUseCase: GetMotherPregnancyUseCase
 
 ): ViewModel() {
     private val _userTokenState = MutableStateFlow<String?>(null)
@@ -47,6 +50,9 @@ class MotherMonitoringMainViewModel @Inject constructor(
 
     private val _nutritionListState = mutableStateOf(ChildNutritionListState())
     val nutritionListState: State<ChildNutritionListState> = _nutritionListState
+
+    private val _pregnancyState = mutableStateOf(MotherPregnancyListState())
+    val pregnancyState: State<MotherPregnancyListState> = _pregnancyState
 
     private val _tabIndex: MutableLiveData<Int> = MutableLiveData(0)
     val tabIndex: LiveData<Int> = _tabIndex
@@ -155,6 +161,24 @@ class MotherMonitoringMainViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _nutritionListState.value = ChildNutritionListState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getPregnancyList(token: String) {
+        getMotherPregnancyUseCase(token = token).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _pregnancyState.value = MotherPregnancyListState(pregnancyList = result.data ?: emptyList())
+                }
+                is Resource.Error -> {
+                    _pregnancyState.value = MotherPregnancyListState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
+                }
+                is Resource.Loading -> {
+                    _pregnancyState.value = MotherPregnancyListState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

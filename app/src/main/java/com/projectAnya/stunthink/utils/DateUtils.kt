@@ -36,6 +36,15 @@ object DateUtils {
         }
     }
 
+    fun formatDateTimeToDate(dateString: String): String {
+        return try {
+            val date = dateWithTimeFormat.parse(dateString)
+            dateFormat.format(date ?: "")
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
     fun formatDateTimeToIndonesianDate(dateString: String): String {
         return try {
             val date = dateWithTimeFormat.parse(dateString)

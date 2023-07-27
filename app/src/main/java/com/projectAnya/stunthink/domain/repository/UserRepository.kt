@@ -9,6 +9,7 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStandardDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStatusDto
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
+import com.projectAnya.stunthink.domain.model.pregnancy.Pregnancy
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -86,6 +87,10 @@ interface UserRepository {
         id: String
     ): ApiResponse<List<Stunting>>
 
+    suspend fun getMotherPregnancy(
+        token: String
+    ): ApiResponse<List<Pregnancy>>
+
     suspend fun addChildFood(
         token: String,
         id: String,
@@ -100,6 +105,12 @@ interface UserRepository {
         foodId: String,
         foodImageUrl: String?
     ): ApiResponse<NutritionDto>
+
+    suspend fun addMotherPregnancy(
+        token: String,
+        pregnantDate: String,
+        pregnancyType: String
+    ): ApiResponse<Unit>
 
     suspend fun addChildStunting(
         token: String,
@@ -121,5 +132,18 @@ interface UserRepository {
     suspend fun deleteFood(
         token: String,
         id: String
+    ): ApiResponse<Unit>
+
+    suspend fun deleteMotherPregnancy(
+        token: String,
+        id: String
+    ): ApiResponse<Unit>
+
+    suspend fun editMotherPregnancy(
+        token: String,
+        id: String,
+        pregnantDate: String,
+        pregnancyType: String,
+        birthDate: String?
     ): ApiResponse<Unit>
 }

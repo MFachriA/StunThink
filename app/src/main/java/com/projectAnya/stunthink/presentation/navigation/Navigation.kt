@@ -16,6 +16,7 @@ import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.height.HeightDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
+import com.projectAnya.stunthink.domain.model.pregnancy.Pregnancy
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
 import com.projectAnya.stunthink.presentation.screen.food.FoodDetailScreen
@@ -43,6 +44,10 @@ import com.projectAnya.stunthink.presentation.screen.monitoring.child.stunting.S
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.MotherMonitoringMainViewModel
 import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.nutrition.MotherNutritionScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.MotherPregnancyScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.add.AddPregnancyScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.detail.PregnancyDetailScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.mother.main.pregnancy.edit.EditPregnancyScreen
 import com.projectAnya.stunthink.presentation.screen.register.RegisterScreen
 import com.projectAnya.stunthink.presentation.screen.stunting.StuntingDetailScreen
 import com.projectAnya.stunthink.presentation.screen.welcome.WelcomeScreen
@@ -134,6 +139,11 @@ fun ApplicationNavHost(
             ChildRegisterScreen(navController = navController)
         }
         composable(
+            route = ScreenRoute.AddPregnancy.route
+        ) {
+            AddPregnancyScreen(navController = navController)
+        }
+        composable(
             route = ScreenRoute.StuntingDetail.route
         ) {
             val stunting =
@@ -160,6 +170,20 @@ fun ApplicationNavHost(
                 food = food
             )
         }
+        composable(
+            route = ScreenRoute.PregnancyDetail.route
+        ) {
+            val pregnancy =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Pregnancy>("pregnancy")
+            PregnancyDetailScreen(navController = navController, pregnancy = pregnancy)
+        }
+        composable(
+            route = ScreenRoute.EditPregnancy.route
+        ) {
+            val pregnancy =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Pregnancy>("pregnancy")
+            EditPregnancyScreen(navController = navController, pregnancy = pregnancy)
+        }
         navigation(
             startDestination = ScreenRoute.MotherMonitoringMain.route,
             route = ScreenRoute.MotherMonitoringNavigation.route
@@ -175,13 +199,24 @@ fun ApplicationNavHost(
                     viewModel = motherMonitoringMainViewModel
                 )
             }
-            composable(route = ScreenRoute.MotherNutritionScreen.route) { backStackEntry ->
+            composable(route = ScreenRoute.MotherNutrition.route) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
                     navController.getBackStackEntry(ScreenRoute.MotherMonitoringMain.route)
                 }
                 val motherMonitoringMainViewModel =
                     hiltViewModel<MotherMonitoringMainViewModel>(parentEntry)
                 MotherNutritionScreen(
+                    navController = navController,
+                    mainViewModel = motherMonitoringMainViewModel
+                )
+            }
+            composable(route = ScreenRoute.MotherPregnancy.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(ScreenRoute.MotherMonitoringMain.route)
+                }
+                val motherMonitoringMainViewModel =
+                    hiltViewModel<MotherMonitoringMainViewModel>(parentEntry)
+                MotherPregnancyScreen(
                     navController = navController,
                     mainViewModel = motherMonitoringMainViewModel
                 )

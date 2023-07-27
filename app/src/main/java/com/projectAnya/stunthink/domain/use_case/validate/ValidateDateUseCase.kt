@@ -9,13 +9,13 @@ class ValidateDateUseCase {
         if(date.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Pilih tanggal lahir"
+                errorMessage = "Pilih tanggal"
             )
         }
         if(isDatePassed(date)) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Tanggal lahir tidak boleh lebih dari hari ini"
+                errorMessage = "Tanggal tidak boleh lebih dari hari ini"
             )
         }
 

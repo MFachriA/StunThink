@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
-import com.projectAnya.stunthink.presentation.component.dialog.ConfirmationDeleteDialog
+import com.projectAnya.stunthink.presentation.component.dialog.ConfirmationDialog
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.stunting.ChildStuntingContent
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.utils.DateUtils
@@ -93,7 +93,7 @@ fun StuntingDetailScreen(
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                     }
 
-                    ConfirmationDeleteDialog(
+                    ConfirmationDialog(
                         isOpen = deleteDialog,
                         onDismissRequest = {
                             viewModel.uploadDialogState(false)

@@ -10,8 +10,10 @@ import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStandardDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionStatusDto
+import com.projectAnya.stunthink.data.remote.dto.pregnancy.toEntity
 import com.projectAnya.stunthink.data.remote.dto.stunting.toEntity
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
+import com.projectAnya.stunthink.domain.model.pregnancy.Pregnancy
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -181,6 +183,18 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getMotherPregnancy(token: String): ApiResponse<List<Pregnancy>> {
+        val result = api.getMotherPregnancyList(auth = token)
+
+        return ApiResponse(
+            result.success,
+            result.message,
+            result.data.map {
+                it.toEntity()
+            }
+        )
+    }
+
     override suspend fun addChildFood(
         token: String,
         id: String,
@@ -230,6 +244,18 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun addMotherPregnancy(
+        token: String,
+        pregnantDate: String,
+        pregnancyType: String
+    ): ApiResponse<Unit> {
+        return api.addMotherPregnancy(
+            auth = token,
+            date = pregnantDate,
+            status = pregnancyType
+        )
+    }
+
     override suspend fun deleteChild(token: String, id: String): ApiResponse<Unit> {
         return api.deleteChild(auth = token, id = id)
     }
@@ -240,5 +266,25 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFood(token: String, id: String): ApiResponse<Unit> {
         return api.deleteFood(auth = token, id = id)
+    }
+
+    override suspend fun deleteMotherPregnancy(token: String, id: String): ApiResponse<Unit> {
+        return api.deleteMotherPregnancy(auth = token, id = id)
+    }
+
+    override suspend fun editMotherPregnancy(
+        token: String,
+        id: String,
+        pregnantDate: String,
+        pregnancyType: String,
+        birthDate: String?
+    ): ApiResponse<Unit> {
+        return api.updateMotherPregnancy(
+            auth = token,
+            id = id,
+            status = pregnancyType,
+            pregnantDate = pregnantDate,
+            birthDate = birthDate
+        )
     }
 }
