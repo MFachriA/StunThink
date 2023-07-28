@@ -109,7 +109,13 @@ fun ChildMonitoringDetailScreen(
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    ChildDetailContent(childDetail) {}
+                    ChildDetailContent(childDetail) {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "child",
+                            value = childDetail
+                        )
+                        navController.navigate(route = ScreenRoute.EditChild.route)
+                    }
 
                     if (deleteState.isLoading) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

@@ -3,7 +3,7 @@ package com.projectAnya.stunthink.presentation.screen.monitoring.child.edit
 data class EditChildFormState(
     val name: String = "",
     val nameError: String? = null,
-    val gender: String = "M",
+    val gender: String = "",
     val date: String = "",
     val dateError: String? = null,
     val address: String = "",

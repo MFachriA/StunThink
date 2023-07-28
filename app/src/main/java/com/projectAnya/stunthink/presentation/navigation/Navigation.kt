@@ -199,7 +199,7 @@ fun ApplicationNavHost(
             route = ScreenRoute.EditChild.route
         ) {
             val child =
-                navController.previousBackStackEntry?.savedStateHandle?.get<ChildDto>("user")
+                navController.previousBackStackEntry?.savedStateHandle?.get<ChildDto>("child")
             EditChildScreen(navController = navController, child = child)
         }
         navigation(

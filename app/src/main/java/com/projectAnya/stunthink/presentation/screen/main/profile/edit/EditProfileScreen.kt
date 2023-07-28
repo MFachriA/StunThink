@@ -92,7 +92,7 @@ fun EditProfileScreen(
         Scaffold(
             topBar = {
                 BackButtonAppBar(
-                    title = "Ubah Data",
+                    title = "Ubah Data Akun",
                     navigationOnClick = { navController.popBackStack() }
                 )
             },
@@ -129,6 +129,7 @@ private fun Content(
             genderOptions[1]
         }
     ) }
+
     var _isFieldChanged by remember { mutableStateOf (false) }
     val isFieldChanged = remember { derivedStateOf { _isFieldChanged } }
 
@@ -245,7 +246,7 @@ private fun Content(
                     .padding(top = 8.dp),
                 enabled = isFieldChanged.value
             ) {
-                Text(text = "Ubah Data Akun")
+                Text(text = "Ubah Data")
             }
         }
     }
