@@ -12,10 +12,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.projectAnya.stunthink.data.remote.dto.child.ChildDto
 import com.projectAnya.stunthink.data.remote.dto.education.EducationDto
 import com.projectAnya.stunthink.data.remote.dto.height.HeightDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.FoodDto
 import com.projectAnya.stunthink.data.remote.dto.nutrition.NutritionDetailDto
+import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.domain.model.pregnancy.Pregnancy
 import com.projectAnya.stunthink.domain.model.stunting.Stunting
 import com.projectAnya.stunthink.presentation.navigation.start.StartScreen
@@ -28,9 +30,11 @@ import com.projectAnya.stunthink.presentation.screen.main.education.EducationScr
 import com.projectAnya.stunthink.presentation.screen.main.education.detail.EducationDetailScreen
 import com.projectAnya.stunthink.presentation.screen.main.home.HomeScreen
 import com.projectAnya.stunthink.presentation.screen.main.profile.ProfileScreen
+import com.projectAnya.stunthink.presentation.screen.main.profile.edit.EditProfileScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.StuntingCameraScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.guide.FoodCameraGuideScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.camera.guide.StuntingCameraGuideScreen
+import com.projectAnya.stunthink.presentation.screen.monitoring.child.edit.EditChildScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.food.ChildFoodDetectionScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.list.ChildListScreen
 import com.projectAnya.stunthink.presentation.screen.monitoring.child.main.ChildMonitoringMainScreen
@@ -183,6 +187,20 @@ fun ApplicationNavHost(
             val pregnancy =
                 navController.previousBackStackEntry?.savedStateHandle?.get<Pregnancy>("pregnancy")
             EditPregnancyScreen(navController = navController, pregnancy = pregnancy)
+        }
+        composable(
+            route = ScreenRoute.EditProfile.route
+        ) {
+            val user =
+                navController.previousBackStackEntry?.savedStateHandle?.get<UserDto>("user")
+            EditProfileScreen(navController = navController, user = user)
+        }
+        composable(
+            route = ScreenRoute.EditChild.route
+        ) {
+            val child =
+                navController.previousBackStackEntry?.savedStateHandle?.get<ChildDto>("user")
+            EditChildScreen(navController = navController, child = child)
         }
         navigation(
             startDestination = ScreenRoute.MotherMonitoringMain.route,

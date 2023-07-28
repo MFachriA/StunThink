@@ -279,12 +279,46 @@ class UserRepositoryImpl @Inject constructor(
         pregnancyType: String,
         birthDate: String?
     ): ApiResponse<Unit> {
-        return api.updateMotherPregnancy(
+        return api.editMotherPregnancy(
             auth = token,
             id = id,
             status = pregnancyType,
             pregnantDate = pregnantDate,
             birthDate = birthDate
+        )
+    }
+
+    override suspend fun editChild(
+        token: String,
+        id: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit> {
+        return api.editChild(
+            auth = token,
+            id = id,
+            name = name,
+            gender = gender,
+            date = date,
+            address = address
+        )
+    }
+
+    override suspend fun editProfile(
+        token: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit> {
+        return api.editProfile(
+            auth = token,
+            name = name,
+            gender = gender,
+            address = address,
+            date = date
         )
     }
 }

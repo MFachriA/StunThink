@@ -187,11 +187,32 @@ interface StunThinkApi {
 
     @FormUrlEncoded
     @PATCH("history/kehamilan/{id}")
-    suspend fun updateMotherPregnancy(
+    suspend fun editMotherPregnancy(
         @Header("auth") auth: String,
         @Path("id") id: String,
         @Field("lahir") status: String,
         @Field("tanggalHamil") pregnantDate: String,
         @Field("tanggalKelahiran") birthDate: String?
+    ): ApiResponse<Unit>
+
+    @FormUrlEncoded
+    @PATCH("anak/{id}")
+    suspend fun editChild(
+        @Header("auth") auth: String,
+        @Path("id") id: String,
+        @Field("namaLengkap") name: String,
+        @Field("tempatLahir") address: String,
+        @Field("tanggalLahir") date: String,
+        @Field("jenisKelamin") gender: String
+    ): ApiResponse<Unit>
+
+    @FormUrlEncoded
+    @PATCH("user")
+    suspend fun editProfile(
+        @Header("auth") auth: String,
+        @Field("namaLengkap") name: String,
+        @Field("tempatLahir") address: String,
+        @Field("tanggalLahir") date: String,
+        @Field("jenisKelamin") gender: String
     ): ApiResponse<Unit>
 }

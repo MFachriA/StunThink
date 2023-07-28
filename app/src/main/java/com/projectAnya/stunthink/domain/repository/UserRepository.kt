@@ -146,4 +146,21 @@ interface UserRepository {
         pregnancyType: String,
         birthDate: String?
     ): ApiResponse<Unit>
+
+    suspend fun editChild(
+        token: String,
+        id: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit>
+
+    suspend fun editProfile(
+        token: String,
+        name: String,
+        gender: String,
+        date: String,
+        address: String
+    ): ApiResponse<Unit>
 }

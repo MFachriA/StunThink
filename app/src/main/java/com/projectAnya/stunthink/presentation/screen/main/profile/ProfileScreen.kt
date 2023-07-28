@@ -46,6 +46,13 @@ fun ProfileScreen(
     StunThinkTheme {
         ProfileScreenContent(
             user = user,
+            editCallback = {
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    key = "user",
+                    value = user
+                )
+                navController.navigate(route = ScreenRoute.EditProfile.route)
+            },
             logoutCallback = {
                 profileViewModel.deleteUserToken()
                 navController.navigate(route = ScreenRoute.Welcome.route) {
@@ -68,15 +75,15 @@ fun ProfileScreenPreview() {
             tanggalLahir = "2000-01-01T00:00:00.000Z",
             profileUrl = ""
         ),
-        logoutCallback = {
-
-        }
+        editCallback = { },
+        logoutCallback = { }
     )
 }
 
 @Composable
 fun ProfileScreenContent(
     user: UserDto?,
+    editCallback: () -> Unit,
     logoutCallback: () -> Unit
 ) {
     Column(
@@ -112,10 +119,22 @@ fun ProfileScreenContent(
             content = user?.tempatLahir ?: "-"
         )
         Button(
-            onClick = { logoutCallback() },
+            onClick = { editCallback() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.primary,
+            ),
+            border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+        ) {
+            Text(text = "Ubah Data Akun")
+        }
+        Button(
+            onClick = { logoutCallback() },
+            modifier = Modifier
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.error,

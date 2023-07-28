@@ -40,6 +40,8 @@ sealed class ScreenRoute(val route: String) {
     object NutritionDetail: ScreenRoute(route = "nutrition_detail")
     object AddPregnancy: ScreenRoute(route = "add_pregnancy")
     object EditPregnancy: ScreenRoute(route = "edit_pregnancy")
+    object EditProfile: ScreenRoute(route = "edit_profile")
+    object EditChild: ScreenRoute(route = "edit_child")
 
 
 }

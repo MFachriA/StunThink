@@ -1,16 +1,22 @@
 package com.projectAnya.stunthink.presentation.screen.monitoring.child.main.child_detail
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -18,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -102,7 +109,7 @@ fun ChildMonitoringDetailScreen(
             },
             content = { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    ChildDetailContent(childDetail)
+                    ChildDetailContent(childDetail) {}
 
                     if (deleteState.isLoading) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -135,13 +142,15 @@ fun ChildMonitoringDetailScreen(
 @Composable
 fun StuntingDetailContentPreview() {
     ChildDetailContent(
-        childDetail = null
+        childDetail = null,
+        { }
     )
 }
 
 @Composable
 fun ChildDetailContent(
-    childDetail: ChildDto?
+    childDetail: ChildDto?,
+    editCallback: () -> Unit
 ) {
     childDetail?.let {
         Column(
@@ -165,6 +174,19 @@ fun ChildDetailContent(
                     title = "Tempat Lahir",
                     content = childDetail.tempatLahir
                 )
+                Button(
+                    onClick = { editCallback() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(text = "Ubah Data Anak")
+                }
             }
         }
     }

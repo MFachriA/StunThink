@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.projectAnya.stunthink.domain.common.Resource
-import com.projectAnya.stunthink.domain.use_case.child_register.ChildRegisterUseCase
+import com.projectAnya.stunthink.domain.use_case.child.register.ChildRegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateDateUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidateNameUseCase
 import com.projectAnya.stunthink.domain.use_case.validate.ValidatePlaceOfBirthUseCase

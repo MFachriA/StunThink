@@ -10,7 +10,7 @@ import com.projectAnya.stunthink.data.repository.UserRepositoryImpl
 import com.projectAnya.stunthink.domain.common.Constants
 import com.projectAnya.stunthink.domain.repository.HeightDetectionRepository
 import com.projectAnya.stunthink.domain.repository.UserRepository
-import com.projectAnya.stunthink.domain.use_case.child_register.ChildRegisterUseCase
+import com.projectAnya.stunthink.domain.use_case.child.register.ChildRegisterUseCase
 import com.projectAnya.stunthink.domain.use_case.education.GetEducationListUseCase
 import com.projectAnya.stunthink.domain.use_case.login.LoginUseCase
 import com.projectAnya.stunthink.domain.use_case.monitoring.child.AddChildStuntingUseCase
