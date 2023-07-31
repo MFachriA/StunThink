@@ -53,7 +53,6 @@ import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.user.UserDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
-import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.utils.DateUtils.formatDateToIndonesianDate
 
@@ -78,9 +77,7 @@ fun EditProfileScreen(
                 when (event) {
                     is EditProfileViewModel.ValidationEvent.Success -> {
                         Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
-                        navController.navigate(route = ScreenRoute.Main.route) {
-                            popUpTo(ScreenRoute.MotherMonitoringMain.route) { inclusive = true }
-                        }
+                        navController.popBackStack()
                     }
                     is EditProfileViewModel.ValidationEvent.Failed -> {
                         Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
@@ -102,7 +99,9 @@ fun EditProfileScreen(
                     .padding(paddingValues)
                     .fillMaxSize()
                 ) {
-                    Content()
+                    user?.let {
+                        Content(user)
+                    }
                 }
             }
         )
@@ -113,7 +112,8 @@ fun EditProfileScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun Content(
-    viewModel: EditProfileViewModel = hiltViewModel()
+    user: UserDto,
+    viewModel: EditProfileViewModel = hiltViewModel(),
 ) {
     val formState = viewModel.formState
     val submitState = viewModel.submitState.value
@@ -122,8 +122,9 @@ private fun Content(
         stringResource(id = R.string.male),
         stringResource(id = R.string.female)
     )
+
     var selectedGenderOption by remember { mutableStateOf(
-        if (formState.gender == "M") {
+        if (user.jenisKelamin == "M") {
             genderOptions[0]
         } else {
             genderOptions[1]

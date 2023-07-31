@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.projectAnya.stunthink.presentation.ui.theme.Typography
-import com.projectAnya.stunthink.utils.NumberUtils
 
 @Composable
 fun NutritionDetailContent(
@@ -15,6 +14,7 @@ fun NutritionDetailContent(
     unit: String,
     desc: String
 ) {
+    val formattedAmount = String.format("%.2f", amount)
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -25,7 +25,7 @@ fun NutritionDetailContent(
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "${NumberUtils.roundOffDecimal(amount)} $unit",
+            text = "$formattedAmount $unit",
             style = Typography.titleMedium,
         )
     }

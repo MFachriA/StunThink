@@ -30,7 +30,7 @@
     <string name="male">Laki - Laki</string>
     <string name="female">Perempuan</string>
     <string name="login_success_message">Login berhasil!</string>
-    <string name="register_success_message">Register berhasil!</string>
+    <string name="register_success_message">Register berhasil! Ayo masuk menggunakan akun yang telah kamu buat</string>
     <string name="logout_success_message">Logout berhasil!</string>
 
 </resources>

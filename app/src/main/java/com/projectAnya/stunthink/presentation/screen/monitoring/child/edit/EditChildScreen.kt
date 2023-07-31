@@ -53,7 +53,6 @@ import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.projectAnya.stunthink.R
 import com.projectAnya.stunthink.data.remote.dto.child.ChildDto
 import com.projectAnya.stunthink.presentation.component.appbar.BackButtonAppBar
-import com.projectAnya.stunthink.presentation.navigation.ScreenRoute
 import com.projectAnya.stunthink.presentation.ui.theme.StunThinkTheme
 import com.projectAnya.stunthink.utils.DateUtils.formatDateToIndonesianDate
 
@@ -79,9 +78,7 @@ fun EditChildScreen(
                 when (event) {
                     is EditChildViewModel.ValidationEvent.Success -> {
                         Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
-                        navController.navigate(route = ScreenRoute.ChildList.route) {
-                            popUpTo(ScreenRoute.ChildList.route) { inclusive = true }
-                        }
+                        navController.popBackStack()
                     }
                     is EditChildViewModel.ValidationEvent.Failed -> {
                         Toast.makeText(context, event.message, Toast.LENGTH_LONG).show()
@@ -103,7 +100,9 @@ fun EditChildScreen(
                     .padding(paddingValues)
                     .fillMaxSize()
                 ) {
-                    Content()
+                    child?.let {
+                        Content(child)
+                    }
                 }
             }
         )
@@ -114,6 +113,7 @@ fun EditChildScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun Content(
+    child: ChildDto,
     viewModel: EditChildViewModel = hiltViewModel()
 ) {
     val formState = viewModel.formState
@@ -124,7 +124,7 @@ private fun Content(
         stringResource(id = R.string.female)
     )
     var selectedGenderOption by remember { mutableStateOf(
-        if (formState.gender == "M") {
+        if (child.jenisKelamin == "M") {
             genderOptions[0]
         } else {
             genderOptions[1]

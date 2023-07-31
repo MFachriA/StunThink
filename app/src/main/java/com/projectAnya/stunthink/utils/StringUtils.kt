@@ -5,7 +5,7 @@ import com.projectAnya.stunthink.domain.model.pregnancy.PregnancyType
 object StringUtils {
     fun convertGenderEnum(gender: String): String {
         return if (gender == "M") {
-            "Laki-Laki"
+            "Laki - Laki"
         } else if (gender == "F") {
             "Perempuan"
         } else {
